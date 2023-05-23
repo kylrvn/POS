@@ -34,7 +34,14 @@ class Create_order_services_model extends CI_Model
                 'Cust_ID' => $this->ID,
                 'Act_qty' => $this->Qty,
                 'Total_amt' => $this->Total,
-                'Book_date' => date('Y-m-d', strtotime($this->B_date))
+                'Book_date' => date('Y-m-d', strtotime($this->B_date)),
+                'Deadline' => date('Y-m-d', strtotime($this->D_date)),
+                'Deadline_notes' => $this->D_notes,
+                'Order_note' => $this->B_notes,
+                'Freebies' => $this->Freebies,
+                'Subtotal' => $this->Subtotal,
+                'Discount' => $this->Discount,
+
             );
 
             $this->db->trans_start();
