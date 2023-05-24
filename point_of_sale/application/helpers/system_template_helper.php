@@ -30,6 +30,10 @@ function main_header($menubar = [])
     <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="icon" href="<?php echo base_url() ?>assets/images/Logo/logo.jpg">
+    <!-- DataTables -->
+  <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
   </head>
   <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -207,6 +211,19 @@ function main_header($menubar = [])
 <script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/jszip/jszip.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
  <!-- load global js -->
  <script src="<?= base_url() ?>assets/js/global.js"></script>
@@ -227,9 +244,39 @@ var base_url = <?php echo json_encode(base_url())?>;
 $('#signout').on('click',function(){
     window.location = base_url;
   })
+
 </script>
 </body>
 </html>
 <?php
       }
 ?>
+
+<?php function load_table_css(){ ?>
+  <script>
+      $(function () {
+    // $("#example1").DataTable({
+    //   "responsive": true, "lengthChange": false, "autoWidth": false,
+    //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    if ( $.fn.dataTable.isDataTable( '#tableformat1' ) ) {
+      table = $('#tableformat1').DataTable();
+    }
+    else {
+        table = $('#tableformat1').DataTable( {
+            paging: true
+            // retrieve: true,
+        } );
+    }
+    // $('#hahaa').DataTable({
+    //   "paging": true,
+    //   "lengthChange": false,
+    //   "searching": true,
+    //   "ordering": true,
+    //   "info": true,
+    //   "autoWidth": false,
+    //   "responsive": true,
+    // });
+  });
+  </script>
+<?php }?>

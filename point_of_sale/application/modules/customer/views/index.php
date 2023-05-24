@@ -107,57 +107,82 @@ main_header(['customer']);
                 </div>
             </form>
 
-        <!-- SEARCHED CUSTOMER DEAILS -->
-        <div class="col-md-4" id="cust_details">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">User Details</h3>
+        <div class="row">
+            <!-- SEARCHED CUSTOMER DEAILS -->
+            <div class="col-md-4 cust_details" id="">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">User Details</h3>
+                    </div>
+
+                    <form>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="">First Name</label>
+                                <input type="text" id="FName_v" class="form-control inpt_edit" placeholder="First Name" disabled>
+                                <input type="text" id="ID_v" hidden>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="">Last Name</label>
+                                <input type="text" id="LName_v" class="form-control inpt_edit" placeholder="Last Name" disabled>
+                            </div>
+                        
+                        
+                            <div class="form-group">
+                                <label for="">Company</label>
+                                <input type="text" id="Company_v" class="form-control inpt_edit" placeholder="Company" disabled>
+                            </div>
+                        
+                        
+                            <div class="form-group">
+                                <label for="">Contact Number</label>
+                                <input type="number" id="CNumber_v" class="form-control inpt_edit" placeholder="Contact Number" disabled>
+                            </div>
+                        
+                        
+                            <div class="form-group">
+                                <label for="">Branch</label>
+                                <select class="form-control inpt_edit" style="width: 100%;" id="Branch_v" disabled>
+                                    <option value="Bacolod" selected>Bacolod</option>
+                                    <option value="Cebu">Cebu</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-warning" id="edit_customer">Update</button>
+                            <button type="button" class="btn btn-primary" id="c_order_2">Create Order</button>
+                            <button type="button" class="btn btn-danger" id="cancel_edit_customer">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="save_edit_customer">Save changes</button>
+                        </div>
+                    </form>
                 </div>
-
-                <form>
+            </div>
+            <!-- CUSTOMERS ORDER HISTORY -->
+            <div class="col-md-8 cust_details">
+                <div class="card card-primary">
+                    <!-- <div class="card-header">
+                        <h3 class="card-title">Order History</h3>
+                    </div> -->
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="">First Name</label>
-                            <input type="text" id="FName_v" class="form-control inpt_edit" placeholder="First Name" disabled>
-                            <input type="text" id="ID_v" hidden>
-                        </div>
-                    
-                        <div class="form-group">
-                            <label for="">Last Name</label>
-                            <input type="text" id="LName_v" class="form-control inpt_edit" placeholder="Last Name" disabled>
-                        </div>
-                    
-                    
-                        <div class="form-group">
-                            <label for="">Company</label>
-                            <input type="text" id="Company_v" class="form-control inpt_edit" placeholder="Company" disabled>
-                        </div>
-                    
-                    
-                        <div class="form-group">
-                            <label for="">Contact Number</label>
-                            <input type="number" id="CNumber_v" class="form-control inpt_edit" placeholder="Contact Number" disabled>
-                        </div>
-                    
-                    
-                        <div class="form-group">
-                            <label for="">Branch</label>
-                            <select class="form-control inpt_edit" style="width: 100%;" id="Branch_v" disabled>
-                                <option value="Bacolod" selected>Bacolod</option>
-                                <option value="Cebu">Cebu</option>
-                            </select>
-                        </div>
+                        <table id="tableformat1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Booking Date</th>
+                                    <th>Deadline</th>
+                                </tr>
+                            </thead>
+                            <tbody id="load_orders">
+                                        
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="card-footer">
-                        <button type="button" class="btn btn-warning" id="edit_customer">Update</button>
-                        <button type="button" class="btn btn-primary" id="c_order_2">Create Order</button>
-                        <button type="button" class="btn btn-danger" id="cancel_edit_customer">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="save_edit_customer">Save changes</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
+       
     </div>
 </section>
 

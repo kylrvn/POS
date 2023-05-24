@@ -41,4 +41,12 @@ class Customer extends MY_Controller
 		echo json_encode($this->cModel->get_cust_details());
 	}
 
+	public function get_orders()
+	{
+		$this->cModel->Cust_id = $this->input->get('id');
+		$this->data['orders'] = $this->cModel->get_orders();
+		$this->data['content'] = 'grid/load_orders';
+		$this->load->view('layout', $this->data);
+	}
+
 }

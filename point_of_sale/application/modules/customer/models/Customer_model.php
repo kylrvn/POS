@@ -34,4 +34,13 @@ class Customer_model extends CI_Model
         return $query;
     }
 
+    public function get_orders(){
+        $this->db->select('*');
+        $this->db->from($this->Table->order);
+        $this->db->where('Cust_ID', $this->Cust_id);
+
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
 }
