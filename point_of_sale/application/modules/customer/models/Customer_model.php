@@ -38,6 +38,7 @@ class Customer_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->Table->order);
         $this->db->where('Cust_ID', $this->Cust_id);
+        $this->db->order_by('Book_date', 'desc');
 
         $query = $this->db->get()->result();
         return $query;

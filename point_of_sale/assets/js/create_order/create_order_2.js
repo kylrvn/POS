@@ -1,5 +1,7 @@
 $(document).ready(function () {
+    $('#bill').css('display','none');
     $('#proceed_payment').css('display','none');
+
 
 });
 passRowCount = '';
@@ -124,7 +126,8 @@ $.post({
                 $('#modal-default').modal('hide');
                 toastr.success(e.message);
                 $('#save').css('display','none');
-                $('#proceed_payment').css('display','inline');
+                $('#bill').css('display','inline');
+                $('#proceed_payment').css('display','block');
                 $('.form-control').attr('disabled','disabled');
                 $('.btn_add_item').attr('disabled','disabled');
                 
@@ -134,7 +137,7 @@ $.post({
 
             } else {
             //   $('#List').attr('class', 'form-control inpt is-invalid');
-            //   $('#modal-default').modal('hide');
+              $('#modal-default').modal('hide');
               toastr.error(e.message); 
             }
     },

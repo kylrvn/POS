@@ -56,4 +56,30 @@ class Payment_model extends CI_Model
         $query = $this->db->get()->result();
         return $query;
     }
+
+    public function get_payment_modes(){
+        $this->db->select('*');
+
+        $this->db->where('List_category', "Payment");
+        $this->db->from($this->Table->list);
+        $this->db->order_by('List_name','asc');
+
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
+    public function get_last_paid(){
+        $this->db->select('*');
+
+        $this->db->where('Order_ID', $this->OrderID);
+        $this->db->from($this->Table->payment);
+
+        $query = $this->db->get()->result();
+        $Amount = 0;
+
+        foreach ($query as $key => $value) {
+            $Amount += $value->Amount_paid;
+        }
+         return $Amount;
+    }
 }

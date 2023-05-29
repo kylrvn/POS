@@ -57,6 +57,7 @@ $array = array(
     'reference' => 'tbl_reference',
     'list' => 'tbl_list',
     'user' => 'tbl_user',
+    'payment' => 'tbl_payment',
 
 );
 define('TABLE', json_encode($array));

@@ -36,10 +36,13 @@ class Payment extends MY_Controller
 		$this->pModel->OrderID = $this->input->get('oid');
 		
 		$this->data['cust_details'] = $this->coModel->get_customer_details();
-		$this->data['items'] = $this->pModel->get_items();
+		$this->data['items'] = $this->coModel->get_items();
+		$this->data['order_items'] = $this->pModel->get_items();
 		$this->data['order_dets'] = $this->pModel->get_order_details();
+		$this->data['p_mode'] = $this->pModel->get_payment_modes();
+		$this->data['last_paid'] = $this->pModel->get_last_paid();
 		$this->data['status'] = $this->pModel->get_status();
-		$this->data['content'] = 'index';
+		$this->data['content'] = 'index2';
 		$this->load->view('layout', $this->data);
 	}
 

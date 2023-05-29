@@ -20,4 +20,13 @@ class Payment_service extends MY_Controller
 		$this->load->model($model_list);
 	}
 
+
+	public function save_payment(){
+		$this->psModel->Order_id = $this->input->post("Order_id");
+		$this->psModel->Amount_paid = $this->input->post("Amount_paid");
+		$this->psModel->Payment_mode = $this->input->post("Payment_mode");
+
+		$response = $this->psModel->save_payment();
+		echo json_encode($response);
+	}
 }
