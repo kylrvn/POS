@@ -25,8 +25,20 @@ class Payment_service extends MY_Controller
 		$this->psModel->Order_id = $this->input->post("Order_id");
 		$this->psModel->Amount_paid = $this->input->post("Amount_paid");
 		$this->psModel->Payment_mode = $this->input->post("Payment_mode");
+		$this->psModel->Incharge_ID = $this->session->ID;
 
 		$response = $this->psModel->save_payment();
+		echo json_encode($response);
+	}
+
+	public function update_details(){
+		$this->psModel->Order_id = $this->input->post("Order_id");
+		$this->psModel->Order_status = $this->input->post("Order_status");
+		$this->psModel->Sewer = $this->input->post("Sewer");
+		$this->psModel->Lay_artist = $this->input->post("Lay_artist");
+		$this->psModel->Set_artist = $this->input->post("Set_artist");
+
+		$response = $this->psModel->update_details();
 		echo json_encode($response);
 	}
 }

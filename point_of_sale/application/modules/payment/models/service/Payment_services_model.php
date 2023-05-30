@@ -30,12 +30,44 @@ class Payment_services_model extends CI_Model
                 'Order_ID' => $this->Order_id,
                 'Amount_paid' => $this->Amount_paid,
                 'Payment_mode' => $this->Payment_mode,
+                'Incharge_ID' => $this->Incharge_ID,
                 'Date_paid' => date('Y:m:d H:i:s'),
             );
 
             $this->db->trans_start();
                            
             $this->db->insert($this->Table->payment,$data);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function update_details(){
+        try{       
+            
+            $data = array(
+                'Status' => $this->Order_status,
+                'Sewer_assign' => $this->Sewer,
+                'Layout_artist' => $this->Lay_artist,
+                'Setup_artist' => $this->Set_artist,
+
+            );
+
+            $this->db->trans_start();
+            
+            $this->db->where('ID', $this->Order_id);
+            $this->db->update($this->Table->order,$data);
 
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE)

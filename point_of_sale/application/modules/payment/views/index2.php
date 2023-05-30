@@ -1,5 +1,6 @@
 <?php
 main_header(['create_order']);
+
 ?>
 <!-- ############ PAGE START-->
 
@@ -46,7 +47,17 @@ main_header(['create_order']);
                                 <div class="card-body">
 
                                     <div class="input-group-prepend">
-                                            <h5>Payment Status | </h5>
+                                            <h5>Payment Status | 
+                                            <?php
+                                                if($last_paid == 0){
+                                                    echo '<b class="text-danger text-bold">UNPAID</b>';
+                                                } elseif($last_paid < $order_dets->Total_amt){
+                                                    echo '<b class="text-primary text-bold">DOWN</b>';
+                                                } elseif($last_paid >= $order_dets->Total_amt){
+                                                    echo '<b class="text-success text-bold">PAID</b>';
+                                                }
+                                            
+                                            ?></h5>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -63,6 +74,8 @@ main_header(['create_order']);
                                                 <tbody>
                                                    
                                                         <?php
+                                                            $totalqty = 0;
+                                                            $totalamt = 0;
                                                             foreach($order_items as $key => $value){ ?>
                                                              <tr class="lh-1">
                                                                 <td><?=$key+1?></td>
@@ -70,9 +83,18 @@ main_header(['create_order']);
                                                                 <td><?=$value->Item_qty?></td>
                                                                 <td><?=number_format($value->Item_unitprice,2)?></td>
                                                             </tr>
-                                                         <?php   }
-                                                        
+                                                         <?php   
+                                                                $totalqty += $value->Item_qty; 
+                                                                $totalamt += $value->Item_unitprice; 
+                                                            }
+                                                            
                                                         ?>
+                                                        <tr class="text-bold text-danger">
+                                                            <td>Subtotal</td>
+                                                            <td></td>
+                                                            <td><?=$totalqty?></td>
+                                                            <td>&#8369 <?=number_format($totalamt,2)?></td>
+                                                        </tr>
                                                 </tbody>
                                             </table>
                                        </div>
@@ -81,26 +103,26 @@ main_header(['create_order']);
                                 <div class="card-footer">
                                     <div class="row text-center">
                                         <div class="col-sm-6">
-                                           <h6>Subtotal: <b>&#8369 <?=number_format($order_dets->Subtotal,2)?></b></h6>
-                                           <h6>Discount: <b>&#8369 <?=number_format($order_dets->Discount,2)?></b></h6>
+                                           <h6>Discount</h6>
+                                           <b>&#8369 <?=number_format($order_dets->Discount,2)?></b>
 
                                         </div>
                                         <div class="col-sm-6">
-                                           <h6>Total</h6>
+                                           <h6>Total Amount</h6>
                                            <b>&#8369 <?=number_format($order_dets->Total_amt,2)?></b>
                                         </div>
                                     </div>
 
                                     <div class="row text-center mt-2" style="border-top: 1px solid black">
                                         <div class="col-sm-6">
-                                            <h6>Amount Paid</h6>
+                                            <h6>Payment Received</h6>
                                             <b class="text-success">&#8369 <?=number_format($last_paid,2)?></b>
                                         </div>
                                         <div class="col-sm-6">
                                             <?php
                                                 $balance = $order_dets->Total_amt - $last_paid;
                                             ?>
-                                           <h6>Balance</h6>
+                                           <h6>Total Balance</h6>
                                            <b class="text-danger">&#8369 <?=number_format($balance,2)?></b>
                                            <input type="number" id="Balance" value="<?=number_format($balance,2)?>" hidden>
                                         </div>
@@ -145,26 +167,121 @@ main_header(['create_order']);
                         </div>
 
                         <div class="col-sm-6">
+                            <!-- ORDER DETAILS -->
                             <div class="card card-primary">
                                 <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <h5>Order Details | </h5>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <select class="custom-select custom-select-sm rounded-0 select_update" id="o_status">
+                                                    <option value="<?=$o_status->ID?>" selected><?=ucfirst($o_status->List_name)?></option>
 
-                                    <div class="input-group-prepend">
-                                        <h5>Order Details</h5>
-                                        <!-- <h6>Subtotal: <b>&#8369 <?=number_format($order_dets->Subtotal,2)?></b></h6> -->
-                                        
+                                                    <?php
+                                                        foreach($status as $value){ ?>
+                                                            <option value="<?=$value->ID?>" <?=$o_status->ID == $value->ID ? 'disabled class="text-bold text-danger"' : ''?>><?=ucfirst($value->List_name)?><?=$o_status->ID == $value->ID ? " (Selected)" : ''?></option>
+                                                        <?php }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-sm-6">
+                                            <h6>Book Date: <b><?=date('M d, Y', strtotime($order_dets->Book_date))?></b></h6>
+                                            <label for="">Booking Note</label>
+                                            <p class="<?=empty($order_dets->Order_note) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Order_note) ? 'No note' : $order_dets->Order_note ?></p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h6>Deadline: <b><?=date('M d, Y', strtotime($order_dets->Deadline))?></b></h6>
+                                            <label for="">Deadline Note</label>
+                                            <p class="<?=empty($order_dets->Deadline_notes) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Deadline_notes) ? 'No note' : $order_dets->Deadline_notes ?></p>
+                                        </div>
                                     </div>
                                     <div class="row">
-                                            <div class="col-sm-6">
-                                                <h6>Book Date: <b><?=date('M d, Y', strtotime($order_dets->Book_date))?></b></h6>
-                                                <label for="">Note</label>
-                                                <p class="<?=empty($order_dets->Order_note) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Order_note) ? 'No note' : $order_dets->Order_note ?></p>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h6>Deadline: <b><?=date('M d, Y', strtotime($order_dets->Deadline))?></b></h6>
-                                                <label for="">Note</label>
-                                                <p class="<?=empty($order_dets->Deadline_notes) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Deadline_notes) ? 'No note' : $order_dets->Deadline_notes ?></p>
-                                            </div>
+                                        <div class="col-sm-12">
+                                            <label for="">Freebies</label>
+                                            <p class="<?=empty($order_dets->Freebies) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Freebies) ? 'No freebies' : $order_dets->Freebies ?></p>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label for="">Sewer</label>
+                                            <select class="custom-select custom-select-sm rounded-0 select_update" id="sewer">
+                                                <option value="<?=$sewer->ID?>" selected><?=ucfirst($sewer->LName)." ,".ucfirst($sewer->FName)?></option>
+                                                <?php
+                                                    foreach($users as $value){ ?>
+                                                        <option value="<?=$value->ID?>" <?=$sewer->ID == $value->ID ? 'disabled class="text-bold text-danger"' : ''?>><?=ucfirst($value->LName)." ,".ucfirst($value->FName)?><?=$sewer->ID == $value->ID ? " (Selected)" : ''?></option>
+                                                    <?php }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="">Layout Artist</label>
+                                            <select class="custom-select custom-select-sm rounded-0 select_update"  id="layout">
+                                                <option value="<?=$lay_artist->ID?>" selected><?=ucfirst($lay_artist->LName)." ,".ucfirst($lay_artist->FName)?></option>
+
+                                                <?php
+                                                    foreach($users as $value){ ?>
+                                                        <option value="<?=$value->ID?>" <?=$lay_artist->ID == $value->ID ? 'disabled class="text-bold text-danger"' : ''?>><?=ucfirst($value->LName)." ,".ucfirst($value->FName)?><?=$lay_artist->ID == $value->ID ? " (Selected)" : ''?></option>
+                                                    <?php }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="">Setup Artist</label>
+                                            <select class="custom-select custom-select-sm rounded-0 select_update" id="setup">
+                                                <option value="<?=$set_artist->ID?>" selected><?=ucfirst($set_artist->LName)." ,".ucfirst($set_artist->FName)?></option>
+
+                                                <?php
+                                                    foreach($users as $value){ ?>
+                                                        <option value="<?=$value->ID?>" <?=$set_artist->ID == $value->ID ? 'disabled class="text-bold text-danger"' : ''?>><?=ucfirst($value->LName)." ,".ucfirst($value->FName)?><?=$set_artist->ID == $value->ID ? " (Selected)" : ''?></option>
+                                                    <?php }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary btn-flat mt-2" id="update_dets">Update</button>
+                                    <button type="button" class="btn btn-sm btn-danger btn-flat mt-2" id="cancel">Cancel</button>
+                                    <button type="button" class="btn btn-sm btn-success btn-flat mt-2" data-oid="<?=$order_dets->ID?>" id="save_dets">Save</button>
+                                </div>
+                            </div>
+                            
+                            <!-- PAYMENT HISTORY -->
+                            <div class="card card-primary">
+                                <div class="card-body">
+                                    <div class="input-group-prepend">
+                                        <h5>Payment History</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table class="table table-bordered table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <td>#</td>
+                                                        <th>Amount Paid</th>
+                                                        <th>Date Paid</th>
+                                                        <th>Payment Mode</th>
+                                                        <th>Received By</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        foreach($p_history as $key => $value){ ?>
+                                                            <tr>
+                                                                <td><?=$key+1?></td>
+                                                                <td>&#8369 <?=number_format($value->Amount_paid,2)?></td>
+                                                                <td><?=date('M d, Y', strtotime($value->Date_paid))?></td>
+                                                                <td><?=$value->Mode?></td>
+                                                                <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)?></td>
+                                                            </tr>
+                                                        <?php  }
+                                                    
+                                                    ?>                                                        
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

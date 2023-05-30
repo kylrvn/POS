@@ -9,7 +9,6 @@ login_header();
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
-
       <form action="../../index3.html" method="post">
         <div class="input-group mb-3">
           <input type="text" class="form-control" id="username" placeholder="Username" required autofocus>

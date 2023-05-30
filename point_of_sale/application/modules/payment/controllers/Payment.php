@@ -42,6 +42,14 @@ class Payment extends MY_Controller
 		$this->data['p_mode'] = $this->pModel->get_payment_modes();
 		$this->data['last_paid'] = $this->pModel->get_last_paid();
 		$this->data['status'] = $this->pModel->get_status();
+		$this->data['p_history'] = $this->pModel->get_p_history();
+		$this->data['users'] = $this->pModel->get_users();
+
+		$this->data['sewer'] = $this->pModel->get_sewer();
+		$this->data['lay_artist'] = $this->pModel->get_lay_artist();
+		$this->data['set_artist'] = $this->pModel->get_set_artist();
+		$this->data['o_status'] = $this->pModel->get_o_status();
+
 		$this->data['content'] = 'index2';
 		$this->load->view('layout', $this->data);
 	}
