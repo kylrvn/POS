@@ -67,8 +67,8 @@ main_header(['create_order']);
                                                     <tr>
                                                         <th style="width: 10px">#</th>
                                                         <th>Item</th>
-                                                        <th style="width: 10px">Qty</th>
-                                                        <th style="width: 15px">Amount</th>
+                                                        <th>Qty</th>
+                                                        <th>Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -189,19 +189,25 @@ main_header(['create_order']);
                                     <div class="row mt-3">
                                         <div class="col-sm-6">
                                             <h6>Book Date: <b><?=date('M d, Y', strtotime($order_dets->Book_date))?></b></h6>
+
                                             <label for="">Booking Note</label>
-                                            <p class="<?=empty($order_dets->Order_note) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Order_note) ? 'No note' : $order_dets->Order_note ?></p>
+                                            <p class="<?=empty($order_dets->Order_note) ? 'text-danger text-bold' : ''?> note_area2"><?=empty($order_dets->Order_note) ? 'No note' : $order_dets->Order_note ?></p>
+                                            <textarea  id="b_note" class="form-control note_area" placeholder="Enter Booking Note..."><?=empty($order_dets->Order_note) ? '' : $order_dets->Order_note ?></textarea>
                                         </div>
                                         <div class="col-sm-6">
-                                            <h6>Deadline: <b><?=date('M d, Y', strtotime($order_dets->Deadline))?></b></h6>
+                                            <h6 class="dates2">Deadline: <b><?=date('M d, Y', strtotime($order_dets->Deadline))?></b></h6>
+                                            <h6 class="dates">Book Date: <input id="d_date" class="form-control" type="date" value="<?=date($order_dets->Deadline)?>"></b></h6>
+
                                             <label for="">Deadline Note</label>
-                                            <p class="<?=empty($order_dets->Deadline_notes) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Deadline_notes) ? 'No note' : $order_dets->Deadline_notes ?></p>
+                                            <p class="<?=empty($order_dets->Deadline_notes) ? 'text-danger text-bold' : ''?> note_area2"><?=empty($order_dets->Deadline_notes) ? 'No note' : $order_dets->Deadline_notes ?></p>
+                                            <textarea  id="d_note" class="form-control note_area" placeholder="Enter Deadline Note..."><?=empty($order_dets->Deadline_notes) ? '' : $order_dets->Deadline_notes ?></textarea>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label for="">Freebies</label>
-                                            <p class="<?=empty($order_dets->Freebies) ? 'text-danger text-bold' : ''?>"><?=empty($order_dets->Freebies) ? 'No freebies' : $order_dets->Freebies ?></p>
+                                            <p class="<?=empty($order_dets->Freebies) ? 'text-danger text-bold' : ''?> note_area2" ><?=empty($order_dets->Freebies) ? 'No freebies' : $order_dets->Freebies ?></p>
+                                            <textarea  id="freebies" class="form-control note_area" placeholder="Enter Freebies..."><?=empty($order_dets->Freebies) ? '' : $order_dets->Freebies ?></textarea>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -241,9 +247,27 @@ main_header(['create_order']);
                                             </select>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-primary btn-flat mt-2" id="update_dets">Update</button>
-                                    <button type="button" class="btn btn-sm btn-danger btn-flat mt-2" id="cancel">Cancel</button>
-                                    <button type="button" class="btn btn-sm btn-success btn-flat mt-2" data-oid="<?=$order_dets->ID?>" id="save_dets">Save</button>
+                                    <button type="button" class="btn btn-xs btn-primary btn-flat mt-2" id="update_dets">Update</button>
+                                    <button type="button" class="btn btn-xs btn-danger btn-flat mt-2" id="cancel">Cancel</button>
+                                    <button type="button" class="btn btn-xs btn-success btn-flat mt-2" data-oid="<?=$order_dets->ID?>" id="save_dets">Save</button>
+                                    
+                                    <div class="row mt-2">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputFile">Mockup Design <span><button type="button" data-oid="<?=$order_dets->ID?>" id="view_mockup" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></button></span></label>
+                                                <div class="input-group input-group-xs">
+                                                    <div class="custom-file">
+                                                        <form id="uploadForm" enctype="multipart/form-data">
+                                                            <input type="file" class="custom-file-input" name="files[]" id="modal_reqs" multiple>
+                                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                        </form>    
+                                                    </div>
+                                                    <input type="button" value="Upload Mockup"  data-name="<?=$order_dets->Cust_ID?>" data-oid="<?=$order_dets->ID?>" class="btn btn-xs btn-success float-right" id="submit_req">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
                             

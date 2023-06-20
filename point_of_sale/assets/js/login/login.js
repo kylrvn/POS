@@ -12,7 +12,7 @@ $(document).ready(function () {
                 if (response.has_error) {
                     toastr.error(response.error_message);
                 } else {
-                    window.location = base_url + "customer";
+                    window.location = base_url + "dashboard";
                 }
             }
         });

@@ -54,5 +54,10 @@ class Payment extends MY_Controller
 		$this->load->view('layout', $this->data);
 	}
 
+	public function retrieve_design(){
+		$this->pModel->OrderID = $this->input->post('Order_id');
 
+		
+
+	}
 }

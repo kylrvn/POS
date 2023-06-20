@@ -11,13 +11,15 @@ $(document).on('click', '.btn_add_item', function () {
     var i_id = $(this).data('id');
     var row = document.createElement('tr');
     var rowCount = table.rows.length;
-    row.innerHTML = '<td style="width: 10px" class="row_num'+rowCount+'">'+rowCount+
+    row.setAttribute("id", 'row_'+i_id+'');
+    row.innerHTML = '<td style="width: 10px" id="row_'+i_id+'" class="row_num'+rowCount+'">'+rowCount+
     '</td><td class="w-50 item_id" data-id="'+i_id+'"style="word-break:break-word;">'+$(this).val()+
     '</td><td class="w-25"><input type="number" class="form-control qty_'+i_id+' computation" data-qty="'+i_id+'">'+
     '</td><td class="w-25"><input type="number" class="form-control amount computation" data-id="'+i_id+'">'+
     '<span><small><b class="text-danger">&#8369</b> </small><cite class="item_subtotal" id="subtotal'+i_id+
     '"></cite><cite class="item_qty"  style="display:none" id="item_qty'+i_id+
-    '"></cite></span></td>';
+    '"></cite></span></td>'+
+    '<td><a role="button" id="del_row" class="text-danger text-bold del_row" data-row="'+i_id+'">x<a></td>';
     table.append(row);
 
 }); 
@@ -41,6 +43,15 @@ $(document).on('keyup', '.computation', function () {
 
 $(document).on('keyup', '#discount', function () {
     calculate_subtotal();
+}); 
+
+$(document).on('click', '.del_row', function () {
+    var y = $(this).data('row');
+    $('#row_' + y).remove();
+    calculate_subtotal();
+    calculate_qty();
+
+    // alert(y);
 }); 
 
 function calculate_subtotal() {

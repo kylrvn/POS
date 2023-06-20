@@ -37,8 +37,78 @@ class Payment_service extends MY_Controller
 		$this->psModel->Sewer = $this->input->post("Sewer");
 		$this->psModel->Lay_artist = $this->input->post("Lay_artist");
 		$this->psModel->Set_artist = $this->input->post("Set_artist");
+		$this->psModel->b_note = $this->input->post("b_note");
+		$this->psModel->d_note = $this->input->post("d_note");
+		$this->psModel->freebies = $this->input->post("freebies");
+		$this->psModel->d_date = $this->input->post("d_date");
+
 
 		$response = $this->psModel->update_details();
+		// echo json_encode($this->input->post("d_date"));
+	}
+
+	public function save_modal_req() {
+		// Check if files are uploaded
+		if (!empty($_FILES['files']['name'])) {
+			// Specify allowed file formats
+			$allowedFormats = array('jpg', 'png', 'docx', 'pdf');
+			$O_ID = $this->input->get('oid');
+			$C_ID = $this->input->get('cid');
+			// Array to store any error messages
+			$errors = array();
+			$fileNames = array();
+	
+			// Loop through each uploaded file
+			for ($i = 0; $i < count($_FILES['files']['name']); $i++) {
+				$fileName = $O_ID . "_". $C_ID. "_". $_FILES['files']['name'][$i];
+				$fileType = $_FILES['files']['type'][$i];
+				$fileTemp = $_FILES['files']['tmp_name'][$i];
+				$fileSize = $_FILES['files']['size'][$i];
+	
+				// Get the file extension
+				$fileExt = pathinfo($fileName, PATHINFO_EXTENSION);
+	
+				// Check if the file format is allowed
+				if (in_array($fileExt, $allowedFormats)) {
+					// Perform your file upload logic here
+					// For example, move the uploaded file to a specific directory
+					move_uploaded_file($fileTemp, 'assets/uploaded/proofs/' . $fileName);
+	
+					$fileNames[] = $fileName;
+				} else {
+					$errors[] = 'Invalid file format: ' . $fileName;
+				}
+			}
+	
+			if (!empty($fileNames)) {
+				// Insert file details into the database using the model
+				$response = $this->psModel->submit_modal_req($fileNames, $O_ID);
+				if ($response['has_error']) {
+					$errors[] = $response['message'];
+				}
+			}
+	
+			if (!empty($errors)) {
+				// Handle error messages as needed
+				$response = array(
+					'has_error' => true,
+					'message' => implode('<br>', $errors)
+				);
+			} else {
+				// Success handling
+				$response = array(
+					'has_error' => false,
+					'message' => 'File(s) uploaded successfully for Requirement ID: ' . $O_ID
+				);
+			}
+		} else {
+			$response = array(
+				'has_error' => true,
+				'message' => 'No files were uploaded.'
+			);
+		}
+	
+		// Return response
 		echo json_encode($response);
 	}
 }

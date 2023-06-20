@@ -40,8 +40,9 @@ class Login_model extends CI_Model
             if($query->Password !== sha1(password_generator($this->password,$query->Locker)) ){
                 throw new Exception(NOT_MATCH, true);
             }
-            $query->from = $from;
+            // $query->from = $from;
             set_userdata(USER,(array)$query);
+            // set_userdata(SAMPLE,(array)$sample);
 
             return array('has_error' => false, 'message' => 'Login Success');
         } catch (Exception $ex) {

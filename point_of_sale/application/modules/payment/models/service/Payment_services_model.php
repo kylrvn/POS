@@ -55,12 +55,15 @@ class Payment_services_model extends CI_Model
 
     public function update_details(){
         try{       
-            
             $data = array(
                 'Status' => $this->Order_status,
                 'Sewer_assign' => $this->Sewer,
                 'Layout_artist' => $this->Lay_artist,
                 'Setup_artist' => $this->Set_artist,
+                'Order_note' => $this->b_note,
+                'Deadline_notes' => $this->d_note,
+                'Freebies' => $this->freebies,
+                'Deadline' => date('Y-m-d', strtotime($this->d_date))
 
             );
 
@@ -81,6 +84,35 @@ class Payment_services_model extends CI_Model
         }
         catch(Exception$msg){
             return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function submit_modal_req($fileNames, $O_ID) {
+        try {
+    
+            $this->db->trans_start();
+    
+            foreach ($fileNames as $fileName) {
+            
+                    $data = array(
+                        'Mockup_design' => $fileName,
+                        'Order_ID' => $O_ID,
+                    );
+    
+                    $this->db->insert($this->Table->reference, $data);
+            }
+    
+            $this->db->trans_complete();
+    
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);
+            } else {
+                $this->db->trans_commit();
+                return array('message' => SAVED_SUCCESSFUL, 'has_error' => false);
+            }
+        } catch (Exception $msg) {
+            return (array('message' => $msg->getMessage(), 'has_error' => true));
         }
     }
 }

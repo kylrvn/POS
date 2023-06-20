@@ -35,6 +35,7 @@ define('DUPLICATE_USERNAME_FOUND', 'Username is already taken, please try again.
 define('DEFAULT_LOGIN_PASSWORD', 'password1234*');
 define('CHAR_SET', 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$11<>?!@#$%^&*()~\/.');
 define('USER', '');
+define('SAMPLE', '');
 define('SYSTEM_NAME', 'Printmaxs POS');
 define('SYSTEM_ALT', '');
 define('FOOTER_NAME', '');
