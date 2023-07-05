@@ -20,6 +20,9 @@ class Customer_model extends CI_Model
     public function get_customers(){
         $this->db->select('*');
         $this->db->from($this->Table->customer);
+        if(!empty($this->session->Branch)){
+            $this->db->where('Branch', $this->session->Branch);
+        }
 
         $query = $this->db->get()->result();
         return $query;

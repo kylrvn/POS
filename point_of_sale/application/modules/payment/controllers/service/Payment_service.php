@@ -21,15 +21,67 @@ class Payment_service extends MY_Controller
 	}
 
 
-	public function save_payment(){
-		$this->psModel->Order_id = $this->input->post("Order_id");
-		$this->psModel->Amount_paid = $this->input->post("Amount_paid");
-		$this->psModel->Payment_mode = $this->input->post("Payment_mode");
-		$this->psModel->Incharge_ID = $this->session->ID;
+	public function save_payment()
+{
+    $this->psModel->Incharge_ID = $this->session->ID;
+    $this->psModel->Order_ID = $this->input->post("Order_id");
+    $this->psModel->Amount_paid = $this->input->post("Amount_paid");
+    $this->psModel->Payment_mode = $this->input->post("Payment_mode");
 
-		$response = $this->psModel->save_payment();
-		echo json_encode($response);
-	}
+    // Check if an image file is uploaded
+    if (!empty($_FILES['image']['name'])) {
+        // Specify allowed file formats
+        $allowedFormats = array('jpg', 'png', 'gif');
+        // Array to store any error messages
+        $errors = array();
+
+        $fileName = $this->psModel->Order_ID . "_" . $_FILES['image']['name'];
+        $fileType = $_FILES['image']['type'];
+        $fileTemp = $_FILES['image']['tmp_name'];
+        $fileSize = $_FILES['image']['size'];
+
+        // Get the file extension
+        $fileExt = pathinfo($fileName, PATHINFO_EXTENSION);
+
+        // Check if the file format is allowed
+        if (in_array($fileExt, $allowedFormats)) {
+            // Perform your file upload logic here
+            // For example, move the uploaded file to a specific directory
+            move_uploaded_file($fileTemp, 'assets/uploaded/proofs/' . $fileName);
+
+            $this->psModel->Proof_of_reference = $fileName;
+        } else {
+            $errors[] = 'Invalid file format: ' . $fileName;
+        }
+
+        if (!empty($errors)) {
+            // Handle error messages as needed
+            $response = array(
+                'has_error' => true,
+                'message' => implode('<br>', $errors)
+            );
+            echo json_encode($response);
+            return;
+        }
+    } else {
+        $this->psModel->Proof_of_reference = '';
+    }
+
+    // Save payment details using the model
+    $response = $this->psModel->save_payment();
+    if ($response['has_error']) {
+        echo json_encode($response);
+        return;
+    }
+
+    // Success handling
+    $response = array(
+        'has_error' => false,
+        'message' => 'Payment saved successfully.'
+    );
+    echo json_encode($response);
+}
+	
 
 	public function update_details(){
 		$this->psModel->Order_id = $this->input->post("Order_id");
@@ -44,7 +96,7 @@ class Payment_service extends MY_Controller
 
 
 		$response = $this->psModel->update_details();
-		// echo json_encode($this->input->post("d_date"));
+		echo json_encode($response);
 	}
 
 	public function save_modal_req() {

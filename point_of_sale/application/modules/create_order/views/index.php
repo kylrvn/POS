@@ -122,6 +122,14 @@ main_header(['create_order']);
                                             <input type="number" class="form-control form-control-sm" disabled id="t_qty">
                                         </div>
                                     </div>
+                                    <!-- <div class="row mt-2">
+                                        <div class="col-sm-4">
+                                            <label for="" class="text-center" >Choose File</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="file" class="form-control form-control-sm"  id="t_qty">
+                                        </div>
+                                    </div> -->
                                     <div class="row mt-2">
                                         <div class="col-sm-4">
                                             <label for="" class="text-center" >Discount</label>

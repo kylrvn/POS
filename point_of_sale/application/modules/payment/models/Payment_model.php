@@ -166,5 +166,47 @@ class Payment_model extends CI_Model
 
          return $query;
     }
+    public function get_mockup_design(){
+        $this->db->select(
+            '*'
+        );
+
+        $this->db->where('Order_ID', $this->OrderID);
+        $this->db->from($this->Table->reference);
+        $this->db->order_by('ID', 'desc');
+
+        $query = $this->db->get()->row();
+
+         return $query;
+        // echo json_encode($query);
+    }
+
+    public function get_p_proof(){
+        $this->db->select(
+            '*'
+        );
+
+        $this->db->where('Payment_ID', 3);
+        $this->db->from($this->Table->proof);
+
+        $query = $this->db->get()->row();
+
+         return $query;
+        // echo json_encode($query);
+    }
+
+    public function retrieve_design(){
+        $this->db->select(
+            '*'
+        );
+
+        $this->db->where('Order_ID', $this->OrderID);
+        $this->db->from($this->Table->reference);
+
+        $query = $this->db->get()->row();
+
+         return $query;
+        // echo json_encode($query);
+    }
 
 }

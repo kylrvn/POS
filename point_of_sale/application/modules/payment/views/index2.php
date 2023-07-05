@@ -1,6 +1,7 @@
 <?php
 main_header(['create_order']);
 
+// echo $mockup_img->Mockup_design;
 ?>
 <!-- ############ PAGE START-->
 
@@ -138,10 +139,28 @@ main_header(['create_order']);
                                                             <?php
                                                                 foreach($p_mode as $value){ ?>
                                                                     <option value="<?=$value->ID?>"><?=$value->List_name?></option>
-                                                                <?php }
+                                                                    
+                                                                <?php } 
                                                             ?>
                                                         </select>
                                                     </div>
+                                                    <!-- <label class="col-sm-4 col-form-label"><small>Proof of Payment</small></label> -->
+                                                        <!-- <div class="col-sm-8"  id="proof_of_payment_group" style="display: none;">
+                                                        <form id="uploadFormProof" enctype="multipart/form-data">
+                                                            <input type="file" class="custom-file-input" name="files[]" id="payment_proof" multiple>
+                                                            <label class="custom-file-label" for="exampleInputFile">
+                                                                    Choose file
+                                                            </label>
+                                                        </form>    
+                                                        </div> -->
+                                                        <div class="custom-file" id="proof_of_payment_group" style="display: none;">
+                                                            <form id="uploadFormProof" enctype="multipart/form-data">
+                                                                <input type="file" class="custom-file-input" name="files[]" id="payment_proof" multiple>
+                                                                <label class="custom-file-label" for="exampleInputFile">
+                                                                    Choose file
+                                                                </label>
+                                                            </form>    
+                                                        </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-4 col-form-label"><small>Amount</small></label>
@@ -155,6 +174,7 @@ main_header(['create_order']);
                                                         <input type="number" class="form-control form-control-sm text-danger text-bold" id="change" placeholder="Change" disabled>
                                                     </div>
                                                 </div>
+                                                 
                                             </form>
                                         </div>
                                     </div>
@@ -196,7 +216,7 @@ main_header(['create_order']);
                                         </div>
                                         <div class="col-sm-6">
                                             <h6 class="dates2">Deadline: <b><?=date('M d, Y', strtotime($order_dets->Deadline))?></b></h6>
-                                            <h6 class="dates">Book Date: <input id="d_date" class="form-control" type="date" value="<?=date($order_dets->Deadline)?>"></b></h6>
+                                            <h6 class="dates">Deadline: <input id="d_date" class="form-control" type="date" value="<?=date($order_dets->Deadline)?>"></b></h6>
 
                                             <label for="">Deadline Note</label>
                                             <p class="<?=empty($order_dets->Deadline_notes) ? 'text-danger text-bold' : ''?> note_area2"><?=empty($order_dets->Deadline_notes) ? 'No note' : $order_dets->Deadline_notes ?></p>
@@ -255,11 +275,33 @@ main_header(['create_order']);
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="exampleInputFile">Mockup Design <span><button type="button" data-oid="<?=$order_dets->ID?>" id="view_mockup" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i></button></span></label>
+                                                    <!-- Modal Mock Up Design-->
+                                            <div class="modal" tabindex="-1" role="dialog" id="view_modal">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Mockup Design</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img id="mockupImage" src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=$mockup_img->Mockup_design?>" alt="Mockup Design" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                                 <div class="input-group input-group-xs">
                                                     <div class="custom-file">
                                                         <form id="uploadForm" enctype="multipart/form-data">
                                                             <input type="file" class="custom-file-input" name="files[]" id="modal_reqs" multiple>
-                                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                            <label class="custom-file-label" for="exampleInputFile">
+                                                                <?php if ($mockup_img): ?>
+                                                                    <?=$mockup_img->Mockup_design;?>
+                                                                <?php else: ?>
+                                                                    Choose file
+                                                                <?php endif; ?>
+                                                            </label>
                                                         </form>    
                                                     </div>
                                                     <input type="button" value="Upload Mockup"  data-name="<?=$order_dets->Cust_ID?>" data-oid="<?=$order_dets->ID?>" class="btn btn-xs btn-success float-right" id="submit_req">
@@ -291,19 +333,39 @@ main_header(['create_order']);
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        foreach($p_history as $key => $value){ ?>
-                                                            <tr>
-                                                                <td><?=$key+1?></td>
-                                                                <td>&#8369 <?=number_format($value->Amount_paid,2)?></td>
-                                                                <td><?=date('M d, Y', strtotime($value->Date_paid))?></td>
-                                                                <td><?=$value->Mode?></td>
-                                                                <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)?></td>
-                                                            </tr>
-                                                        <?php  }
-                                                    
-                                                    ?>                                                        
+                                            foreach ($p_history as $key => $value) {
+                                                $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
+                                            ?>
+                                                <tr class="<?=$clickableClass?>" data-toggle="<?=$value->Mode == "Cash" ? '' : 'modal'?>" data-target="#paymentProofModal" data-pID="<?=$value->ID?>">
+                                                    <td><?=$key + 1?></td>
+                                                    <td>&#8369 <?=number_format($value->Amount_paid, 2)?></td>
+                                                    <td><?=date('M d, Y', strtotime($value->Date_paid))?></td>
+                                                    <td><?=$value->Mode?></td>
+                                                    <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)?></td>
+                                                </tr>
+                                           
+                                            <?php
+                                            }
+                                            ?>                                                             
                                                 </tbody>
                                             </table>
+                                        </div>
+                                       
+                                    </div>
+                                          <!-- Modal Proof of Payment -->
+                                    <div class="modal" tabindex="-1" role="dialog" id="paymentProofModal">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Proof of Payment</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img id="paymentProofImage" src="<?php echo base_url();?>assets/uploaded/proofs/<?=$p_proof->Proof_of_payment?>" alt="Proof of Payment" class="img-fluid">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -342,3 +404,7 @@ main_header(['create_order']);
 main_footer();
 ?>
 <script src="<?php echo base_url() ?>/assets/js/payment/payment.js"></script>
+<!-- Add the JavaScript code within the CodeIgniter view -->
+<script>
+
+</script>

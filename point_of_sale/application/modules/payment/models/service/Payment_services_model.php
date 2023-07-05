@@ -27,16 +27,47 @@ class Payment_services_model extends CI_Model
             }   
             
             $data = array(
-                'Order_ID' => $this->Order_id,
+                'Order_ID' => $this->Order_ID,
                 'Amount_paid' => $this->Amount_paid,
                 'Payment_mode' => $this->Payment_mode,
                 'Incharge_ID' => $this->Incharge_ID,
                 'Date_paid' => date('Y:m:d H:i:s'),
             );
+          
 
             $this->db->trans_start();
-                           
+                     
             $this->db->insert($this->Table->payment,$data);
+            $payment_ID = $this->db->insert_id();
+
+            $this->save_proof($payment_ID);
+
+           
+            
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+
+    public function save_proof($x){
+        try{     
+            $refData = array(
+                'Payment_ID' => $x,
+                'Proof_of_payment' => $this->Proof_of_reference
+            );
+            $this->db->trans_start();
+            $this->db->insert($this->Table->proof,$refData);
 
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE)
@@ -52,6 +83,7 @@ class Payment_services_model extends CI_Model
             return (array('message'=>$msg->getMessage(), 'has_error'=>true));
         }
     }
+
 
     public function update_details(){
         try{       

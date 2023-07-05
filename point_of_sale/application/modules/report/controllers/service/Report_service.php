@@ -20,4 +20,24 @@ class Report_service extends MY_Controller
 		$this->load->model($model_list);
 	}
 
+	public function report_summ(){
+		$this->rsModel->report_year = $this->input->post("report_year");
+
+		// $this->data['monthly'] =  $this->rsModel->get_monthly();
+		// // echo json_encode($this->rsModel->get_monthly());
+		// $this->data['content'] = array(
+		// 	'summary' => 'grid/summary',
+		// 	'chart' => 'grid/chart');
+		// $this->load->view('grid/summary', $this->data);
+    	// $this->load->view('grid/chart', $this->data);
+		// $this->load->view('layout', $this->data);
+
+		$monthlyData = $this->rsModel->get_monthly();
+	
+		$summaryData['monthly'] = $monthlyData;
+		$chartData['monthly'] = $monthlyData;
+	
+		$this->load->view('grid/summary', $summaryData);
+		$this->load->view('grid/chart', $chartData);
+	}
 }

@@ -55,6 +55,13 @@ main_header(['user_management']);
                                        ?>
                                     </select>
                                 </div>
+                                <div class="form-group w-100">
+                                    <label for="">Branch</label>
+                                    <select class="form-control" style="width: 100%;" id="Branch">
+                                        <option value="Bacolod" selected>Bacolod</option>
+                                        <option value="Cebu">Cebu</option>
+                                    </select>
+                                </div>
                             </div>
                             <small>Default Password: <cite>Password1234</cite></small>
                         </div>

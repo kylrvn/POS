@@ -44,7 +44,8 @@ class Payment extends MY_Controller
 		$this->data['status'] = $this->pModel->get_status();
 		$this->data['p_history'] = $this->pModel->get_p_history();
 		$this->data['users'] = $this->pModel->get_users();
-
+		$this->data['mockup_img'] = $this->pModel->get_mockup_design();
+		$this->data['p_proof'] = $this->pModel->get_p_proof();
 		$this->data['sewer'] = $this->pModel->get_sewer();
 		$this->data['lay_artist'] = $this->pModel->get_lay_artist();
 		$this->data['set_artist'] = $this->pModel->get_set_artist();
@@ -54,10 +55,11 @@ class Payment extends MY_Controller
 		$this->load->view('layout', $this->data);
 	}
 
-	public function retrieve_design(){
-		$this->pModel->OrderID = $this->input->post('Order_id');
+	// public function retrieve_design(){
+	// 	$this->pModel->OrderID = $this->input->post('Order_id');
 
-		
-
-	}
+	// 	$this->data['mockup_design'] = $this->pModel->retrieve_design();
+	// 	$this->data['content'] = 'view_mockup';
+	// 	$this->load->view('layout',$this->data);
+	// }
 }

@@ -34,6 +34,7 @@ class Management_service extends MY_Controller
 		$this->msModel->Username = $this->input->post("Username");
 		$this->msModel->Role = $this->input->post("Role");
 		$this->msModel->Role_name = $this->input->post("Role_name");
+		$this->msModel->Branch = $this->input->post("Branch");
 		$response = $this->msModel->save_user();
 		echo json_encode($response);
 	}
@@ -45,6 +46,7 @@ class Management_service extends MY_Controller
 		$this->msModel->Username = $this->input->post("Username");
 		$this->msModel->Role = $this->input->post("Role");
 		$this->msModel->Role_name = $this->input->post("Role_name");
+		$this->msModel->Branch = $this->input->post("Branch");
 		$response = $this->msModel->update_user();
 		echo json_encode($response);
 	}

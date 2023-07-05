@@ -56,6 +56,7 @@ $('#save_user').click(function() {
           FName     : $('#FName').val(),
           LName     : $('#LName').val(),
           Username     : $('#UName').val(),
+          Branch     : $('#Branch').val(),
           Role     : $('#Role').find(':selected').data('id'),
           Role_name     : $('#Role').find(':selected').data('role')
           
@@ -96,6 +97,7 @@ var editFunction = (x) => {
             $('#FName').val(e.FName);
             $('#UName').val(e.Username);
             $('#Role').val(e.Role);
+            $('#Branch').val(e.Branch);
             $('#Update').val(e.U_ID);
             $('#reset_pass').val(e.U_ID);
             
@@ -115,6 +117,7 @@ $('#Update').click(function() {
           FName     : $('#FName').val(),
           LName     : $('#LName').val(),
           Username     : $('#UName').val(),
+          Branch     : $('#Branch').val(),
           Role     : $('#Role').find(':selected').data('id'),
           Role_name     : $('#Role').find(':selected').data('role')
           

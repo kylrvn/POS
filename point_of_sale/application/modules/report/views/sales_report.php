@@ -28,7 +28,7 @@ main_header(['sales_report']);
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h4 class="text-bold"><?=number_format($sales,2)?></h4>
+                        <h4 class="text-bold"><?= number_format($sales, 2) ?></h4>
 
                         <p>Sales</p>
                     </div>
@@ -58,7 +58,7 @@ main_header(['sales_report']);
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h4 class="text-bold"><?=number_format($sales - 0,2)?></h4>
+                        <h4 class="text-bold"><?= number_format($sales - 0, 2) ?></h4>
 
                         <p>Profit</p>
                     </div>
@@ -73,7 +73,7 @@ main_header(['sales_report']);
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h4 class="text-bold"><?=number_format($cash,2)?></h4>
+                        <h4 class="text-bold"><?= number_format($cash, 2) ?></h4>
 
                         <p>Cash</p>
                     </div>
@@ -87,7 +87,7 @@ main_header(['sales_report']);
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h4 class="text-bold"><?=number_format($online,2)?></h4>
+                        <h4 class="text-bold"><?= number_format($online, 2) ?></h4>
 
                         <p>Online Payment</p>
                     </div>
@@ -98,79 +98,99 @@ main_header(['sales_report']);
                 </div>
             </div>
             <!-- ./col -->
-            </div>
+        </div>
 
-            <div class="divider bg-primary"><hr></div>
+        <div class="divider bg-primary">
+            <hr>
+        </div>
 
-            <h3 class="text-bold">MONTHLY SALES</h3>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body table-responsive p-0">
-                            <div class="card-header">
-                                <select class="form-control select2" style="width: 25%;">
-                                    <?php $date = date('Y');?>
-                                    <option selected="selected" value="<?=$date?>"><?=$date?></option>
-                                    <option value="<?=$date-1?>"><?=$date-1?></option>
-                                    <option value="<?=$date-2?>"><?=$date-2?></option>
-                                    <option value="<?=$date-3?>"><?=$date-3?></option>
-                                </select>
-                            </div>
-                            <table class="table table-hover text-nowrap table-sm table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>MONTH</th>
-                                        <th>SALES</th>
-                                        <th>EXPENSES</th>
-                                        <th>PROFIT</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach($monthly as $key => $value){ ?>
+        <h3 class="text-bold">MONTHLY SALES</h3>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="row">
+                    <div class="col-md-12 col-sm-6">
+                        <div class="card">
+                            <div class="card-body table-responsive p-0">
+                                <div class="card-header">
+                                    <select class="form-control select2" style="width: 25%;" id="sales-year">
+                                        <?php $date = date('Y'); ?>
+                                        <option selected="selected" value="<?= $date ?>"><?= $date ?></option>
+                                        <option value="<?= $date - 1 ?>"><?= $date - 1 ?></option>
+                                        <option value="<?= $date - 2 ?>"><?= $date - 2 ?></option>
+                                        <option value="<?= $date - 3 ?>"><?= $date - 3 ?></option>
+                                    </select>
+                                </div>
+                                <table class="table table-hover text-nowrap table-sm table-striped">
+                                    <thead>
                                         <tr>
-                                            <td><?=date('F',strtotime($value->Date_paid))?></td>
-                                            <td>&#8369 <?=number_format($value->total,2)?></td>
-                                            <td>&#8369 </td>
-                                            <td>&#8369 <?=number_format($value->total,2)?></td>
+                                            <th>MONTH</th>
+                                            <th>SALES</th>
+                                            <th>EXPENSES</th>-
+                                            <th>PROFIT</th>
                                         </tr>
-                                   <?php }?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="report-summary">
+                                    </tbody>
+                                </table>
                             </div>
-                        <!-- /.card-body -->
+                            <!-- /.card-body -->
                         </div>
-                    <!-- /.card -->
+                        <!-- /.card -->
+                    </div>
+                    <div class="col-md-12 col-sm-6">
+                        <!-- haha -->
+                        <?php include('grid/chart.php'); ?>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">Line Chart</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart">
-                  <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
-              </div>
-              <!-- /.card-body -->
             </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-body table-responsive p-0">
+                                <div class="card-header text-center">
+                                    <h4>TOP ITEMS</h4>
+                                    <!-- <select class="form-control select2" style="width: 25%;" id="sales-year">
+                                    <?php $date = date('Y'); ?>
+                                    <option selected="selected" value="<?= $date ?>"><?= $date ?></option>
+                                    <option value="<?= $date - 1 ?>"><?= $date - 1 ?></option>
+                                    <option value="<?= $date - 2 ?>"><?= $date - 2 ?></option>
+                                    <option value="<?= $date - 3 ?>"><?= $date - 3 ?></option>
+                                </select> -->
+                                </div>
+                                <table class="table table-hover text-nowrap table-sm table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Items</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="list-items">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <?php include('grid/item_chart.php'); ?>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+
+    </div>
+    </div>
 </section>
 
 <!-- ############ PAGE END-->
 <?php
 main_footer();
 ?>
-<!-- <script src="<?php echo base_url() ?>/assets/js/list/list.js"></script> -->
+<script src="<?php echo base_url() ?>/assets/js/report/report.js"></script>

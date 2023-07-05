@@ -29,6 +29,10 @@ class Dashboard_model extends CI_Model
         $this->db->join($this->Table->item. ' i', 'i.Order_ID=o.ID', 'left');
         $this->db->join($this->Table->list. ' l', 'l.ID=o.Status', 'left');
         // $this->db->join($this->Table->payment. ' p', '.ID=o.Status', 'left');
+
+        if(!empty($this->session->Branch)){
+            $this->db->where('c.Branch', $this->session->Branch);
+        }
         $this->db->group_by('i.Order_id');
         $query = $this->db->get()->result();
 

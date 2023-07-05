@@ -75,6 +75,7 @@ class Management_services_model extends CI_Model
                 'LName' => $this->LName,
                 'Role_ID' => $this->Role,
                 'Role' => $this->Role_name,
+                'Branch' => $this->Branch,
                 'Locker' => $Locker,
                 'Password' => $Password,
                 'U_ID' => $UID,
@@ -127,6 +128,7 @@ class Management_services_model extends CI_Model
                 'FName' => $this->FName,
                 'LName' => $this->LName,
                 'Role_ID' => $this->Role,
+                'Branch' => $this->Branch,
                 'Role' => $this->Role_name,
             );
 
