@@ -9,13 +9,40 @@ $(document).ready(function() {
 
 });
 
+// document.addEventListener("DOMContentLoaded", function() {
+//     // Get the Pay button element
+//     var payBtn = document.getElementById('pay');
 
-$(document).on('click', '#save_payment', function() {
+//     // Add a click event listener to the Pay button
+//     payBtn.addEventListener('click', function() {
+//         // Get the filename from the data-mockup-filename attribute of the button
+//         var mockupFilename = payBtn.dataset.mockupFilename;
+
+//         // Now, you have the filename, and you can use it for further processing or include it in the data sent to the server when submitting the payment
+//         console.log("Mockup Design Filename: " + mockupFilename);
+//         // Do further processing with the filename as needed
+//         // ...
+//     });
+// });
+
+
+$(document).on('click', '#pay', function() {
     var formData = new FormData();
     formData.append('Order_id', $(this).data('oid'));
     formData.append('Amount_paid', $('#Amount_paid').val());
     formData.append('Payment_mode', $('#Payment_mode').val());
     formData.append('image', $("#payment_proof")[0].files[0]);
+
+    var payBtn = document.getElementById('pay');
+    var mockupFilename = payBtn.dataset.mockupFilename;
+
+    // Now, you have the filename, and you can use it for further processing or include it in the data sent to the server when submitting the payment
+    console.log("Mockup Design Filename: " + mockupFilename);
+
+    // Append the mockupFilename to the formData
+    formData.append('mockupFilename', mockupFilename);
+
+    // Do further processing with the filename as needed
 
     $.ajax({
         url: 'payment/service/Payment_service/save_payment',
@@ -25,12 +52,10 @@ $(document).on('click', '#save_payment', function() {
         contentType: false,
         success: function(response) {
             response = JSON.parse(response);
-            if (response.success) {
+            if (response.has_error == false) {
                 $('#modal-default').modal('hide');
                 toastr.success(response.message);
-                setTimeout(function() {
-                    window.location.reload();
-                }, 2000);
+              
             } else {
                 $('#Amount_paid').addClass('is-invalid');
                 $('#modal-default').modal('hide');
@@ -38,7 +63,11 @@ $(document).on('click', '#save_payment', function() {
             }
         },
     });
+      setTimeout(function() {
+        window.location.reload();
+    }, 2000);
 });
+
 
 
 $('#Amount_paid').keyup(function() {
@@ -213,5 +242,7 @@ $(document).on('click', '#view_mockup', function() {
     $('#view_modal').modal('show');
 });
 $(document).on('click', '.clickable-row', function() {
-    $('#paymentProofModal').modal('show');
+    // Get the specific modal ID for the clicked row
+    var modalID = $(this).attr('data-modal-id');
+    $('#' + modalID).modal('show');
 });

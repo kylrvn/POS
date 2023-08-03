@@ -29,12 +29,13 @@
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
     var convertedMonth = [];
-    var sales = [];
+    // var sales = [];
+    var sales = [0, 1000, 5000, 10000, 20000, 30000,];
     monthlyData.forEach(function(data) {
         var date = new Date(data.Date_paid);
         var monthDate = date.getMonth();
         month.push(monthDate);
-        sales.push(data.total);
+        // sales.push(data.total);
     });
 
     month.forEach(function(m) {

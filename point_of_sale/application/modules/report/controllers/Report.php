@@ -34,6 +34,7 @@ class Report extends MY_Controller
 		$this->data['sales'] =  $this->rModel->get_sales();
 		$this->data['cash'] =  $this->rModel->get_cash();
 		$this->data['online'] =  $this->rModel->get_online();
+		$this->data['expense'] =  $this->rModel->get_expense();
 		
 		$this->data['content'] = 'sales_report';
 		$this->load->view('layout', $this->data);
@@ -47,8 +48,10 @@ class Report extends MY_Controller
 
 	public function load_summ() {
 		$monthlyData = $this->rModel->get_monthly();
-	
+		$expense =  $this->rModel->get_expense_monthly();
+		
 		$summaryData['monthly'] = $monthlyData;
+		$summaryData['expense'] = $expense;
 		$chartData['monthly'] = $monthlyData;
 	
 		$this->load->view('grid/summary', $summaryData);
@@ -57,6 +60,7 @@ class Report extends MY_Controller
 
 	public function load_items() {
 		$itemlist = $this->rModel->get_itemlist();
+		
 		// echo json_encode($itemlist);
 		$data['ilist'] = $itemlist;
 		$chartData['ilist'] = $itemlist;

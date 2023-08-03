@@ -24,7 +24,7 @@ main_header(['sales_report']);
     <div class="container-fluid">
         <h3 class="text-bold">OVERALL SALES</h3>
         <div class="row">
-            <div class="col-lg-3 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
@@ -35,26 +35,26 @@ main_header(['sales_report']);
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h4 class="text-bold">0</h4>
+                        <h4 class="text-bold"><?= number_format($expense - 0, 2) ?></h4>
 
                         <p>Expenses</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
@@ -65,11 +65,11 @@ main_header(['sales_report']);
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-6 col-sm-12">
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
@@ -80,10 +80,10 @@ main_header(['sales_report']);
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-6 col-sm-12">
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
@@ -94,7 +94,7 @@ main_header(['sales_report']);
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
                 </div>
             </div>
             <!-- ./col -->

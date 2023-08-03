@@ -285,9 +285,38 @@ main_header(['create_order']);
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <img id="mockupImage" src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=$mockup_img->Mockup_design?>" alt="Mockup Design" class="img-fluid">
+                                                     <!-- ... -->
+                                                    <div class="modal-body">
+                                                        <!-- Display the current mockup design -->
+                                                        <img id="mockupImage" src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=@$mockup_img->Mockup_design?>" alt="Mockup Design" class="img-fluid">
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <!-- Add a button to view previous designs -->
+                                                        <button type="button" class="btn btn-secondary" id="view_previous_designs" data-toggle="modal" data-target="#previousDesignsModal">View Previous Designs</button>
+                                                    </div>
+
+                                                    <!-- Modal for viewing previous designs -->
+                                                    <div class="modal" tabindex="-1" role="dialog" id="previousDesignsModal">
+                                                        <div class="modal-dialog modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Previous Mockup Designs</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <!-- Loop through the previous designs and display them -->
+                                                                    <?php foreach ($previousDesigns as $design): ?>
+                                                                        <img src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=$design->Mockup_design?>" alt="Previous Mockup Design" class="img-fluid">
+                                                                    <?php endforeach; ?>
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                    <!-- ... -->
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -331,43 +360,51 @@ main_header(['create_order']);
                                                         <th>Received By</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <?php
-                                            foreach ($p_history as $key => $value) {
-                                                $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
-                                            ?>
-                                                <tr class="<?=$clickableClass?>" data-toggle="<?=$value->Mode == "Cash" ? '' : 'modal'?>" data-target="#paymentProofModal" data-pID="<?=$value->ID?>">
-                                                    <td><?=$key + 1?></td>
-                                                    <td>&#8369 <?=number_format($value->Amount_paid, 2)?></td>
-                                                    <td><?=date('M d, Y', strtotime($value->Date_paid))?></td>
-                                                    <td><?=$value->Mode?></td>
-                                                    <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)?></td>
-                                                </tr>
-                                           
-                                            <?php
-                                            }
-                                            ?>                                                             
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                       
-                                    </div>
-                                          <!-- Modal Proof of Payment -->
-                                    <div class="modal" tabindex="-1" role="dialog" id="paymentProofModal">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Proof of Payment</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <img id="paymentProofImage" src="<?php echo base_url();?>assets/uploaded/proofs/<?=$p_proof->Proof_of_payment?>" alt="Proof of Payment" class="img-fluid">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                               <!-- $p_history section -->
+<tbody>
+    <?php foreach ($p_history as $key => $value) { ?>
+        <?php
+        $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
+        $modalID = 'paymentProofModal' . $key; // Unique modal ID for each row
+        ?>
+        <tr class="<?=$clickableClass?>" data-toggle="<?=$value->Mode == "Cash" ? '' : 'modal'?>" data-target="#<?=$modalID?>" data-pID="<?=$value->ID?>">
+            <td><?=$key + 1?></td>
+            <td>&#8369 <?=number_format($value->Amount_paid, 2)?></td>
+            <td><?=date('M d, Y', strtotime($value->Date_paid))?></td>
+            <td><?=$value->Mode?></td>
+            <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)?></td>
+        </tr>
+    <?php } ?>
+</tbody>
+</table>
+</div>
+
+</div>
+
+<!-- $p_proof section -->
+<?php foreach ($p_proof as $key => $payment) { ?>
+    <div class="modal" tabindex="-1" role="dialog" id="paymentProofModal<?=$key?>">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Proof of Payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?php foreach ($payment->Proof_of_payment as $proof) { ?>
+                        <!-- Assuming Proof_of_payment contains the image path -->
+                        <img id="paymentProofImage" src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=$proof->Proof_of_payment?>" alt="Proof of Payment" class="img-fluid">
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -388,16 +425,15 @@ main_header(['create_order']);
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!-- <div class="modal-body">
-                <p>One fine body&hellip;</p>
-            </div> -->
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-oid="<?=$order_dets->ID?>" id="save_payment">Pay</button>
+                <!-- Add data attribute with the filename of the uploaded mockup design -->
+                <button type="button" class="btn btn-primary" data-oid="<?=$order_dets->ID?>" id="pay" data-mockup-filename="<?=$mockup_img->Mockup_design?>">Pay</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- ############ PAGE END-->
 <?php

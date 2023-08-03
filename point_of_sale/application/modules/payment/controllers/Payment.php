@@ -35,6 +35,7 @@ class Payment extends MY_Controller
 		$this->coModel->ID = $this->input->get('custid');
 		$this->pModel->OrderID = $this->input->get('oid');
 		
+		
 		$this->data['cust_details'] = $this->coModel->get_customer_details();
 		$this->data['items'] = $this->coModel->get_items();
 		$this->data['order_items'] = $this->pModel->get_items();
@@ -45,12 +46,13 @@ class Payment extends MY_Controller
 		$this->data['p_history'] = $this->pModel->get_p_history();
 		$this->data['users'] = $this->pModel->get_users();
 		$this->data['mockup_img'] = $this->pModel->get_mockup_design();
-		$this->data['p_proof'] = $this->pModel->get_p_proof();
+		$this->data['previousDesigns'] = $this->pModel->get_previous_designs();
+		$this->data['p_proof'] = $this->pModel->get_payment_id();
 		$this->data['sewer'] = $this->pModel->get_sewer();
 		$this->data['lay_artist'] = $this->pModel->get_lay_artist();
 		$this->data['set_artist'] = $this->pModel->get_set_artist();
 		$this->data['o_status'] = $this->pModel->get_o_status();
-
+		
 		$this->data['content'] = 'index2';
 		$this->load->view('layout', $this->data);
 	}

@@ -34,6 +34,16 @@ if(!empty($details)){
                 echo ucfirst($setup->FName)." ".ucfirst($setup->LName);
             }?>
         </td>
+        <td>   
+            <?php
+                if(empty(@$value->mock_up->Mockup_design)){
+                    echo "File Not Found";
+                } else { ?>
+                <img src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=@$value->mock_up->Mockup_design?>"class="img-fluid">
+
+               <?php }
+            ?>
+        </td>
         <td><?=number_format($value->Total_amt,2)?></td>
         <td> 
           <?=number_format($value->paid,2)?>

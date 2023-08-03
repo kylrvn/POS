@@ -100,6 +100,31 @@ class Report_model extends CI_Model
 
     }
 
+    public function get_expense()
+    {
+        $this->db->select(
+            'e.*' 
+        );
+        $this->db->from($this->Table->expenses . ' e');
+       
+
+        if(!empty($this->session->Branch)){
+            $this->db->where('e.Incharge', $this->session->ID);
+        }
+      
+
+        $query = $this->db->get()->result();
+        $Amount = 0;
+
+        foreach ($query as $key => $value) {
+            $Amount += $value->expense;
+        }
+        return $Amount;
+
+        // echo json_encode($Amount);
+
+    }
+
     public function get_monthly()
     {
         $this->db->select(
@@ -121,6 +146,29 @@ class Report_model extends CI_Model
         // }
         $this->db->group_by('Month(p.Date_paid)');
         $this->db->group_by('Year(p.Date_paid)');
+
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
+    public function get_expense_monthly()
+    {
+        $this->db->select(
+            'e.Date,' .
+                'SUM(e.expense) AS totalexpense'
+        );
+        $this->db->from($this->Table->expenses . ' e');
+       
+
+        if(!empty($this->session->Branch)){
+            $this->db->where('e.Incharge', $this->session->ID);
+        }
+        // if(@$this->report_year!=null){
+        //     // where $this->report_year == date_paid but year
+        $this->db->where('YEAR(e.Date)', date("Y"));
+        // }
+        $this->db->group_by('Month(e.Date)');
+        $this->db->group_by('Year(e.Date)');
 
         $query = $this->db->get()->result();
         return $query;

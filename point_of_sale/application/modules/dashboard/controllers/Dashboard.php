@@ -29,13 +29,21 @@ class Dashboard extends MY_Controller
 		// 	redirect(base_url() . 'login', 'refresh');
 		// }
 
+		$this->data['status'] = $this->dModel->get_status();
 		$this->data['session'] =  $this->session;
+		// if($this->session->Role == "Artist"){
+		// 	$this->data['content'] = 'index_artist';
+
+		// } else{
+		// 	$this->data['content'] = 'index';
+		// }
 		$this->data['content'] = 'index';
 		$this->load->view('layout', $this->data);
 	}
 
 
 	public function get_details(){
+		$this->dModel->ID = $this->input->post("ID");
 		$this->data['details'] = $this->dModel->get_details();
 		$this->data['content'] = 'grid/load_details';
 		$this->load->view('layout', $this->data);

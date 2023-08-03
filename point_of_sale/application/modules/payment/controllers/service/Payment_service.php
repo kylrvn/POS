@@ -27,6 +27,7 @@ class Payment_service extends MY_Controller
     $this->psModel->Order_ID = $this->input->post("Order_id");
     $this->psModel->Amount_paid = $this->input->post("Amount_paid");
     $this->psModel->Payment_mode = $this->input->post("Payment_mode");
+    $this->psModel->mockupFilename = $this->input->post("mockupFilename");
 
     // Check if an image file is uploaded
     if (!empty($_FILES['image']['name'])) {

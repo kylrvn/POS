@@ -35,6 +35,8 @@ function main_header($menubar = [])
   <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Ekko Lightbox -->
+  <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/ekko-lightbox/ekko-lightbox.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   </head>
@@ -107,7 +109,7 @@ function main_header($menubar = [])
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item menu-open">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
               <p>
                 Primary Menu
                 <i class="right fas fa-angle-left"></i>
@@ -126,6 +128,12 @@ function main_header($menubar = [])
                   <p>Customers</p>
                 </a>
               </li>
+              <li class="nav-item" style="display: <?= empty($session->Branch) || $session->Role == "Admin" || $session->Role == "Cashier" ? '' : 'none'?>">
+                <a href="<?= base_url()?>expense" class="nav-link <?= (sidebar($menubar, ['expense'])) ? 'active' : '' ?>">
+                  <i class="fas fa-money-bill-wave nav-icon"></i>
+                  <p>Expense</p>
+                </a>
+              </li>
               <!-- <li class="nav-item">
                 <a href="<?= base_url()?>create_order" class="nav-link <?= (sidebar($menubar, ['create_order'])) ? 'active' : '' ?>">
                   <i class="fas fa-pen nav-icon"></i>
@@ -134,9 +142,9 @@ function main_header($menubar = [])
               </li> -->
             </ul>
           </li>
-          <li class="nav-item menu-open">
+          <li class="nav-item menu-open" style="display: <?= empty($session->Branch) ? '' : 'none'?>">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cog"></i>
+              <!-- <i class="nav-icon fas fa-cog"></i> -->
               <p>
                 Management
                 <i class="right fas fa-angle-left"></i>
@@ -157,9 +165,9 @@ function main_header($menubar = [])
               </li>
             </ul>
           </li>
-          <li class="nav-item menu-open">
+          <li class="nav-item menu-open" style="display: <?= empty($session->Branch) || $session->Role == "Admin" || $session->Role == "Cashier" ? '' : 'none'?>">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
+              <!-- <i class="nav-icon fas fa-file"></i> -->
               <p>
                 Reports
                 <i class="right fas fa-angle-left"></i>
@@ -257,6 +265,10 @@ function main_header($menubar = [])
 <script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/chart.js/Chart.min.js"></script>
  <!-- load global js -->
  <script src="<?= base_url() ?>assets/js/global.js"></script>
+ <!-- Ekko Lightbox -->
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<!-- Filterizr-->
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/filterizr/jquery.filterizr.min.js"></script>
  <!-- added js -->
  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> -->

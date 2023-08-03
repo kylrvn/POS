@@ -180,20 +180,33 @@ class Payment_model extends CI_Model
          return $query;
         // echo json_encode($query);
     }
-
-    public function get_p_proof(){
-        $this->db->select(
-            '*'
-        );
-
-        $this->db->where('Payment_ID', 3);
+    public function get_payment_id()
+    {
+        $this->db->select('p.*, p.ID as Payment_ID, o.ID as Order_ID');
+        $this->db->from($this->Table->order . ' o');
+        $this->db->join($this->Table->payment . ' p', 'p.Order_ID = o.ID');
+        $this->db->where('p.Order_ID', $this->OrderID);
+        $query = $this->db->get()->result();
+    
+        // Loop through the query result to get the proof of payment for each payment
+        foreach ($query as $payment) {
+            $payment->Proof_of_payment = $this->get_p_proof($payment->Payment_ID);
+        }
+        // echo json_encode($payment->Payment_ID);
+        return  $query;
+    }
+    
+    public function get_p_proof($PID)
+    {
+        $this->db->select('*');
+        $this->db->where('Payment_ID', $PID);
         $this->db->from($this->Table->proof);
-
-        $query = $this->db->get()->row();
-
-         return $query;
+        $query = $this->db->get()->result();
+    
+        return $query;
         // echo json_encode($query);
     }
+    
 
     public function retrieve_design(){
         $this->db->select(
@@ -208,5 +221,18 @@ class Payment_model extends CI_Model
          return $query;
         // echo json_encode($query);
     }
+    public function get_previous_designs(){
+        $this->db->select(
+            'Mockup_design'
+        );
 
+        $this->db->where('Order_ID', $this->OrderID);
+        $this->db->from($this->Table->reference);
+
+        $query = $this->db->get()->result();
+
+         return $query;
+        // echo json_encode($query);
+    }
+    
 }

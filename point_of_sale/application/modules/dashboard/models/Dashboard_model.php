@@ -22,12 +22,18 @@ class Dashboard_model extends CI_Model
             'o.*,'.
             'c.*,'.
             'i.*,'.
+            'r.*,'.
             'l.List_name as Status'
         );
         $this->db->from($this->Table->order. ' o');
         $this->db->join($this->Table->customer. ' c', 'c.ID=o.Cust_ID', 'left');
         $this->db->join($this->Table->item. ' i', 'i.Order_ID=o.ID', 'left');
         $this->db->join($this->Table->list. ' l', 'l.ID=o.Status', 'left');
+        $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
+
+        if(!empty($this->ID) && $this->ID != "All"){
+            $this->db->where('Status', $this->ID);
+        } 
         // $this->db->join($this->Table->payment. ' p', '.ID=o.Status', 'left');
 
         if(!empty($this->session->Branch)){
@@ -43,6 +49,7 @@ class Dashboard_model extends CI_Model
             $query[$key]->layout = $this->get_layout($value->Layout_artist);
             $query[$key]->setup = $this->get_setup($value->Setup_artist);
             $query[$key]->paid = $this->get_amount_paid($value->Order_ID);
+            $query[$key]->mock_up = $this->get_mock_up($value->Order_ID);
         }
 
        return $query;
@@ -102,5 +109,23 @@ class Dashboard_model extends CI_Model
             $Amount += $value->Amount_paid;
         }
          return $Amount;
+    }
+    public function get_mock_up($O_ID){
+        $this->db->select('*');
+        $this->db->from($this->Table->reference);
+        $this->db->where('Order_ID', $O_ID);
+        $query = $this->db->get()->row();
+
+
+         return $query;
+    }
+
+    public function get_status(){
+        $this->db->select('*');
+        $this->db->from($this->Table->list);
+        $this->db->where('List_category', "Status");     
+        $query = $this->db->get()->result();
+
+        return $query;
     }
 }

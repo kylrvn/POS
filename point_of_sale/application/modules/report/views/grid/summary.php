@@ -9,7 +9,16 @@
                   <?= date('F', strtotime($value->Date_paid)) ?>
               </td>
               <td>&#8369 <?= number_format($value->total, 2) ?></td>
-              <td>&#8369 </td>
+              <td>&#8369 
+                <?php 
+                  foreach($expense as $key => $exp){
+                    if(date('F', strtotime($value->Date_paid)) == date('F', strtotime($exp->Date))){
+                      echo number_format($exp->totalexpense, 2);
+                    }
+                  }
+                ?>
+
+              </td>
               <td>&#8369 <?= number_format($value->total, 2) ?></td>
           </tr>
       <?php }

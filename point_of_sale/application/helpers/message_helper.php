@@ -60,6 +60,8 @@ $array = array(
     'user' => 'tbl_user',
     'payment' => 'tbl_payment',
     'proof' => 'tbl_proof',
+    'expenses' => 'tbl_expenses',
+
 
 );
 define('TABLE', json_encode($array));
