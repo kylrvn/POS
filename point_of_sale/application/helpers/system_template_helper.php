@@ -38,7 +38,7 @@ function main_header($menubar = [])
   <!-- Ekko Lightbox -->
   <link rel="stylesheet" href="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/ekko-lightbox/ekko-lightbox.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
   </head>
   <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
   <div class="wrapper">
@@ -115,14 +115,20 @@ function main_header($menubar = [])
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-            <li class="nav-item">
+            <ul class="nav nav-treeview" >
+              <li class="nav-item"  style="display:<?= $session->Role == "Artist" ? 'none' : ''?>">
                 <a href="<?= base_url()?>dashboard" class="nav-link <?= (sidebar($menubar, ['dashboard'])) ? 'active' : '' ?>">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" style="display: <?= $session->Role == "Artist" ? '' : 'none'?>">
+                <a href="<?= base_url()?>artist" class="nav-link <?= (sidebar($menubar, ['artist'])) ? 'active' : '' ?>">
+                  <i class="nav-icon fas fa-brush"></i>
+                  <p>Artist</p>
+                </a>
+              </li>
+              <li class="nav-item"  style="display:<?= $session->Role == "Artist" ? 'none' : ''?>">
                 <a href="<?= base_url()?>customer" class="nav-link <?= (sidebar($menubar, ['customer'])) ? 'active' : '' ?>">
                   <i class="fas fa-users nav-icon"></i>
                   <p>Customers</p>

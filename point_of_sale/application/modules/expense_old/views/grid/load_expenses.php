@@ -9,10 +9,10 @@ if(!empty($expenses)){
         <td><?=@$key+1?></td>
         <td><?= date('M d, Y',strtotime(@$value->Date))?></td>
         <td><?=@$value->Descr?></td>
-        <td><?=@$value->Actual_Money?></td>
-        <td><?=@$value->Incharge?></td>
-        <td><?=@$value->expense?></td>
-        <td><?=@$value->Balance?></td>
+        <td><?=number_format(@$value->Actual_Money,2)?></td>
+        <td><?=@$value->FName." ".@$value->LName?></td>
+        <td><?=number_format(@$value->expense,2)?></td>
+        <td><?=number_format(@$value->Balance,2)?></td>
     </tr>
 
  <?php  

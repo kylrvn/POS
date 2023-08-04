@@ -28,43 +28,38 @@ main_header(['expense']);
                     <h3 class="card-title">Add Expense</h3>
                 </div>
 
-                <form enctype="multipart/form-data">
+                <form>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Date</label>
-                            <input type="date" id="date_exp" class="form-control inpt_edit" value="<?=date('Y-m-d')?>" placeholder="Date">
+                            <input type="date" id="date_exp" class="form-control inpt_edit" placeholder="Date" value="<?=date('Y-m-d'); ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="">Description</label>
-                            <input type="text" id="desc" class="form-control inpt_edit" placeholder="Description">
+                            <input type="text" id="desc" class="form-control inpt_edit" placeholder="Description" >
                         </div>
 
 
                         <div class="form-group">
                             <label for="">Actual Money</label>
-                            <input type="nubmer" id="aamount" class="form-control inpt_edit" placeholder="Actual Money">
+                            <input type="nubmer" id="aamount" class="form-control inpt_edit" placeholder="Actual Money" >
                         </div>
 
 
                         <!-- <div class="form-group">
                             <label for="">Incharge</label>
-                            <input type="text" id="incharge" class="form-control inpt_edit" placeholder="Incharge">
+                            <input type="text" id="incharge" class="form-control inpt_edit" placeholder="Incharge" >
                         </div> -->
 
                         <div class="form-group">
                             <label for="">Actual Expenses</label>
-                            <input type="number" id="aexp" class="form-control inpt_edit" placeholder="Actual Expenses">
+                            <input type="number" id="aexp" class="form-control inpt_edit" placeholder="Actual Expenses" >
                         </div>
 
                         <div class="form-group">
                             <label for="">Balance</label>
                             <input type="number" id="balance" class="form-control inpt_edit" placeholder="--.--" disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="">Upload Image</label>
-                            <input type="file" name="image_input_name" id="image" class="form-control">
                         </div>
 
                         <!-- <div class="form-group">
@@ -74,6 +69,11 @@ main_header(['expense']);
                                 <option value="Cebu">Cebu</option>
                             </select>
                         </div> -->
+                        
+                        <div class="form-group">
+                            <label for="">Upload Image</label>
+                            <input type="file" name="image_input_name" id="image" class="form-control">
+                        </div>
                     </div>
 
                     <div class="card-footer">
@@ -91,7 +91,6 @@ main_header(['expense']);
                     </div> -->
                 <div class="card-body">
                     <table id="tableformat1" class="table table-bordered table-striped">
-                        <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span>
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -112,13 +111,13 @@ main_header(['expense']);
                                     // $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
                             ?>
                                     <tr class="clickable-row" data-toggle="modal" data-target="#paymentProofModal" data-img="<?= $value->Image ?>">
-                                        <td><?= $key+1 ?></td>
+                                        <td><?= @$key + 1 ?></td>
                                         <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
-                                        <td><?= ucfirst(@$value->Descr) ?></td>
-                                        <td><?= @$value->FName." ".@$value->LName ?></td>
-                                        <td><?= number_format(@$value->Actual_Money,2) ?></td>
-                                        <td><?= number_format(@$value->expense,2) ?></td>
-                                        <td><?= number_format(@$value->Balance,2) ?></td>
+                                        <td><?= @$value->Descr ?></td>
+                                        <td><?= @$value->Actual_Money ?></td>
+                                        <td><?= @$value->Incharge ?></td>
+                                        <td><?= @$value->expense ?></td>
+                                        <td><?= @$value->Balance ?></td>
                                     </tr>
 
                                 <?php
@@ -141,7 +140,6 @@ main_header(['expense']);
             </div>
         </div>
     </div>
-
     <div class="modal" tabindex="-1" role="dialog" id="paymentProofModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

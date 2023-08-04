@@ -21,14 +21,14 @@ class Expense_service extends MY_Controller
 	}
 
 	public function save(){
-		// $this->esModel->date_added = $this->input->post("Date_added");
-		// $this->esModel->description = $this->input->post("Desc");
-		// $this->esModel->actual_money = $this->input->post("Actual_money");
-		// $this->esModel->incharge = $this->input->post("Incharge");
-		// $this->esModel->actual_expenses = $this->input->post("Actual_Expenses");
-		// $this->esModel->bal = $this->input->post("Balance");
-		// $this->esModel->branch = $this->input->post("Branch");
-		
+		$this->esModel->date_added = $this->input->post("Date_added");
+		$this->esModel->description = $this->input->post("Desc");
+		$this->esModel->actual_money = $this->input->post("Actual_money");
+		$this->esModel->incharge = $this->input->post("Incharge");
+		$this->esModel->actual_expenses = $this->input->post("Actual_Expenses");
+		$this->esModel->bal = $this->input->post("Balance");
+		$this->esModel->branch = $this->input->post("Branch");
+
 		$response = $this->esModel->add_expense();
 		echo json_encode($response);
 	}

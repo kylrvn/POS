@@ -43,13 +43,17 @@ main_header(['dashboard']);
 
                     <div class="card-tools">
                         <select class="form-control form-control-sm" style="width: 100%;" id="Status_filter">
-                            <option value="All">All</option>
+                            <option value="All">All Status</option>
                            <?php 
                             foreach($status as $key => $x){ ?>
                             <option value="<?=$x->ID?>"><?=$x->List_name?></option>
                            <?php } ?>
                         </select>
                     </div>
+
+                    <!-- <div class="card-tools mr-5">
+                       <input type="text" class="form-control form-control-sm" placeholder="Search by Customer">
+                    </div> -->
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">

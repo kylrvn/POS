@@ -23,11 +23,12 @@ class Expense extends MY_Controller
 	/** load main page */
 	public function index()
 	{
-		// if (
-		// 	!check_permission($this->session->Role, ['Admin'])
-		// ) {
-		// 	redirect(base_url() . 'customer', 'refresh');
-		// }
+		if (
+			!check_permission($this->session->Role, ['Admin']) &&
+			!check_permission($this->session->Role, ['Cashier'])
+		) {
+			redirect(base_url() . 'dashboard', 'refresh');
+		}
 		
 
 	// 	$this->data['session'] =  $this->session;
@@ -37,8 +38,7 @@ class Expense extends MY_Controller
 		
 	// 	$this->data['content'] = 'sales_report';
 	// 	$this->load->view('layout', $this->data);
-	// $this->coModel->ID = $this->input->get('custid');
-	$this->data['expenses'] = $this->eModel->get_expenses();
+
 	$this->data['content'] = 'index';
 	$this->load->view('layout', $this->data);
 	}

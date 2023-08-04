@@ -70,7 +70,7 @@ if(!empty($details)){
      }
 } else { ?>
          <tr>
-                <td colspan="8">
+                <td colspan="20">
                     <div><center><h6>No data available in table.</h6></center></div>
                 </td>
             </tr>

@@ -21,11 +21,14 @@ class Expense_model extends CI_Model
         $this->db->select(
             'e.*,'.
             'u.FName,'.
-            'u.LName,'
-
+            'u.LName'
         );
-        $this->db->from($this->Table->expenses.' e');
-        $this->db->join($this->Table->user.' u', 'u.ID=e.Incharge','left');
+        $this->db->from($this->Table->expenses. ' e');
+        $this->db->join($this->Table->user. ' u', 'u.ID=e.Incharge', 'left');
+        
+        if(!empty($this->session->Branch)){
+            $this->db->where('e.Incharge', $this->session->ID);
+        }
         $query = $this->db->get()->result();
         return $query;
         //  echo json_encode($query);
