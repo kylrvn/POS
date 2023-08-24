@@ -2,7 +2,7 @@
     $prevCat = '';
     foreach($list as $key => $value){ 
     ?>
-    <tr>
+    <tr onClick="editFunctionList(<?=$value->ID?>)" >
         <td>
             <?php
                 if($prevCat == $value->List_category) {

@@ -30,7 +30,7 @@ class Management_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->Table->user);
         $this->db->order_by('LName','asc');
-
+        $this->db->where('Active', 1);
         $query = $this->db->get()->result();
         return $query;
     }
@@ -39,6 +39,15 @@ class Management_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->Table->user);
         $this->db->where('ID', $this->user_id);
+
+        $query = $this->db->get()->row();
+        return $query;
+    }
+
+    public function get_list_details(){
+        $this->db->select('*');
+        $this->db->from($this->Table->list);
+        $this->db->where('ID', $this->list_id);
 
         $query = $this->db->get()->row();
         return $query;

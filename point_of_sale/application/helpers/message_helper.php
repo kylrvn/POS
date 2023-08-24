@@ -11,6 +11,7 @@ define('INVALID_USERNAME_PASSWORD', 'Invalid password.');
 define('ACCOUNT_DISABLED', 'Account is currently disabled.');
 define('SAVED_SUCCESSFUL', 'Details saved successfully.');
 define('DELETED_SUCCESSFUL', 'Details deleted successfully.');
+define('DISABLED_ACCOUNT', 'Account was disabled, please contact admin..');
 define('RENEW_SUCCESSFUL', 'Application successfully saved.');
 define('CONFIRM_RENEWAL', 'Submit this application?');
 define('NO_CRYPTO', 'No Cryptographically Secure Random Function Available.');

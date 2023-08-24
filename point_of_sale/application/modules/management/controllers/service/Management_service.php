@@ -57,4 +57,16 @@ class Management_service extends MY_Controller
 		echo json_encode($response);
 	}
 
+	public function delete_user(){
+		$this->msModel->U_ID = $this->input->post("U_ID");
+		$response = $this->msModel->delete_user();
+		echo json_encode($response);
+	}
+
+	public function delete_list(){
+		$this->msModel->ID = $this->input->post("ID");
+		$response = $this->msModel->delete_list();
+		echo json_encode($response);
+	}
+
 }

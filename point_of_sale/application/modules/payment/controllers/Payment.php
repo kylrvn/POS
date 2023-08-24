@@ -52,6 +52,7 @@ class Payment extends MY_Controller
 		$this->data['lay_artist'] = $this->pModel->get_lay_artist();
 		$this->data['set_artist'] = $this->pModel->get_set_artist();
 		$this->data['o_status'] = $this->pModel->get_o_status();
+		$this->data['cod_terms'] = $this->pModel->get_cod_terms();
 		
 		$this->data['content'] = 'index2';
 		$this->load->view('layout', $this->data);

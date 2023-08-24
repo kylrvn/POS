@@ -17,11 +17,12 @@ function myFunction(e,x){
     window.location.href = base_url+"point_of_sale/payment/?custid="+x+'&oid='+e;
 }
 
-var load_status_filter = (y) => {
+var load_status_filter = (y,x) => {
     $(document).gmLoadPage({
        url: 'dashboard/get_details',
        data: {
-        ID: y,
+        Filter_value: y,
+        Filter_type: x,
        },
        load_on: '#load_details'
    });
@@ -29,5 +30,38 @@ var load_status_filter = (y) => {
 
   $('#Status_filter').change(function() {
     var y = $(this).val();
-    load_status_filter(y);
+    var x = $('#Filter_by').val();
+    load_status_filter(y,x);
+});
+
+
+$('#search_customer').keyup(function() {
+    var y = $(this).val();
+    var x = $('#Filter_by').val();
+    load_status_filter(y,x);
+});
+
+$('#Payment_filter').change(function() {
+    var y = $(this).val();
+    var x = $('#Filter_by').val();
+    load_status_filter(y,x);
+});
+
+$('#Filter_by').change(function() {
+   var selected = $(this).val();
+
+   if(selected == "Order Status"){
+        $('#search_customer').hide();
+        $('#Payment_filter').hide();
+        $('#Status_filter').show();
+   } else if(selected == "Payment Status"){
+        $('#search_customer').hide();
+        $('#Status_filter').hide();
+        $('#Payment_filter').show();
+   } else if(selected == "Customer"){
+        $('#Status_filter').hide();
+        $('#Payment_filter').hide();
+        $('#search_customer').show();
+   }
+
 });

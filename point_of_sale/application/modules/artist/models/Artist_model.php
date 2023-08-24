@@ -20,17 +20,18 @@ class Artist_model extends CI_Model
     public function get_images(){
         $this->db->select(
             'r.*,'.
-            'c.FName,'.
-            'c.LName,'.
-            'c.Company,'.
-            'l.List_name AS Status,'.
-            'l.ID AS Status_ID'
+                'c.FName,'.
+                'c.LName,'.
+                'c.Company,'.
+                'l.List_name AS Status,'.
+                'l.ID AS Status_ID'
         );
         $this->db->from($this->Table->reference.' r');
         $this->db->join($this->Table->order.' o', 'o.ID=r.Order_ID','left');
         $this->db->join($this->Table->customer.' c', 'c.ID=o.Cust_ID','left');
         $this->db->join($this->Table->list.' l', 'l.ID=o.Status','left');
         $this->db->where('o.Layout_artist', $this->session->ID);
+        $this->db->order_by('r.ID', 'desc');
         $query = $this->db->get()->result();
 
         // echo json_encode( $query);

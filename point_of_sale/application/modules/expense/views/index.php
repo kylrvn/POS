@@ -33,6 +33,7 @@ main_header(['expense']);
                         <div class="form-group">
                             <label for="">Date</label>
                             <input type="date" id="date_exp" class="form-control inpt_edit" value="<?=date('Y-m-d')?>" placeholder="Date">
+                            <input type="text" id="ID"value="" hidden>
                         </div>
 
                         <div class="form-group">
@@ -43,7 +44,7 @@ main_header(['expense']);
 
                         <div class="form-group">
                             <label for="">Actual Money</label>
-                            <input type="nubmer" id="aamount" class="form-control inpt_edit" placeholder="Actual Money">
+                            <input type="number" id="aamount" class="form-control inpt_edit" placeholder="Actual Money">
                         </div>
 
 
@@ -52,19 +53,20 @@ main_header(['expense']);
                             <input type="text" id="incharge" class="form-control inpt_edit" placeholder="Incharge">
                         </div> -->
 
-                        <div class="form-group">
+                        <div class="form-group act_exp" style="display: none;">
                             <label for="">Actual Expenses</label>
                             <input type="number" id="aexp" class="form-control inpt_edit" placeholder="Actual Expenses">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group act_balance" style="display: none;">
                             <label for="">Balance</label>
                             <input type="number" id="balance" class="form-control inpt_edit" placeholder="--.--" disabled>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group act_image" style="display: none;">
                             <label for="">Upload Image</label>
                             <input type="file" name="image_input_name" id="image" class="form-control">
+                            <input type="text" name="image_input_name" id="image_2" class="form-control">
                         </div>
 
                         <!-- <div class="form-group">
@@ -78,7 +80,7 @@ main_header(['expense']);
 
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary" id="expbtn">Add</button>
-                        <!-- <button type="button" class="btn btn-danger" id="cancel_edit_customer">Cancel</button> -->
+                        <button type="button" class="btn btn-warning" id="expedit" style="display: none">Update</button>
                     </div>
                 </form>
             </div>
@@ -91,14 +93,14 @@ main_header(['expense']);
                     </div> -->
                 <div class="card-body">
                     <table id="tableformat1" class="table table-bordered table-striped">
-                        <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span>
+                        <!-- <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span> -->
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Date</th>
                                 <th>Description</th>
-                                <th>Actual Money</th>
                                 <th>Incharge</th>
+                                <th>Actual Money</th>
                                 <th>Actual Expenses</th>
                                 <th>Balance</th>
                             </tr>
@@ -111,7 +113,7 @@ main_header(['expense']);
                                     // $d_date = date('Y-m-d',strtotime($value->Deadline));
                                     // $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
                             ?>
-                                    <tr class="clickable-row" data-toggle="modal" data-target="#paymentProofModal" data-img="<?= $value->Image ?>">
+                                    <tr>
                                         <td><?= $key+1 ?></td>
                                         <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
                                         <td><?= ucfirst(@$value->Descr) ?></td>
@@ -119,6 +121,10 @@ main_header(['expense']);
                                         <td><?= number_format(@$value->Actual_Money,2) ?></td>
                                         <td><?= number_format(@$value->expense,2) ?></td>
                                         <td><?= number_format(@$value->Balance,2) ?></td>
+                                        <td>
+                                            <button class=" btn-primary btn-xs edit_exp" value="<?=$value->ID?>"><i class="fa fa-pencil-alt"></i></button>
+                                            <button class=" btn-success btn-xs clickable-row"  data-toggle="modal" data-target="#paymentProofModal" data-img="<?= $value->Image ?>"><i class="fa fa-eye"></i></button>
+                                        </td>
                                     </tr>
 
                                 <?php

@@ -42,7 +42,7 @@ main_header(['dashboard']);
                     </div> -->
 
                     <div class="card-tools">
-                        <select class="form-control form-control-sm" style="width: 100%;" id="Status_filter">
+                        <select class="form-control form-control-sm" style="width: 100%;  display:none;" id="Status_filter">
                             <option value="All">All Status</option>
                            <?php 
                             foreach($status as $key => $x){ ?>
@@ -51,26 +51,44 @@ main_header(['dashboard']);
                         </select>
                     </div>
 
-                    <!-- <div class="card-tools mr-5">
-                       <input type="text" class="form-control form-control-sm" placeholder="Search by Customer">
-                    </div> -->
+                    <div class="card-tools mr-5">
+                       <input type="text" class="form-control form-control-sm" style="width: 100%;  display:none;"  id="search_customer" placeholder="Search by Customer">
+                    </div>
+
+                    <div class="card-tools">
+                        <select class="form-control form-control-sm" style="width: 100%;  display:none;" id="Payment_filter">
+                            <option value="All">All Status</option>
+                            <option value="Unpaid">Unpaid</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Down">Down</option>
+                        </select>
+                    </div>
+
+                    <div class="card-tools mr-5">
+                        <select class="form-control form-control-sm" style="width: 100%;" id="Filter_by">
+                            <option value="" disabled selected>-- Filter By --</option>
+                            <option value="Customer">Customer</option>
+                            <option value="Payment Status">Payment Status</option>
+                            <option value="Order Status">Order Status</option>
+                        </select>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap table-sm table-striped text-center">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Item Code</th>
                                 <th>Customer</th>
                                 <th>Contact Number</th>
-                                <th>Items</th>
+                                <th>Mockup Design</th>
                                 <th>Status</th>
                                 <th>Book Date</th>
                                 <th>Deadline</th>
                                 <th>Sewer</th>
                                 <th>Layout Artist</th>
                                 <th>Setup Artist</th>
-                                <th>Mockup Design</th>
+                                <th>Items</th>
                                 <th>Total Amount</th>
                                 <th>Received Payment</th>
                                 <th>Balance</th>

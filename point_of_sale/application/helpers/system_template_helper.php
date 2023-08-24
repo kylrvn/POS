@@ -116,7 +116,7 @@ function main_header($menubar = [])
               </p>
             </a>
             <ul class="nav nav-treeview" >
-              <li class="nav-item"  style="display:<?= $session->Role == "Artist" ? 'none' : ''?>">
+              <li class="nav-item">
                 <a href="<?= base_url()?>dashboard" class="nav-link <?= (sidebar($menubar, ['dashboard'])) ? 'active' : '' ?>">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
@@ -125,7 +125,7 @@ function main_header($menubar = [])
               <li class="nav-item" style="display: <?= $session->Role == "Artist" ? '' : 'none'?>">
                 <a href="<?= base_url()?>artist" class="nav-link <?= (sidebar($menubar, ['artist'])) ? 'active' : '' ?>">
                   <i class="nav-icon fas fa-brush"></i>
-                  <p>Artist</p>
+                  <p>Assigned Layouts</p>
                 </a>
               </li>
               <li class="nav-item"  style="display:<?= $session->Role == "Artist" ? 'none' : ''?>">
@@ -181,7 +181,15 @@ function main_header($menubar = [])
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= base_url()?>report" class="nav-link <?= (sidebar($menubar, ['sales_report'])) ? 'active' : '' ?>">
+                <a href="<?= base_url()?>report" class="nav-link <?= (sidebar($menubar, ['summary_report'])) ? 'active' : '' ?>">
+                  <i class="fas fa-chart-line nav-icon"></i>
+                  <p>Summary Report</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?= base_url()?>report/sales" class="nav-link <?= (sidebar($menubar, ['sales_report'])) ? 'active' : '' ?>">
                   <i class="fas fa-chart-line nav-icon"></i>
                   <p>Sales Report</p>
                 </a>

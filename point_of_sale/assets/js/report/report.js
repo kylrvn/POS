@@ -19,10 +19,30 @@ var load_top_items = () => {
   });
 };
 
+var load_daily_sales = () => {
+  $(document).gmLoadPage({
+    url: "report/load_daily_sales",
+    load_on: "#load_daily_sales",
+  });
+};
 
 $(document).ready(function () {
   load_summ();
   load_items();
+  load_daily_sales();
+});
+
+$(document).on('click', '#submit_date', function() {
+  console.log($('#d_from').val() + " "+ $('#d_to').val());
+  $(document).gmLoadPage({
+      url: "report/load_daily_sales",
+      data: {
+          d_from: $('#d_from').val(),
+          d_to: $('#d_to').val()
+      },
+      load_on: "#load_daily_sales",
+  })
+
 });
 
 //onchange trigger on year
@@ -166,3 +186,4 @@ function load_chart() {
     options: lineChartOptions,
   });
 }
+

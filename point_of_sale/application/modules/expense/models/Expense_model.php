@@ -26,9 +26,21 @@ class Expense_model extends CI_Model
         );
         $this->db->from($this->Table->expenses.' e');
         $this->db->join($this->Table->user.' u', 'u.ID=e.Incharge','left');
+
+        if(!empty($this->session->Branch)){
+            $this->db->where('c.Branch', $this->session->Branch);
+        }
         $query = $this->db->get()->result();
         return $query;
         //  echo json_encode($query);
     }
 
+    public function get_expense_details(){
+        $this->db->select('*');
+        $this->db->from($this->Table->expenses);
+        $this->db->where('ID', $this->exp_id);
+
+        $query = $this->db->get()->row();
+        return $query;
+    }
 }

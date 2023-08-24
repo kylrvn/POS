@@ -194,4 +194,95 @@ class Report_model extends CI_Model
         $query = $this->db->get()->result();
         return $query;
     }
+
+    public function get_daily_sales(){
+        $this->db->select(
+            'p.ID as P_ID,'.
+            'p.Order_ID,'.
+            'p.Amount_paid as P_Amount_paid,'.
+            'p.Status as P_Status,'.
+            'p.Date_paid as P_Date_paid,'.
+            'o.*,'.
+            'c.*,'.
+            'l.*,'.
+            'u.FName as UFName,'.
+            'u.LName as ULName,'.
+            'pr.ID as Proof_ID'
+        );
+        $this->db->from($this->Table->payment. ' p');
+        $this->db->join($this->Table->order. ' o', 'o.ID=p.Order_ID', 'left');
+        $this->db->join($this->Table->customer. ' c', 'c.ID=o.Cust_ID', 'left');
+        $this->db->join($this->Table->item. ' i', 'i.Order_ID=o.ID', 'left');
+        $this->db->join($this->Table->list. ' l', 'l.ID=p.Payment_mode', 'left');
+        $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
+        $this->db->join($this->Table->proof. ' pr', 'pr.Payment_ID=p.ID', 'left');
+        $this->db->join($this->Table->user. ' u', 'u.ID=p.Incharge_ID', 'left');
+
+        if(!empty($this->d_from || $this->d_to)){
+            $this->db->where('p.Date_paid >=', $this->d_from);
+            $this->db->where('p.Date_paid <=', $this->d_to);
+
+        } else{
+            $this->db->like('p.Date_paid', date('Y-m-d'));
+
+        }
+        if(!empty($this->session->Branch)){
+            $this->db->where('c.Branch', $this->session->Branch);
+        }
+        $query = $this->db->get()->result();
+
+        
+        foreach ($query as $key => $value) {
+            $query[$key]->items =  $this->get_items($value->Order_ID);
+            $query[$key]->paid = $this->get_amount_paid($value->Order_ID);
+            $query[$key]->proof = $this->get_proof($value->Proof_ID);
+        }
+
+       return $query;
+    }
+
+
+    public function get_items($ID){
+        $this->db->select(
+            'i.*,'.
+            'l.List_name as Item_name'
+        );
+        $this->db->from($this->Table->item. ' i');
+        $this->db->join($this->Table->list. ' l', 'l.ID=i.Item_id', 'left');
+        $this->db->where('Order_ID', $ID);
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
+    public function get_amount_paid($O_ID){
+        $this->db->select('*');
+        $this->db->from($this->Table->payment);
+        $this->db->where('Order_ID', $O_ID);
+        $query = $this->db->get()->result();
+
+        $Amount = 0;
+
+        foreach ($query as $key => $value) {
+            $Amount += $value->Amount_paid;
+        }
+         return $Amount;
+    }
+    public function get_proof($P_ID){
+        $this->db->select('*');
+        $this->db->from($this->Table->proof);
+        $this->db->where('Payment_ID', $P_ID);
+        $query = $this->db->get()->row();
+
+
+         return $query;
+    }
+
+    public function get_status(){
+        $this->db->select('*');
+        $this->db->from($this->Table->list);
+        $this->db->where('List_category', "Status");     
+        $query = $this->db->get()->result();
+
+        return $query;
+    }
 }

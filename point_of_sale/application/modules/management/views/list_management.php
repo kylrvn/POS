@@ -49,6 +49,7 @@ main_header(['list_management']);
                         </div>
                         <div class="card-footer">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default" id="Save">Submit</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-list" style="display: none" id="Delete">Delete</button>
                         </div>
                     </form>
                 </div>
@@ -88,7 +89,7 @@ main_header(['list_management']);
     </div>
 </section>
 
-<!-- CONFIRMATION MODAL -->
+<!-- CONFIRMATION MODAL SAVE -->
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -104,6 +105,27 @@ main_header(['list_management']);
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="save_list">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONFIRMATION MODAL DELETE -->
+<div class="modal fade" id="modal-list">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure you want to delete list?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div> -->
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="delete_list">Yes</button>
             </div>
         </div>
     </div>

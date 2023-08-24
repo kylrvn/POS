@@ -27,12 +27,9 @@ class Login_model extends CI_Model
             $this->db->where('Username', $this->username);
             $query = $this->db->get()->row();
             
-            // if($this->password == $query->Password){
-            //    return array('has_error' => false, 'message' => 'Login Success');
-            // }
-            // else{
-            //     throw new Exception(NOT_MATCH, true);
-            // }
+            if($query->Active == 0){
+                throw new Exception(DISABLED_ACCOUNT, true);
+            }
             
             if(empty($query)){
                 throw new Exception(NO_ACCOUNT, true);

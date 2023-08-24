@@ -49,5 +49,11 @@ class Expense extends MY_Controller
 		$this->data['content'] = 'grid/load_expenses';
 		$this->load->view('layout', $this->data);
 	}
-	
+
+	public function get_expense_details(){
+		$this->eModel->exp_id = $this->input->post("exp_id");
+		$this->data['exp_details'] = $this->eModel->get_expense_details();
+		$response = $this->eModel->get_expense_details();
+		echo json_encode($response);
+	}
 }

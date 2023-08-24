@@ -234,5 +234,22 @@ class Payment_model extends CI_Model
          return $query;
         // echo json_encode($query);
     }
+
+    public function get_cod_terms(){
+        $this->db->select(
+            'p.*,'.
+            'l.List_name'
+        );
+
+        $this->db->order_by('ID','desc');
+        $this->db->where('Order_ID', $this->OrderID);
+        // $this->db->where('Payment_mode', 51);
+        $this->db->from($this->Table->payment . ' p');
+        $this->db->join($this->Table->list . ' l', 'l.ID = p.Payment_mode');
+        $query = $this->db->get()->row();
+
+         return $query;
+        // echo json_encode($query);
+    }
     
 }

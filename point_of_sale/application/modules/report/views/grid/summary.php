@@ -11,15 +11,17 @@
               <td>&#8369 <?= number_format($value->total, 2) ?></td>
               <td>&#8369 
                 <?php 
+                $expense_total = 0;
                   foreach($expense as $key => $exp){
                     if(date('F', strtotime($value->Date_paid)) == date('F', strtotime($exp->Date))){
                       echo number_format($exp->totalexpense, 2);
+                      $expense_total=$exp->totalexpense;
                     }
                   }
                 ?>
 
               </td>
-              <td>&#8369 <?= number_format($value->total, 2) ?></td>
+              <td>&#8369 <?= number_format($value->total - $expense_total, 2) ?></td>
           </tr>
       <?php }
     } else {

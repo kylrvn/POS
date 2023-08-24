@@ -62,7 +62,7 @@ main_header(['create_order']);
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>Items</label>
+                                            <label><?=$order_dets->Jo_num?></label>
                                             <table class="table table-bordered" id="table_id">
                                                 <thead>
                                                     <tr>
@@ -128,8 +128,26 @@ main_header(['create_order']);
                                            <input type="number" id="Balance" value="<?=number_format($balance,2)?>" hidden>
                                         </div>
                                     </div>
+                                    
+                                    <br>
+                                    
+                                    <div class="row text-center mt-2" style="border-top: 1px solid black" id="cod_terms" 
+                                        <?php if($cod_terms->List_name == "Cash" || $cod_terms->List_name == "Online Payment"){
+                                            echo 'hidden';
+                                        }?>
+                                    
+                                    >
+                                        <div class="col-sm-6">
+                                            <h6>COD / Terms</h6>
+                                            <b><?=$cod_terms->List_name?></b>
+                                        </div>
+                                        <div class="col-sm-6">
+                                           <h6>Set Due Date</h6>
+                                           <b><?=date('M d, Y', strtotime($cod_terms->Due_date))?></b>
+                                        </div>
+                                    </div>
 
-                                    <div class="row text-center mt-2" style="border-top: 1px solid black">
+                                    <div class="row text-center mt-2">
                                         <div class="col-sm-10 mt-2">
                                             <form action="" class="form-horizontal">
                                                 <div class="form-group row">
@@ -153,22 +171,52 @@ main_header(['create_order']);
                                                             </label>
                                                         </form>    
                                                         </div> -->
-                                                        <div class="custom-file" id="proof_of_payment_group" style="display: none;">
-                                                            <form id="uploadFormProof" enctype="multipart/form-data">
-                                                                <input type="file" class="custom-file-input" name="files[]" id="payment_proof" multiple>
-                                                                <label class="custom-file-label" for="exampleInputFile">
-                                                                    Choose file
-                                                                </label>
-                                                            </form>    
-                                                        </div>
+                                                    <div class="custom-file" id="proof_of_payment_group" style="display: none;">
+                                                        <form id="uploadFormProof" enctype="multipart/form-data">
+                                                            <input type="file" class="custom-file-input" name="files[]" id="payment_proof" multiple>
+                                                            <label class="custom-file-label" for="exampleInputFile">
+                                                                Choose file
+                                                            </label>
+                                                        </form>    
+                                                    </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                <div class="form-group row" id="rec_num">
+                                                    <label class="col-sm-4 col-form-label"><small>Receipt Number</small></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control form-control-sm"  id="Receipt_number" <?= $balance == 0 ? 'disabled' : ''?> placeholder="Enter Receipt Number">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" id="ref_num" style="display: none;">
+                                                    <label class="col-sm-4 col-form-label"><small>Reference Number</small></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control form-control-sm"  id="Reference_number" <?= $balance == 0 ? 'disabled' : ''?> placeholder="Enter Reference Number">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" id="terms" style="display: none;">
+                                                    <label class="col-sm-4 col-form-label"><small>P.O Number</small></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control form-control-sm"  id="po_number" <?= $balance == 0 ? 'disabled' : ''?> placeholder="Enter P.O Number">
+                                                    </div>
+                                                </div>
+                                                 <div class="form-group row" id="way_num" style="display: none;">
+                                                    <label class="col-sm-4 col-form-label"><small>Waybill Number</small></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control form-control-sm"  id="Waybill_number" <?= $balance == 0 ? 'disabled' : ''?> placeholder="Enter Waybill Number">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" id="d_date" style="display: none;">
+                                                    <label class="col-sm-4 col-form-label"><small>Due Date</small></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" class="form-control form-control-sm" id="Due_date" <?= $balance == 0 ? 'disabled' : ''?>>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" id="amnt">
                                                     <label class="col-sm-4 col-form-label"><small>Amount</small></label>
                                                     <div class="col-sm-8">
                                                         <input type="number" class="form-control form-control-sm"  id="Amount_paid" placeholder="Amount" <?= $balance == 0 ? 'disabled' : ''?>>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                <div class="form-group row" id="chnge">
                                                     <label class="col-sm-4 col-form-label"><small>Change</small></label>
                                                     <div class="col-sm-8">
                                                         <input type="number" class="form-control form-control-sm text-danger text-bold" id="change" placeholder="Change" disabled>
@@ -179,7 +227,7 @@ main_header(['create_order']);
                                         </div>
                                     </div>
                                    <div class="text-right">
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default" <?= $balance == 0 ? 'disabled' : ''?>>Submit Payment</button>
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default" <?= $balance == 0 ? 'disabled' : ''?> <?=$session->Role=="Artist" ? 'disabled' : ''?>>Submit Payment</button>
 
                                    </div>
                                 </div>
@@ -267,7 +315,7 @@ main_header(['create_order']);
                                             </select>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-xs btn-primary btn-flat mt-2" id="update_dets">Update</button>
+                                    <button type="button" class="btn btn-xs btn-primary btn-flat mt-2" id="update_dets" <?=$session->Role=="Artist" ? 'disabled' : ''?>>Update</button>
                                     <button type="button" class="btn btn-xs btn-danger btn-flat mt-2" id="cancel">Cancel</button>
                                     <button type="button" class="btn btn-xs btn-success btn-flat mt-2" data-oid="<?=$order_dets->ID?>" id="save_dets">Save</button>
                                     
@@ -351,11 +399,11 @@ main_header(['create_order']);
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <table class="table table-bordered table-sm">
-                                                <thead>
+                                                <thead style="font-size: 14px;">
                                                     <tr>
                                                         <td>#</td>
                                                         <th>Amount Paid</th>
-                                                        <th>Date Paid</th>
+                                                        <th>Date Paid / Due Date</th>
                                                         <th>Payment Mode</th>
                                                         <th>Received By</th>
                                                     </tr>
@@ -364,14 +412,26 @@ main_header(['create_order']);
 <tbody>
     <?php foreach ($p_history as $key => $value) { ?>
         <?php
-        $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
+        $clickableClass = ($value->Mode == 'Online Payment') ? 'clickable-row' : '';
         $modalID = 'paymentProofModal' . $key; // Unique modal ID for each row
         ?>
         <tr class="<?=$clickableClass?>" data-toggle="<?=$value->Mode == "Cash" ? '' : 'modal'?>" data-target="#<?=$modalID?>" data-pID="<?=$value->ID?>">
             <td><?=$key + 1?></td>
             <td>&#8369 <?=number_format($value->Amount_paid, 2)?></td>
-            <td><?=date('M d, Y', strtotime($value->Date_paid))?></td>
-            <td><?=$value->Mode?></td>
+            <td><?=$value->Mode == "Cash On Delivery (COD)" ? date('M d, Y', strtotime($value->Due_date)) : date('M d, Y', strtotime($value->Date_paid))?></td>
+            <td>
+                <?php
+                    if($value->Mode == "Cash"){
+                        echo $value->Mode."(".$value->Receipt_num.")";
+                    } else if($value->Mode == "Online Payment"){
+                        echo $value->Mode;
+                    } else if($value->Mode == "Cash On Delivery (COD)"){
+                        echo $value->Mode;
+                    } else if($value->Mode == "Terms"){
+                        echo $value->Mode;
+                    }
+                ?>
+            </td>
             <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)?></td>
         </tr>
     <?php } ?>
@@ -428,7 +488,7 @@ main_header(['create_order']);
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <!-- Add data attribute with the filename of the uploaded mockup design -->
-                <button type="button" class="btn btn-primary" data-oid="<?=$order_dets->ID?>" id="pay" data-mockup-filename="<?=$mockup_img->Mockup_design?>">Pay</button>
+                <button type="button" class="btn btn-primary" data-oid="<?=@$order_dets->ID?>" id="pay" data-mockup-filename="<?=@$mockup_img->Mockup_design?>">Pay</button>
             </div>
         </div>
     </div>

@@ -49,7 +49,9 @@ class Create_order_services_model extends CI_Model
             $this->db->insert($this->Table->order,$data);
             $ID = $this->db->insert_id();
 
+            $this->update_jo_number($ID);
             $this->save_items($ID);
+
 
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE)
@@ -66,6 +68,17 @@ class Create_order_services_model extends CI_Model
         }
     }
 
+    public function update_jo_number($ID){
+        
+        $data = array(
+            'Jo_num' => "JO-00".$ID
+        );
+
+
+        $this->db->where('ID', $ID);
+        $this->db->update($this->Table->order,$data);
+    }
+    
     public function save_items($order_id){
         try{     
             $lenght = sizeof($this->Item_id);

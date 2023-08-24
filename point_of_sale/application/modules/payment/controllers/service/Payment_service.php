@@ -28,6 +28,11 @@ class Payment_service extends MY_Controller
     $this->psModel->Amount_paid = $this->input->post("Amount_paid");
     $this->psModel->Payment_mode = $this->input->post("Payment_mode");
     $this->psModel->mockupFilename = $this->input->post("mockupFilename");
+    $this->psModel->Receipt_number = $this->input->post("Receipt_number");
+    $this->psModel->Reference_number = $this->input->post("Reference_number");
+    $this->psModel->Waybill_number = $this->input->post("Waybill_number");
+    $this->psModel->po_number = $this->input->post("po_number");
+    $this->psModel->Due_date = $this->input->post("Due_date");
 
     // Check if an image file is uploaded
     if (!empty($_FILES['image']['name'])) {

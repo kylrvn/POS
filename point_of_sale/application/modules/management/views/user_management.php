@@ -69,6 +69,7 @@ main_header(['user_management']);
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default" id="Save">Submit</button>
                             <button type="button" class="btn btn-warning"  id="Update" value="" style="display:none">Update</button>
                             <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#r_modal-default" id="Reset" value="" style="display:none">Reset Password</button>
+                            <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#d_modal-default" id="Delete" value="" style="display:none">Delete User</button>
                         </div>
                     </form>
                 </div>
@@ -136,6 +137,27 @@ main_header(['user_management']);
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 <button type="button" class="btn btn-primary" id="reset_pass" value="">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div class="modal fade" id="d_modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure you want to delete this user?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div> -->
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="delete_user" value="">Yes</button>
             </div>
         </div>
     </div>

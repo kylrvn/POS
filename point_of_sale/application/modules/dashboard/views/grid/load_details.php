@@ -5,20 +5,39 @@ if(!empty($details)){
     $curr_date = date('Y-m-d');
     foreach($details as $key => $value){ 
         $d_date = date('Y-m-d',strtotime($value->Deadline));
+        $fivedays = date("Y-m-d", strtotime("-5 days", strtotime($curr_date)));
         ?>
     <tr  onClick="myFunction(<?=$value->Order_ID?>, <?=$value->Customer_ID?>)" >
-        <td><?=$key+1?></td>
+        <!-- <td><?=$key+1?></td> -->
+        <td><?=$value->Jo_num?></td>
         <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)." / ".ucfirst($value->Company)?></td>
         <td><?=$value->CNumber?></td>
-        <td>
-            <?php foreach($value->items as $key => $items){
-                $total  = $items->Item_qty * $items->Item_unitprice;
-                echo $items->Item_name." x ".$items->Item_qty." = ".number_format($total).'<br>';
-            }?>
+        <td>   
+            <?php
+                if(empty(@$value->mock_up->Mockup_design)){
+                    echo "File Not Found";
+                } else { ?>
+                <img src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=@$value->mock_up->Mockup_design?>"class="img-fluid">
+
+               <?php }
+            ?>
         </td>
         <td><?=$value->Status?></td>
         <td><?=date('M d, Y', strtotime($value->Book_date))?></td>
-        <td class="<?= $curr_date >= $d_date ? 'text-danger text-bold':''?>"><?=date('M d, Y',strtotime($value->Deadline))?></td>
+        <td class="
+            <?php
+                if($value->paid >= $value->Total_amt){
+                    echo 'text-bold';
+                } else if($curr_date >= $d_date){
+                    echo 'text-indigo text-bold';
+                }
+                else if($fivedays <= $d_date){
+                    echo "text-danger text-bold";
+                }
+            ?>
+        ">
+            <?=date('M d, Y',strtotime($value->Deadline))?>
+        </td>
         <td> 
             <?php foreach($value->sewer as $key => $sewer){
                 echo ucfirst($sewer->FName)." ".ucfirst($sewer->LName);
@@ -34,15 +53,11 @@ if(!empty($details)){
                 echo ucfirst($setup->FName)." ".ucfirst($setup->LName);
             }?>
         </td>
-        <td>   
-            <?php
-                if(empty(@$value->mock_up->Mockup_design)){
-                    echo "File Not Found";
-                } else { ?>
-                <img src="<?php echo base_url(); ?>assets/uploaded/proofs/<?=@$value->mock_up->Mockup_design?>"class="img-fluid">
-
-               <?php }
-            ?>
+        <td>
+            <?php foreach($value->items as $key => $items){
+                $total  = $items->Item_qty * $items->Item_unitprice;
+                echo $items->Item_name." x ".$items->Item_qty." x ".number_format($items->Item_unitprice,2).'<br>';
+            }?>
         </td>
         <td><?=number_format($value->Total_amt,2)?></td>
         <td> 

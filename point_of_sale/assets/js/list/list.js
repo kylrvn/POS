@@ -99,11 +99,35 @@ var editFunction = (x) => {
             $('#Role').val(e.Role);
             $('#Branch').val(e.Branch);
             $('#Update').val(e.U_ID);
+            $('#delete_user').val(e.U_ID);
             $('#reset_pass').val(e.U_ID);
             
             $('#Save').css('display','none');
             $('#Update').css('display','inline');
             $('#Reset').css('display','inline');
+            $('#Delete').css('display','inline');
+    },
+  })
+}
+
+var editFunctionList = (x) => {
+  $.post({
+    url: 'management/get_list_details',
+    // selector: '.form-control',
+    data: {
+        list_id : x,
+    },
+    success:function(e)
+        {
+            var e = JSON.parse(e);
+            $('#List').val(e.List_name);
+            $('#Category').val(e.List_category);
+            var x = document.getElementById("List").disabled = true;
+            var y = document.getElementById("Category").disabled = true;
+            $('#delete_list').val(e.ID);
+            
+            $('#Save').css('display','none');
+            $('#Delete').css('display','inline');
     },
   })
 }
@@ -140,6 +164,54 @@ $('#Update').click(function() {
                 $('#modal-default').modal('hide');
                 toastr.error(e.message); 
               }
+      },
+  })
+});
+
+$('#delete_user').click(function() {
+  $.post({
+      url: 'service/Management_service/delete_user',
+      // selector: '.form-control',
+      data: {
+          U_ID: $(this).val(),
+          
+      },
+      success:function(e)
+          {
+          var e = JSON.parse(e);
+          if(e.has_error == false){
+              $('#modal-default').modal('hide');
+              toastr.success(e.message);
+              load_user();
+              setTimeout(function(){
+                window.location.reload();
+            },2000); 
+
+          } 
+      },
+  })
+});
+
+$('#delete_list').click(function() {
+  $.post({
+      url: 'management/service/Management_service/delete_list',
+      // selector: '.form-control',
+      data: {
+          ID: $(this).val(),
+          
+      },
+      success:function(e)
+          {
+          var e = JSON.parse(e);
+          if(e.has_error == false){
+              $('#modal-default').modal('hide');
+              toastr.success(e.message);
+              load_list();
+              setTimeout(function(){
+                window.location.reload();
+            },2000); 
+
+          } 
       },
   })
 });

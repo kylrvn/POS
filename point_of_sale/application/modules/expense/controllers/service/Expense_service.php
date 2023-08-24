@@ -32,4 +32,9 @@ class Expense_service extends MY_Controller
 		$response = $this->esModel->add_expense();
 		echo json_encode($response);
 	}
+
+	public function edit(){	
+		$response = $this->esModel->edit_expense();
+		echo json_encode($response);
+	}
 }

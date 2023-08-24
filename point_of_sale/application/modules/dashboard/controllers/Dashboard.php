@@ -43,7 +43,8 @@ class Dashboard extends MY_Controller
 
 
 	public function get_details(){
-		$this->dModel->ID = $this->input->post("ID");
+		$this->dModel->Filter_value = $this->input->post("Filter_value");
+		$this->dModel->Filter_type = $this->input->post("Filter_type");
 		$this->data['details'] = $this->dModel->get_details();
 		$this->data['content'] = 'grid/load_details';
 		$this->load->view('layout', $this->data);

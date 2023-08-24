@@ -7,7 +7,8 @@ if(!empty($orders)){
         $d_date = date('Y-m-d',strtotime($value->Deadline));
         ?>
     <tr  onClick="myFunction(<?=$value->ID?>, <?=$value->Cust_ID?>)" >
-        <td><?=$key+1?></td>
+        <!-- <td><?=$key+1?></td> -->
+        <td><?=$value->Jo_num?></td>
         <td><?= date('M d, Y',strtotime($value->Book_date))?></td>
         <td class="<?= $curr_date >= $d_date ? 'text-danger text-bold':''?>"><?=date('M d, Y',strtotime($value->Deadline))?></td>
     </tr>

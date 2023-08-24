@@ -152,6 +152,54 @@ class Management_services_model extends CI_Model
         }
     }
 
+    public function delete_user(){
+        try{     
+            $data = array(
+                'Active' => '0',
+            );
+
+            $this->db->trans_start();
+            
+            $this->db->where('U_ID', $this->U_ID);
+            $this->db->update($this->Table->user,$data);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function delete_list(){
+        try{     
+            $this->db->trans_start();
+            
+            $this->db->where('ID', $this->ID);  
+            $this->db->delete($this->Table->list);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
     public function reset(){
         try{     
 

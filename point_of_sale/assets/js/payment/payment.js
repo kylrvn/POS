@@ -31,6 +31,11 @@ $(document).on('click', '#pay', function() {
     formData.append('Order_id', $(this).data('oid'));
     formData.append('Amount_paid', $('#Amount_paid').val());
     formData.append('Payment_mode', $('#Payment_mode').val());
+    formData.append('Receipt_number', $('#Receipt_number').val());
+    formData.append('Reference_number', $('#Reference_number').val());
+    formData.append('Due_date', $('#Due_date').val());
+    formData.append('Waybill_number', $('#Waybill_number').val());
+    formData.append('po_number', $('#po_number').val());
     formData.append('image', $("#payment_proof")[0].files[0]);
 
     var payBtn = document.getElementById('pay');
@@ -63,9 +68,9 @@ $(document).on('click', '#pay', function() {
             }
         },
     });
-      setTimeout(function() {
-        window.location.reload();
-    }, 2000);
+    //   setTimeout(function() {
+    //     window.location.reload();
+    // }, 2000);
 });
 
 
@@ -211,14 +216,55 @@ $(document).ready(function() {
 
         // Get the proof of payment group element
         var proofOfPaymentGroup = $('#proof_of_payment_group');
+        var rec_num = $('#rec_num');
+        var ref_num = $('#ref_num');
+        var way_num = $('#way_num');
+        var terms = $('#terms');
+        var amount = $('#amnt');
+        var change = $('#chnge');
+        var d_date = $('#d_date');
 
         // Check if the selected option is "Online"
         if (selectedOption === "50") {
-            // Show the proof of payment group
-            proofOfPaymentGroup.css('display', 'block');
-        } else {
-            // Hide the proof of payment group
+            // Proof of payment
+            proofOfPaymentGroup.css('display', 'inline');
+            ref_num.show();
+            amount.show();
+            change.show();
+            rec_num.css('display', 'none');
+            way_num.css('display', 'none');
+            terms.css('display', 'none');
+            d_date.css('display', 'none');
+        } else if(selectedOption === "49"){
+            // Cash
             proofOfPaymentGroup.css('display', 'none');
+            ref_num.css('display', 'none');
+            way_num.css('display', 'none');
+            terms.css('display', 'none');
+            d_date.css('display', 'none');
+            rec_num.show();
+            amount.show();
+            change.show();
+        } else if(selectedOption === "51"){
+            // COD
+            proofOfPaymentGroup.css('display', 'none');
+            ref_num.css('display', 'none');
+            rec_num.css('display', 'none');
+            amount.css('display', 'none');
+            change.css('display', 'none');
+            terms.css('display', 'none');
+            way_num.show();
+            d_date.show();
+        } else if(selectedOption === "52"){
+            // Terms
+            proofOfPaymentGroup.css('display', 'none');
+            ref_num.css('display', 'none');
+            rec_num.css('display', 'none');
+            amount.css('display', 'none');
+            change.css('display', 'none');
+            way_num.css('display', 'none');
+            d_date.show();
+            terms.show();
         }
     });
 });

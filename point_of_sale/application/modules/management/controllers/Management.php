@@ -64,4 +64,11 @@ class Management extends MY_Controller
 		$response = $this->mModel->get_user_for_edit();
 		echo json_encode($response);
 	}
+
+	public function get_list_details(){
+		$this->mModel->list_id = $this->input->post("list_id");
+		$this->data['list_details'] = $this->mModel->get_list_details();
+		$response = $this->mModel->get_list_details();
+		echo json_encode($response);
+	}
 }

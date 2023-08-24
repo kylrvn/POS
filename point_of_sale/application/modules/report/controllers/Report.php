@@ -36,15 +36,15 @@ class Report extends MY_Controller
 		$this->data['online'] =  $this->rModel->get_online();
 		$this->data['expense'] =  $this->rModel->get_expense();
 		
-		$this->data['content'] = 'sales_report';
+		$this->data['content'] = 'summary_report';
 		$this->load->view('layout', $this->data);
 	}
 
-	// public function load_summ(){
-	// 	$this->data['monthly'] =  $this->rModel->get_monthly();
-	// 	$this->data['content'] = ('grid/chart');
-	// 	$this->load->view('layout', $this->data);
-	// }
+	public function sales(){
+		// $this->data['monthly'] =  $this->rModel->get_monthly();
+		$this->data['content'] = 'sales_report';
+		$this->load->view('layout', $this->data);
+	}
 
 	public function load_summ() {
 		$monthlyData = $this->rModel->get_monthly();
@@ -79,5 +79,15 @@ class Report extends MY_Controller
 	// 	// $this->load->view('grid/chart', $chartData);
 	// }
 	
+
+	public function load_daily_sales() {
+		$this->rModel->d_from = $this->input->post("d_from");
+		$this->rModel->d_to = $this->input->post("d_to");
+
+		$this->data['details'] = $this->rModel->get_daily_sales();
+	
+		$this->data['content'] = 'grid/load_daily_sales';
+		$this->load->view('layout', $this->data);
+	}
 	
 }

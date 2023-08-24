@@ -22,7 +22,7 @@ class Dashboard_model extends CI_Model
             'o.*,'.
             'c.*,'.
             'i.*,'.
-            'r.*,'.
+            'r.Mockup_design,'.
             'l.List_name as Status'
         );
         $this->db->from($this->Table->order. ' o');
@@ -31,8 +31,18 @@ class Dashboard_model extends CI_Model
         $this->db->join($this->Table->list. ' l', 'l.ID=o.Status', 'left');
         $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
 
-        if(!empty($this->ID) && $this->ID != "All"){
-            $this->db->where('Status', $this->ID);
+        if(!empty($this->Filter_value) && $this->Filter_value != "All"){
+            if($this->Filter_type == "Order Status"){
+                $this->db->where('Status', $this->Filter_value);
+            } 
+            else if($this->Filter_type == "Customer" && !empty($this->Filter_value)){
+                $this->db->like('CONCAT(c.FName, " ", c.LName)', $this->Filter_value);
+                $this->db->or_like('c.Company', $this->Filter_value);
+            }
+             else if($this->Filter_type == "Payment Status"){
+                $this->db->where('o.Payment_status', $this->Filter_value);
+            }
+           
         } 
         // $this->db->join($this->Table->payment. ' p', '.ID=o.Status', 'left');
 
@@ -40,6 +50,7 @@ class Dashboard_model extends CI_Model
             $this->db->where('c.Branch', $this->session->Branch);
         }
         $this->db->group_by('i.Order_id');
+        $this->db->order_by('o.ID', 'desc');
         $query = $this->db->get()->result();
 
         

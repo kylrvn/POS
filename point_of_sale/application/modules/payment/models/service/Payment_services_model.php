@@ -20,17 +20,26 @@ class Payment_services_model extends CI_Model
     }
 
     public function save_payment(){
+
         try{     
-            if(
-                empty($this->Amount_paid)){
-                throw new Exception("Please enter amount to pay", true);
-            }   
-            
+            if($this->Payment_mode == 50 || $this->Payment_mode == 49){
+                if(empty($this->Amount_paid)){
+                    throw new Exception("Please enter amount to pay", true);
+                }       
+            }
+          
+            if($this->Payment_mode == 50){
+                if(empty($this->Proof_of_reference)){
+                    throw new Exception("Please upload proof of payment", true);
+                    
+                }
+            }
             $data = array(
                 'Order_ID' => $this->Order_ID,
                 'Amount_paid' => $this->Amount_paid,
                 'Payment_mode' => $this->Payment_mode,
                 'Incharge_ID' => $this->Incharge_ID,
+                'Due_date' => $this->Due_date,
                 'Date_paid' => date('Y:m:d H:i:s'),
             );
           
@@ -40,10 +49,74 @@ class Payment_services_model extends CI_Model
             $this->db->insert($this->Table->payment,$data);
             $payment_ID = $this->db->insert_id();
 
-            $this->save_proof($payment_ID);
-
-           
+             
+            if($this->Payment_mode == 50){
+                if(empty($this->Proof_of_reference)){
+                    throw new Exception("Please submit proof of reference", true);
+                }   else{
+                    $this->save_proof($payment_ID);
+                }
+            } else if($this->Payment_mode == 49){
+                if(empty($this->Receipt_number)){
+                    throw new Exception("Please enter receipt number", true);
+                }   else{
+                    $this->save_rec_num($payment_ID);
+                }
+            } else if($this->Payment_mode == 51){
+                if(empty($this->Waybill_number && $this->Due_date)){
+                    throw new Exception("Please enter Waybill Number and Due Date", true);
+                }   else{
+                    $this->save_way_num($payment_ID);
+                }
+            } else if($this->Payment_mode == 52){
+                if(empty($this->Due_date)){
+                    throw new Exception("Please enter Due Date", true);
+                }   else{
+                    if(!empty($this->po_number)){
+                        $this->save_po_num($payment_ID);
+                    }
+                }
+            }
             
+            $last_payment = $this->get_last_payment($this->Order_ID);
+            $total_payment = $this->get_total_payment($this->Order_ID);
+
+            $status = "";
+            if($last_payment < $total_payment){
+                $status = "DOWN";
+            } else if($last_payment >= $total_payment){
+                $status = "PAID";
+            }
+            // echo json_encode($last_payment." ".$status);
+
+            $this->update_payment_status($this->Order_ID, $status);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+               
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function update_payment_status($ID,$status){
+        try{     
+           
+            $data = array(
+                'Payment_status' => $status,
+            );
+            $this->db->trans_start();
+            $this->db->where('ID', $ID);
+            $this->db->update($this->Table->order,$data);
+
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE)
             {                
@@ -59,6 +132,107 @@ class Payment_services_model extends CI_Model
         }
     }
 
+    public function get_last_payment($x){
+        $this->db->select('*');
+        $this->db->where('Order_ID',$x);
+        $this->db->from($this->Table->payment);
+
+        $query = $this->db->get()->result();
+
+        $Amount = 0;
+
+        foreach ($query as $key => $value) {
+            $Amount += $value->Amount_paid;
+        }
+         return $Amount;
+
+    }
+
+    public function get_total_payment($x){
+        $this->db->select('Total_amt');
+        $this->db->where('ID',$x);
+        $this->db->from($this->Table->order);
+
+        $query = $this->db->get()->row();
+
+         return $query->Total_amt;
+
+    }
+
+    public function save_po_num($x){
+        try{     
+           
+            $data = array(
+                'Receipt_num' => $this->po_number,
+            );
+            $this->db->trans_start();
+            $this->db->where('ID', $x);
+            $this->db->update($this->Table->payment,$data);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function save_way_num($x){
+        try{     
+           
+            $data = array(
+                'Receipt_num' => $this->Waybill_number,
+            );
+            $this->db->trans_start();
+            $this->db->where('ID', $x);
+            $this->db->update($this->Table->payment,$data);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function save_rec_num($x){
+        try{     
+           
+            $data = array(
+                'Receipt_num' => $this->Receipt_number,
+            );
+            $this->db->trans_start();
+            $this->db->where('ID', $x);
+            $this->db->update($this->Table->payment,$data);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
 
     public function save_proof($x){
         try{     
@@ -68,6 +242,12 @@ class Payment_services_model extends CI_Model
             );
             $this->db->trans_start();
             $this->db->insert($this->Table->proof,$refData);
+
+            $refnum = array(
+                'Receipt_num' => $this->Reference_number,
+            );
+            $this->db->where('ID', $x);
+            $this->db->update($this->Table->payment,$refnum);
 
             $this->db->trans_complete();
             if ($this->db->trans_status() === FALSE)
