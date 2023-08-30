@@ -75,7 +75,7 @@ main_header(['dashboard']);
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap table-sm table-striped text-center">
+                    <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center">
                         <thead>
                             <tr>
                                 <th>Item Code</th>
@@ -89,9 +89,9 @@ main_header(['dashboard']);
                                 <th>Layout Artist</th>
                                 <th>Setup Artist</th>
                                 <th>Items</th>
-                                <th>Total Amount</th>
+                                <!-- <th>Total Amount</th>
                                 <th>Received Payment</th>
-                                <th>Balance</th>
+                                <th>Balance</th> -->
                                 <th>Payment Status</th>
                             </tr>
                         </thead>

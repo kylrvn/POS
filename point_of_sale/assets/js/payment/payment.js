@@ -30,6 +30,7 @@ $(document).on('click', '#pay', function() {
     var formData = new FormData();
     formData.append('Order_id', $(this).data('oid'));
     formData.append('Amount_paid', $('#Amount_paid').val());
+    formData.append('Amount_rendered', $('#Amount_rendered').val());
     formData.append('Payment_mode', $('#Payment_mode').val());
     formData.append('Receipt_number', $('#Receipt_number').val());
     formData.append('Reference_number', $('#Reference_number').val());
@@ -60,28 +61,42 @@ $(document).on('click', '#pay', function() {
             if (response.has_error == false) {
                 $('#modal-default').modal('hide');
                 toastr.success(response.message);
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
               
             } else {
                 $('#Amount_paid').addClass('is-invalid');
+                $('#Receipt_number').addClass('is-invalid');
+                $('#Reference_number').addClass('is-invalid');
+                $('#po_number').addClass('is-invalid');
+                $('#Waybill_number').addClass('is-invalid');
                 $('#modal-default').modal('hide');
                 toastr.error(response.message);
+                return;
             }
         },
     });
-    //   setTimeout(function() {
-    //     window.location.reload();
-    // }, 2000);
 });
 
 
 
 $('#Amount_paid').keyup(function() {
     $x = $(this).val();
-    $y = $('#Balance').val();
+    $y = $('#Amount_rendered').val();
 
     $value = $x - $y;
 
-    $('#change').val($value.toFixed(2));
+    $('#change').val($value.toFixed(2));``
+});
+
+$('#Amount_rendered').keyup(function() {
+    $x = $(this).val();
+    $y = $('#Amount_paid').val();
+
+    $value = $x - $y;
+
+    $('#change').val($value.toFixed(2));``
 });
 
 $(document).on('click', '#update_dets', function() {
@@ -221,6 +236,7 @@ $(document).ready(function() {
         var way_num = $('#way_num');
         var terms = $('#terms');
         var amount = $('#amnt');
+        var amount_render = $('#amnt_rendered');
         var change = $('#chnge');
         var d_date = $('#d_date');
 
@@ -232,6 +248,7 @@ $(document).ready(function() {
             amount.show();
             change.show();
             rec_num.css('display', 'none');
+            amount_render.css('display', 'none');
             way_num.css('display', 'none');
             terms.css('display', 'none');
             d_date.css('display', 'none');
@@ -243,6 +260,7 @@ $(document).ready(function() {
             terms.css('display', 'none');
             d_date.css('display', 'none');
             rec_num.show();
+            amount_render.show();
             amount.show();
             change.show();
         } else if(selectedOption === "51"){
@@ -250,6 +268,7 @@ $(document).ready(function() {
             proofOfPaymentGroup.css('display', 'none');
             ref_num.css('display', 'none');
             rec_num.css('display', 'none');
+            amount_render.css('display', 'none');
             amount.css('display', 'none');
             change.css('display', 'none');
             terms.css('display', 'none');
@@ -260,6 +279,7 @@ $(document).ready(function() {
             proofOfPaymentGroup.css('display', 'none');
             ref_num.css('display', 'none');
             rec_num.css('display', 'none');
+            amount_render.css('display', 'none');
             amount.css('display', 'none');
             change.css('display', 'none');
             way_num.css('display', 'none');
@@ -291,4 +311,29 @@ $(document).on('click', '.clickable-row', function() {
     // Get the specific modal ID for the clicked row
     var modalID = $(this).attr('data-modal-id');
     $('#' + modalID).modal('show');
+});
+
+$(document).on('click', '#cancel_order', function() {
+    if (confirm("Are you sure you want to cancel this order?") == true) {
+      $.post({
+        url: baseUrl + 'payment/service/Payment_service/cancel_order',
+        data: {
+            Order_id: $(this).val(),
+        },
+        success: function(e) {
+            var e = JSON.parse(e);
+            if (e.has_error == false) {
+                toastr.success(e.message);
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                toastr.error(e.message);
+            }
+        },
+    })
+    } else {
+      return;
+    }
+   
 });

@@ -1,5 +1,6 @@
 <?php
 main_header(['user_management']);
+$session = (object)get_userdata(USER);
 ?>
 <!-- ############ PAGE START-->
 
@@ -58,8 +59,15 @@ main_header(['user_management']);
                                 <div class="form-group w-100">
                                     <label for="">Branch</label>
                                     <select class="form-control" style="width: 100%;" id="Branch">
-                                        <option value="Bacolod" selected>Bacolod</option>
-                                        <option value="Cebu">Cebu</option>
+                                        <?php
+                                        if(!empty($session->Branch)){ ?>
+                                            <option value="<?=$session->Branch?>"><?=$session->Branch?></option>
+                                       <?php } else {
+                                            foreach($branch as $key => $value){ ?>
+                                                <option value="<?=$value->List_name?>"><?=$value->List_name?></option>
+                                        <?php }
+                                       }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -99,6 +107,7 @@ main_header(['user_management']);
         </div>
     </div>
 </section>
+
 
 <!-- CONFIRMATION MODAL -->
 <div class="modal fade" id="modal-default">

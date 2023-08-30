@@ -38,5 +38,29 @@ class Create_order extends MY_Controller
 		$this->load->view('layout', $this->data);
 	}
 
+	public function edit_order()
+	{
+		// if (
+		// 	!check_permission($this->session->User_type, ['admin'])
+		// ) {
+		// 	redirect(base_url() . 'landing_page', 'refresh');
+		// }
+
+		$this->data['session'] =  $this->session;
+		$this->coModel->ID = $this->input->get("custid");
+		$this->coModel->order_id = $this->input->get("oid");
+		$this->data['cust_details'] = $this->coModel->get_customer_details();
+		$this->data['items'] = $this->coModel->get_items();
+		$this->data['content'] = 'edit_order';
+		$this->load->view('layout', $this->data);
+	}
+
+	public function retrieve_order()
+	{
+		$this->coModel->ID = $this->input->post("ID");
+		$response = $this->coModel->retrieve_order();
+		echo json_encode($response);
+	}
+
 
 }

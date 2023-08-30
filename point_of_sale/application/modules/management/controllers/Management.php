@@ -37,6 +37,7 @@ class Management extends MY_Controller
 	public function user_management()
 	{
 		$this->data['user_role'] = $this->mModel->get_user_role();
+		$this->data['branch'] = $this->mModel->get_branch();
 		
 		$this->data['content'] = 'user_management';
 		$this->load->view('layout', $this->data);

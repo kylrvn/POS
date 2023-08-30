@@ -26,6 +26,8 @@ define('SUCCESS', 'SUCCESS TRANSACTION.');
 define('EMPTY_FIELDS', 'One of these forms must not be empty.');
 define('NO_SELECTION', 'Please select item/s to proceed');
 define('NO_DATE', 'No date selected');
+define('VOID', 'Payment has been Voided');
+define('CANCELLED', 'Order has been Cancelled');
 
 /** user messages */
 define('DEFAULT_PASSWORD', 'Do not use the default password. Please create new password.');

@@ -37,6 +37,7 @@ class Payment_services_model extends CI_Model
             $data = array(
                 'Order_ID' => $this->Order_ID,
                 'Amount_paid' => $this->Amount_paid,
+                'Amount_rendered' => $this->Amount_rendered,
                 'Payment_mode' => $this->Payment_mode,
                 'Incharge_ID' => $this->Incharge_ID,
                 'Due_date' => $this->Due_date,
@@ -327,4 +328,30 @@ class Payment_services_model extends CI_Model
             return (array('message' => $msg->getMessage(), 'has_error' => true));
         }
     }
+
+    public function cancel_order(){
+        try{     
+            $data = array(
+                'Cancelled' => 1
+            );
+    
+            $this->db->trans_start();
+                           
+            $this->db->where('ID', $this->Order_id);
+            $this->db->update($this->Table->order,$data);
+    
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>CANCELLED, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+       }
 }

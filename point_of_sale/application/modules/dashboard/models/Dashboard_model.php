@@ -30,7 +30,10 @@ class Dashboard_model extends CI_Model
         $this->db->join($this->Table->item. ' i', 'i.Order_ID=o.ID', 'left');
         $this->db->join($this->Table->list. ' l', 'l.ID=o.Status', 'left');
         $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
-
+        $this->db->where('o.Cancelled', 0);
+        if(!empty($this->session->Branch)){
+            $this->db->where('c.Branch', $this->session->Branch);
+        }
         if(!empty($this->Filter_value) && $this->Filter_value != "All"){
             if($this->Filter_type == "Order Status"){
                 $this->db->where('Status', $this->Filter_value);
@@ -46,9 +49,7 @@ class Dashboard_model extends CI_Model
         } 
         // $this->db->join($this->Table->payment. ' p', '.ID=o.Status', 'left');
 
-        if(!empty($this->session->Branch)){
-            $this->db->where('c.Branch', $this->session->Branch);
-        }
+       
         $this->db->group_by('i.Order_id');
         $this->db->order_by('o.ID', 'desc');
         $query = $this->db->get()->result();

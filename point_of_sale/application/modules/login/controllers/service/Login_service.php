@@ -38,4 +38,13 @@ class Login_service extends MY_Controller
 		
 	}
 
+	public function refresh_session(){
+		// $this->login->Branch = $this->input->post('Branch', true);
+		// $response = $this->login->update_branch();
+	
+		// unset($this->session->Branch);
+		set_userdata('Branch', "Cebu");
+		// echo json_encode($this->session->Branch);
+    } 
+
 }

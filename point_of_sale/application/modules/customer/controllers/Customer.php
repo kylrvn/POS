@@ -31,6 +31,7 @@ class Customer extends MY_Controller
 
 		$this->data['session'] =  $this->session;
 		$this->data['customers'] = $this->cModel->get_customers();
+		$this->data['branch'] = $this->cModel->get_branch();
 		$this->data['content'] = 'index';
 		$this->load->view('layout', $this->data);
 	}

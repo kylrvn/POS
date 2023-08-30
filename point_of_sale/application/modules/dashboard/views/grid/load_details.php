@@ -59,13 +59,13 @@ if(!empty($details)){
                 echo $items->Item_name." x ".$items->Item_qty." x ".number_format($items->Item_unitprice,2).'<br>';
             }?>
         </td>
-        <td><?=number_format($value->Total_amt,2)?></td>
+        <!-- <td><?=number_format($value->Total_amt,2)?></td>
         <td> 
           <?=number_format($value->paid,2)?>
         </td>
         <td> 
           <?=number_format($value->Total_amt - $value->paid,2)?>
-        </td>
+        </td> -->
         <td>
         <?php
             if($value->paid == 0){

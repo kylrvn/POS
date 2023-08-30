@@ -11,6 +11,7 @@ if(!empty($orders)){
         <td><?=$value->Jo_num?></td>
         <td><?= date('M d, Y',strtotime($value->Book_date))?></td>
         <td class="<?= $curr_date >= $d_date ? 'text-danger text-bold':''?>"><?=date('M d, Y',strtotime($value->Deadline))?></td>
+        <td><?=$value->Payment_status?></td>
     </tr>
 
  <?php  

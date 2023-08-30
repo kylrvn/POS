@@ -26,6 +26,7 @@ class Report_model extends CI_Model
         $this->db->from($this->Table->payment . ' p');
         $this->db->join($this->Table->order . ' o', 'o.ID=p.Order_ID', 'left');
         $this->db->join($this->Table->customer . ' c', 'c.ID=o.Cust_ID', 'left');
+        $this->db->where('p.Void',0);
        
 
         if(!empty($this->session->Branch)){
@@ -51,6 +52,7 @@ class Report_model extends CI_Model
         $this->db->from($this->Table->payment . ' p');
         $this->db->join($this->Table->order . ' o', 'o.ID=p.Order_ID', 'left');
         $this->db->join($this->Table->customer . ' c', 'c.ID=o.Cust_ID', 'left');
+        $this->db->where('p.Void',0);
        
 
         if(!empty($this->session->Branch)){
@@ -81,6 +83,7 @@ class Report_model extends CI_Model
         $this->db->from($this->Table->payment . ' p');
         $this->db->join($this->Table->order . ' o', 'o.ID=p.Order_ID', 'left');
         $this->db->join($this->Table->customer . ' c', 'c.ID=o.Cust_ID', 'left');
+        $this->db->where('p.Void',0);
        
 
         if(!empty($this->session->Branch)){
@@ -135,7 +138,7 @@ class Report_model extends CI_Model
         $this->db->from($this->Table->payment . ' p');
         $this->db->join($this->Table->order . ' o', 'o.ID=p.Order_ID', 'left');
         $this->db->join($this->Table->customer . ' c', 'c.ID=o.Cust_ID', 'left');
-       
+        $this->db->where('p.Void',0);
 
         if(!empty($this->session->Branch)){
             $this->db->where('c.Branch', $this->session->Branch);
@@ -217,6 +220,7 @@ class Report_model extends CI_Model
         $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
         $this->db->join($this->Table->proof. ' pr', 'pr.Payment_ID=p.ID', 'left');
         $this->db->join($this->Table->user. ' u', 'u.ID=p.Incharge_ID', 'left');
+        $this->db->where('p.Void',0);
 
         if(!empty($this->d_from || $this->d_to)){
             $this->db->where('p.Date_paid >=', $this->d_from);
@@ -227,7 +231,7 @@ class Report_model extends CI_Model
 
         }
         if(!empty($this->session->Branch)){
-            $this->db->where('c.Branch', $this->session->Branch);
+            $this->db->where('u.Branch', $this->session->Branch);
         }
         $query = $this->db->get()->result();
 

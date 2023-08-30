@@ -40,4 +40,10 @@ class Report_service extends MY_Controller
 		$this->load->view('grid/summary', $summaryData);
 		$this->load->view('grid/chart', $chartData);
 	}
+
+	public function void(){
+		$this->rsModel->Payment_ID = $this->input->post("Payment_ID");
+		$response = $this->rsModel->void();
+		echo json_encode($response);
+	}
 }

@@ -29,6 +29,16 @@ class Customer_model extends CI_Model
         return $query;
     }
 
+    public function get_branch(){
+        $this->db->select('*');
+        $this->db->where('List_category', 'Branch');
+        $this->db->from($this->Table->list);
+      
+        $this->db->order_by('List_name', 'asc');
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
     public function get_cust_details(){
         $this->db->select('*');
         $this->db->from($this->Table->customer);
@@ -42,6 +52,7 @@ class Customer_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->Table->order);
         $this->db->where('Cust_ID', $this->Cust_id);
+        $this->db->where('Cancelled', 0);
         $this->db->order_by('Book_date', 'desc');
 
         $query = $this->db->get()->result();

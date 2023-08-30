@@ -41,7 +41,7 @@ main_header(['create_order']);
                             <span class="description">Customer Name</span>
                         </div>
                     </div>
-
+                    <button type="button" class="btn btn-sm btn-danger" id="cancel_order" value="<?=$order_dets->ID?>" <?=$last_paid == 0 ? '' : 'hidden'?>>Cancel Order</button>
                     <div class="row mt-2 ">
                         <div class="col-sm-6">
                            <div class="card card-primary">
@@ -98,6 +98,7 @@ main_header(['create_order']);
                                                         </tr>
                                                 </tbody>
                                             </table>
+                                            <a role="button" href="<?=base_url()?>/create_order/edit_order?oid=<?=$order_dets->ID?>&custid=<?=$cust_details->ID?>" class="btn btn-warning btn-sm" id="update_order">Update Order</a>
                                        </div>
                                     </div>
                                 </div>
@@ -132,18 +133,18 @@ main_header(['create_order']);
                                     <br>
                                     
                                     <div class="row text-center mt-2" style="border-top: 1px solid black" id="cod_terms" 
-                                        <?php if($cod_terms->List_name == "Cash" || $cod_terms->List_name == "Online Payment"){
+                                        <?php if(@$cod_terms->List_name == "Cash" || @$cod_terms->List_name == "Online Payment" || @$cod_terms->List_name == NULL){
                                             echo 'hidden';
                                         }?>
                                     
                                     >
                                         <div class="col-sm-6">
                                             <h6>COD / Terms</h6>
-                                            <b><?=$cod_terms->List_name?></b>
+                                            <b><?=@$cod_terms->List_name?></b>
                                         </div>
                                         <div class="col-sm-6">
                                            <h6>Set Due Date</h6>
-                                           <b><?=date('M d, Y', strtotime($cod_terms->Due_date))?></b>
+                                           <b><?=date('M d, Y', strtotime(@$cod_terms->Due_date))?></b>
                                         </div>
                                     </div>
 
@@ -161,7 +162,9 @@ main_header(['create_order']);
                                                                 <?php } 
                                                             ?>
                                                         </select>
+                                                        <small class="text-danger" <?=$session->Role != "Front Desk" ? 'hidden' : ''?>>Cash payment is disabled for Frontdesk users.</small>
                                                     </div>
+                                                   
                                                     <!-- <label class="col-sm-4 col-form-label"><small>Proof of Payment</small></label> -->
                                                         <!-- <div class="col-sm-8"  id="proof_of_payment_group" style="display: none;">
                                                         <form id="uploadFormProof" enctype="multipart/form-data">
@@ -180,10 +183,10 @@ main_header(['create_order']);
                                                         </form>    
                                                     </div>
                                                 </div>
-                                                <div class="form-group row" id="rec_num">
+                                                <div class="form-group row" id="rec_num" >
                                                     <label class="col-sm-4 col-form-label"><small>Receipt Number</small></label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control form-control-sm"  id="Receipt_number" <?= $balance == 0 ? 'disabled' : ''?> placeholder="Enter Receipt Number">
+                                                        <input type="text" class="form-control form-control-sm"  id="Receipt_number" <?= $balance == 0 ? 'disabled' : ''?> <?=$session->Role == "Front Desk" ? 'disabled' : ''?> placeholder="Enter Receipt Number">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row" id="ref_num" style="display: none;">
@@ -211,9 +214,15 @@ main_header(['create_order']);
                                                     </div>
                                                 </div>
                                                 <div class="form-group row" id="amnt">
-                                                    <label class="col-sm-4 col-form-label"><small>Amount</small></label>
+                                                    <label class="col-sm-4 col-form-label"><small>Amount to Pay</small></label>
                                                     <div class="col-sm-8">
-                                                        <input type="number" class="form-control form-control-sm"  id="Amount_paid" placeholder="Amount" <?= $balance == 0 ? 'disabled' : ''?>>
+                                                        <input type="number" class="form-control form-control-sm"  id="Amount_paid" placeholder="Amount" <?= $balance == 0 ? 'disabled' : ''?> <?=$session->Role == "Front Desk" ? 'disabled' : ''?>>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" id="amnt_rendered">
+                                                    <label class="col-sm-4 col-form-label"><small>Amount Rendered</small></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="number" class="form-control form-control-sm"  id="Amount_rendered" placeholder="Amount" <?= $balance == 0 ? 'disabled' : ''?> <?=$session->Role == "Front Desk" ? 'disabled' : ''?>>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row" id="chnge">

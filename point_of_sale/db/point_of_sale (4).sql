@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2023 at 05:50 PM
+-- Generation Time: Aug 30, 2023 at 05:36 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -43,7 +43,8 @@ CREATE TABLE `tbl_customers` (
 INSERT INTO `tbl_customers` (`ID`, `FName`, `LName`, `Company`, `CNumber`, `Branch`) VALUES
 (1, 'angelo', 'morancil', '', '091234567', 'Bacolod'),
 (2, 'kevin', 'daniel', 'sample', '0912378381', 'Bacolod'),
-(3, 'sample', 'sample', 'sample', '1232131232', 'Bacolod');
+(3, 'sample', 'sample', 'sample', '1232131232', 'Bacolod'),
+(4, 'new', 'customer', '', '0932823232', 'Bacolod');
 
 -- --------------------------------------------------------
 
@@ -69,8 +70,8 @@ CREATE TABLE `tbl_expenses` (
 --
 
 INSERT INTO `tbl_expenses` (`ID`, `Date`, `Descr`, `Actual_Money`, `Balance`, `Incharge`, `expense`, `Branch`, `Image`, `date_created`) VALUES
-(1, '2023-08-03', 'sample expense', 200, 0, 'undefined', 200, 'undefined', 'papa1.jpg', '2023-08-03 23:06:06'),
-(2, '2023-08-03', 'sample 2', 100, -10, '17', 110, '', 'mama.jpg', '2023-08-03 23:08:44'),
+(1, '2023-08-03', 'sample expense', 200, 0, '17', 200, '', 'papa1.jpg', '2023-08-03 23:06:06'),
+(2, '2023-08-03', 'sample 2', 100, -10, '20', 110, '', 'mama.jpg', '2023-08-03 23:08:44'),
 (3, '2023-08-16', 'sample3ds', 100, 0, '17', 100, '', '', '2023-08-03 23:11:52'),
 (10, '2023-08-14', 'sampke new update', 1222, 922, '17', 300, '', 'underatking1.jpg', '2023-08-14 23:12:39'),
 (11, '2023-08-15', 'bago ni sa ', 200, 100, '17', 100, '', 'PayslipJuly15231.png', '2023-08-15 17:10:35'),
@@ -101,7 +102,8 @@ INSERT INTO `tbl_item` (`ID`, `Order_ID`, `Customer_ID`, `Item_id`, `Item_qty`, 
 (80, 2, 2, 16, 2, 200),
 (81, 3, 3, 23, 2, 200),
 (82, 4, 2, 17, 12, 1728),
-(83, 5, 2, 10, 2, 110);
+(83, 5, 2, 10, 2, 110),
+(84, 6, 4, 13, 2, 300);
 
 -- --------------------------------------------------------
 
@@ -170,7 +172,10 @@ INSERT INTO `tbl_list` (`ID`, `List_name`, `List_category`) VALUES
 (55, 'Front Desk', 'User Role'),
 (56, 'Artist', 'User Role'),
 (57, 'Production Manager', 'User Role'),
-(58, 'Production Staff', 'User Role');
+(58, 'Production Staff', 'User Role'),
+(60, 'Bacolod', 'Branch'),
+(61, 'Cebu', 'Branch'),
+(62, 'iloilo', 'Branch');
 
 -- --------------------------------------------------------
 
@@ -217,19 +222,21 @@ CREATE TABLE `tbl_order` (
   `Sewer_assign` varchar(255) NOT NULL,
   `Layout_artist` varchar(255) NOT NULL,
   `Setup_artist` varchar(255) NOT NULL,
-  `Payment_status` varchar(255) NOT NULL DEFAULT 'UNPAID'
+  `Payment_status` varchar(255) NOT NULL DEFAULT 'UNPAID',
+  `Cancelled` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_order`
 --
 
-INSERT INTO `tbl_order` (`ID`, `Jo_num`, `Cust_ID`, `Order_note`, `Deadline_notes`, `Act_qty`, `Total_amt`, `Subtotal`, `Discount`, `Freebies`, `Status`, `Book_date`, `Deadline`, `Sewer_assign`, `Layout_artist`, `Setup_artist`, `Payment_status`) VALUES
-(1, 'JO-001', 1, '', '', 5, 1250, 1250, 0, '', '45', '2023-07-21', '2023-07-21', '19', '21', '', 'PAID'),
-(2, 'JO-002', 2, '', '', 2, 200, 200, 0, '', '37', '2023-07-27', '2023-07-27', '', '21', '', 'PAID'),
-(3, 'JO-003', 3, '', '', 2, 200, 200, 0, '', '37', '2023-08-05', '2023-08-05', '', '', '', 'PAID'),
-(4, 'JO-004', 2, '', '', 12, 1728, 1728, 0, '', '37', '2023-08-14', '2023-08-14', '', '', '', 'DOWN'),
-(5, 'JO-005', 2, '', '', 2, 110, 110, 0, '', '37', '2023-08-15', '2023-08-25', '', '', '', 'DOWN');
+INSERT INTO `tbl_order` (`ID`, `Jo_num`, `Cust_ID`, `Order_note`, `Deadline_notes`, `Act_qty`, `Total_amt`, `Subtotal`, `Discount`, `Freebies`, `Status`, `Book_date`, `Deadline`, `Sewer_assign`, `Layout_artist`, `Setup_artist`, `Payment_status`, `Cancelled`) VALUES
+(1, 'JO-001', 1, '', '', 5, 1250, 1250, 0, '', '45', '2023-07-21', '2023-07-21', '19', '21', '', 'PAID', 0),
+(2, 'JO-002', 2, '', '', 2, 200, 200, 0, '', '37', '2023-07-27', '2023-07-27', '', '21', '', 'PAID', 0),
+(3, 'JO-003', 3, '', '', 2, 200, 200, 0, '', '37', '2023-08-05', '2023-08-05', '', '', '', 'PAID', 0),
+(4, 'JO-004', 2, '', '', 12, 1728, 1728, 0, '', '37', '2023-08-14', '2023-08-14', '', '', '', 'DOWN', 0),
+(5, 'JO-005', 2, '', '', 2, 110, 110, 0, '', '37', '2023-08-15', '2023-08-25', '', '', '', 'PAID', 0),
+(6, 'JO-006', 4, '', '', 2, 300, 300, 0, '', '37', '2023-08-30', '2023-08-30', '', '', '', 'UNPAID', 1);
 
 -- --------------------------------------------------------
 
@@ -241,35 +248,34 @@ CREATE TABLE `tbl_payment` (
   `ID` int(11) NOT NULL,
   `Order_ID` int(11) NOT NULL,
   `Amount_paid` double NOT NULL,
+  `Amount_rendered` double NOT NULL,
   `Status` varchar(255) NOT NULL,
   `Payment_mode` varchar(255) NOT NULL,
   `Date_paid` datetime NOT NULL,
   `Incharge_ID` int(11) DEFAULT NULL,
   `Receipt_num` varchar(255) NOT NULL,
-  `Due_date` date DEFAULT NULL
+  `Due_date` date DEFAULT NULL,
+  `Void` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_payment`
 --
 
-INSERT INTO `tbl_payment` (`ID`, `Order_ID`, `Amount_paid`, `Status`, `Payment_mode`, `Date_paid`, `Incharge_ID`, `Receipt_num`, `Due_date`) VALUES
-(1, 1, 500, '', '49', '2023-07-21 14:01:20', 17, '', NULL),
-(2, 1, 250, '', '50', '2023-07-21 14:03:59', 17, '', NULL),
-(3, 1, 500, '', '50', '2023-07-21 14:05:26', 17, '', NULL),
-(4, 2, 100, '', '49', '2023-07-27 09:23:40', 17, '', NULL),
-(5, 2, 100, '', '50', '2023-07-27 09:24:03', 17, '', NULL),
-(6, 3, 100, '', '50', '2023-08-05 10:26:25', 17, '', NULL),
-(7, 3, 100, '', '49', '2023-08-13 11:47:31', 17, '', NULL),
-(8, 4, 100, '', '50', '2023-08-14 22:57:03', 17, '', NULL),
-(9, 5, 10, '', '49', '2023-08-15 22:22:35', 17, '8263726', NULL),
-(10, 5, 10, '', '50', '2023-08-15 22:23:08', 17, '', NULL),
-(22, 4, 0, '', '51', '2023-08-22 21:13:17', 17, '312321312', '2023-08-26'),
-(25, 4, 100, '', '49', '2023-08-22 21:39:26', 17, '14213131', '0000-00-00'),
-(29, 4, 0, '', '52', '2023-08-22 22:04:45', 17, '132145421', '2023-09-08'),
-(30, 4, 500, '', '50', '2023-08-22 22:05:18', 17, '423421', '0000-00-00'),
-(31, 4, 0, '', '52', '2023-08-22 22:07:40', 17, '', '2023-09-01'),
-(32, 4, 30, '', '49', '2023-08-24 22:53:26', 17, '1231', '0000-00-00');
+INSERT INTO `tbl_payment` (`ID`, `Order_ID`, `Amount_paid`, `Amount_rendered`, `Status`, `Payment_mode`, `Date_paid`, `Incharge_ID`, `Receipt_num`, `Due_date`, `Void`) VALUES
+(4, 1, 100, 0, '', '49', '2023-07-27 09:23:40', 17, '', NULL, 0),
+(5, 2, 100, 0, '', '50', '2023-07-27 09:24:03', 17, '', NULL, 0),
+(6, 3, 100, 0, '', '50', '2023-08-05 10:26:25', 17, '', NULL, 0),
+(7, 3, 100, 0, '', '49', '2023-08-13 11:47:31', 17, '', NULL, 0),
+(8, 4, 100, 0, '', '50', '2023-08-14 22:57:03', 17, '', NULL, 0),
+(9, 5, 10, 0, '', '49', '2023-08-15 22:22:35', 17, '8263726', NULL, 0),
+(10, 5, 10, 0, '', '50', '2023-08-15 22:23:08', 17, '', NULL, 0),
+(22, 4, 0, 0, '', '51', '2023-08-22 21:13:17', 17, '312321312', '2023-08-26', 0),
+(25, 4, 100, 0, '', '49', '2023-08-22 21:39:26', 17, '14213131', '0000-00-00', 0),
+(29, 4, 0, 0, '', '52', '2023-08-22 22:04:45', 17, '132145421', '2023-09-08', 0),
+(30, 4, 500, 0, '', '50', '2023-08-22 22:05:18', 17, '423421', '0000-00-00', 0),
+(31, 4, 0, 0, '', '52', '2023-08-22 22:07:40', 17, '', '2023-09-01', 0),
+(32, 4, 30, 0, '', '49', '2023-08-24 22:53:26', 17, '1231', '0000-00-00', 1);
 
 -- --------------------------------------------------------
 
@@ -288,7 +294,6 @@ CREATE TABLE `tbl_proof` (
 --
 
 INSERT INTO `tbl_proof` (`ID`, `Payment_ID`, `Proof_of_payment`) VALUES
-(1, 1, ''),
 (2, 2, '1_papa.jpg'),
 (3, 3, '1_pexels-ono-kosuki-5648103.jpg'),
 (4, 4, ''),
@@ -321,7 +326,6 @@ CREATE TABLE `tbl_reference` (
 --
 
 INSERT INTO `tbl_reference` (`ID`, `Order_ID`, `Mockup_design`, `Payment_ID`, `Payment_proof`) VALUES
-(1, 1, '1_1_Screenshot 2023-07-18 233958.png', 0, ''),
 (2, 2, '2_2_pexels-ivan-samkov-5676679.jpg', 0, ''),
 (5, 2, '2_2_Signature.png', 0, ''),
 (6, 4, '4_2_photo-1519046904884-53103b34b206.jpg', 0, '');
@@ -355,7 +359,9 @@ INSERT INTO `tbl_user` (`ID`, `FName`, `LName`, `Username`, `Branch`, `Password`
 (17, 'Super', 'Admin', 'superadmin', '', 'a91430953c0a1bcfb3f59af9c98e348db119fed6', '!it#tze()6QDZ<UGI#W$%<uo\\Cn1I@HRHbYx!1H<Si$6azws.@', '720910dacbdce4695a27a3cbbc85b5f9bd1975b8:bbf461b5e7223da33a1ae3433b2b1548fc8d7cf0:2a6da1c5e31c5da22a56070d310b10d0c79ce5d71', 53, 'Admin', 0, 1),
 (19, 'Cebu', 'User', 'cebu_user', 'Cebu', 'ceba418f83ec6b44fc7cbe90554cbbaa0f4bb8f9', '%4(^NY@Md*oVx14#hzP1nYYwMAzDEb?Rw(E)M>)1>IvN*Ky12#', 'db34888ccc79d8fafd19273ffea6aa9bf0eefcbe:8f3bbe4c9a8eefa13d6a2f5994950d5c484b7854:0a69b3262059b7e967bd6ea929581a30b956fcfa1', 53, 'Admin', 0, 1),
 (20, 'Bacolod', 'User', 'bacolod_user', 'Bacolod', '1e6d2d9618a7174469025c62084e6e56dbfc58eb', '8UABBh^/3D9Ic>^1DBRBgD)EtI$u?vY&awH&(QMQHw8^6fkZYC', '9d9ad58e688f7ea2268235b9325dd96de8e0b003:36f29d24c8ee8729f9635834d8b48f61ac2620ff:bb2afc7b6bc085f920db0376495f7795141ae1c91', 53, 'Admin', 0, 1),
-(21, 'Angelo', 'Morancil', 'gelomorancil', 'Bacolod', 'cfcaf686cb8ae67778844fa3729a1c3702ddee6b', '#aZnqpZO0ixT4At$1LIW1I>Yigymw)PSqQ<(QHWqPv19&>yPOM', '1a958fedebf8dfa6ee786279e827c19a5c7639fc:d2068db76dfa36723a4e125de061bd7dde8d09a9:724f9d7c70e51a1711393e2d747463f7632bd2de1', 56, 'Artist', 0, 0);
+(21, 'Angelo', 'Morancil', 'gelomorancil', 'Bacolod', 'cfcaf686cb8ae67778844fa3729a1c3702ddee6b', '#aZnqpZO0ixT4At$1LIW1I>Yigymw)PSqQ<(QHWqPv19&>yPOM', '1a958fedebf8dfa6ee786279e827c19a5c7639fc:d2068db76dfa36723a4e125de061bd7dde8d09a9:724f9d7c70e51a1711393e2d747463f7632bd2de1', 56, 'Artist', 0, 1),
+(22, 'maria', 'ozawa', 'bacolod_cashier', 'Bacolod', '7c3d858df57355965216783c8beb7acae61306fd', 'Qu^$Xq5$r3Y3ky621JFB>BNm^(yf9wl\\bPItHDR.MKd%HIZa/$', 'a6041a358c106cd25a7cc1c6c2205f332658189c:ad9cf528bf38a13143767b4fa711b7b60d682d73:d7b4ed3cfb8d134b1af45e3d28b415120be287621', 54, 'Cashier', 0, 1),
+(23, 'mang', 'kanor', 'bacolod_frontdesk', 'Bacolod', '716ed652bdfbc67c152364c48c413541a89b0c64', 'wc11QNB#\\N!Xwc$!o>A.$o$h6ZgCPD?QC1WC7hy$$J.Qyg^9Mx', 'ecb0064767328759cc2e1393d96974477a9f234b:9e5b740895cd4f0280d631ce4bb1b1b11e1a3f99:8659758313c48da220e4da826e7c79646d4bf7881', 55, 'Front Desk', 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -433,7 +439,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_customers`
 --
 ALTER TABLE `tbl_customers`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_expenses`
@@ -445,13 +451,13 @@ ALTER TABLE `tbl_expenses`
 -- AUTO_INCREMENT for table `tbl_item`
 --
 ALTER TABLE `tbl_item`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `tbl_list`
 --
 ALTER TABLE `tbl_list`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `tbl_modules`
@@ -463,13 +469,13 @@ ALTER TABLE `tbl_modules`
 -- AUTO_INCREMENT for table `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `tbl_proof`
@@ -487,7 +493,7 @@ ALTER TABLE `tbl_reference`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

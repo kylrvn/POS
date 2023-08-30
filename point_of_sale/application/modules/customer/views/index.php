@@ -7,14 +7,14 @@ main_header(['customer']);
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
+                <h1 class="m-0">Customers</h1>
             </div>
-            <div class="col-sm-6">
+            <!-- <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -70,8 +70,12 @@ main_header(['customer']);
                             <div class="form-group">
                                 <label for="">Branch</label>
                                 <select class="form-control" style="width: 100%;" id="Branch">
-                                    <option value="Bacolod" selected>Bacolod</option>
-                                    <option value="Cebu">Cebu</option>
+                                    <?php
+                                        foreach($branch as $key => $value){ ?>
+                                            <option value="<?=$value->List_name?>"><?=$value->List_name?></option>
+                                       <?php }
+                                    
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -144,8 +148,12 @@ main_header(['customer']);
                             <div class="form-group">
                                 <label for="">Branch</label>
                                 <select class="form-control inpt_edit" style="width: 100%;" id="Branch_v" disabled>
-                                    <option value="Bacolod" selected>Bacolod</option>
-                                    <option value="Cebu">Cebu</option>
+                                    <?php
+                                        foreach($branch as $key => $value){ ?>
+                                            <option value="<?=$value->List_name?>"><?=$value->List_name?></option>
+                                       <?php }
+                                    
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -169,9 +177,10 @@ main_header(['customer']);
                         <table id="tableformat1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>Item Code</th>
                                     <th>Booking Date</th>
                                     <th>Deadline</th>
+                                    <th>Payment Status</th>
                                 </tr>
                             </thead>
                             <tbody id="load_orders">

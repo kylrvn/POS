@@ -28,7 +28,8 @@ class Expense_model extends CI_Model
         $this->db->join($this->Table->user.' u', 'u.ID=e.Incharge','left');
 
         if(!empty($this->session->Branch)){
-            $this->db->where('c.Branch', $this->session->Branch);
+            $this->db->where('u.Branch', $this->session->Branch);
+            $this->db->where('e.Incharge', $this->session->ID);
         }
         $query = $this->db->get()->result();
         return $query;

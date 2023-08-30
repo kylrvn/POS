@@ -91,8 +91,8 @@ main_header(['expense']);
                 <!-- <div class="card-header">
                         <h3 class="card-title">Order History</h3>
                     </div> -->
-                <div class="card-body">
-                    <table id="tableformat1" class="table table-bordered table-striped">
+                <div class="card-body table-responsive">
+                    <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center">
                         <!-- <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span> -->
                         <thead>
                             <tr>

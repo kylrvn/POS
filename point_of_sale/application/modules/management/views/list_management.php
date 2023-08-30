@@ -33,17 +33,18 @@ main_header(['list_management']);
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group w-100">
-                                    <label for="">List Name</label>
-                                    <input type="text" id="List" class="form-control inpt" placeholder="List Name">
-                                </div>
-                                <div class="form-group w-100">
                                     <label for="">List Category</label>
                                     <select class="form-control" style="width: 100%;" id="Category">
-                                        <option value="Status">Status</option>
+                                        <option value="Branch">Branch</option>
                                         <option value="Items">Items</option>
-                                        <option value="Payment">Payment Method</option>
-                                         <option value="User Role">User Role</option>
+                                        <option value="Status">Status</option>
+                                        <!-- <option value="Payment">Payment Method</option>
+                                         <option value="User Role">User Role</option> -->
                                     </select>
+                                </div>
+                                <div class="form-group w-100">
+                                    <label for="">List Name</label>
+                                    <input type="text" id="List" class="form-control inpt" placeholder="List Name">
                                 </div>
                             </div>
                         </div>

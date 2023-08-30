@@ -45,4 +45,30 @@ class Report_services_model extends CI_Model
         $query = $this->db->get()->result();
          return $query;
    }
+
+   public function void(){
+    try{     
+        $data = array(
+            'Void' => 1
+        );
+
+        $this->db->trans_start();
+                       
+        $this->db->where('ID', $this->Payment_ID);
+        $this->db->update($this->Table->payment,$data);
+
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE)
+        {                
+            $this->db->trans_rollback();
+            throw new Exception(ERROR_PROCESSING, true);	
+        }else{
+            $this->db->trans_commit();
+            return array('message'=>VOID, 'has_error'=>false);
+        }
+    }
+    catch(Exception$msg){
+        return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+    }
+   }
 }

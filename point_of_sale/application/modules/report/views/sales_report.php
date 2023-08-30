@@ -81,6 +81,26 @@ main_header(['sales_report']);
     </div>
 </section>
 
+<!-- CONFIRMATION MODAL -->
+<div class="modal fade" id="modal-void">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure you want to save details?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div> -->
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save_user">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- ############ PAGE END-->
 <?php
 main_footer();

@@ -91,7 +91,7 @@ function main_header($menubar = [])
           <a href="<?= base_url()?>/user_profile/index/<?=$session->U_ID?>" class="d-block"><?='<b>'.ucfirst($session->Role).":</b> ".ucfirst($session->FName)." ".ucfirst($session->LName)?></a>
         </div>
       </div>
-
+      <!-- <button class="btn btn-sm btn-flat btn-primary" id="change" value="Cebu">Change</button> -->
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
@@ -116,22 +116,22 @@ function main_header($menubar = [])
               </p>
             </a>
             <ul class="nav nav-treeview" >
+              <li class="nav-item"  style="display:<?= $session->Role == "Artist" ? 'none' : ''?>">
+                <a href="<?= base_url()?>customer" class="nav-link <?= (sidebar($menubar, ['customer'])) ? 'active' : '' ?>">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Customers</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="<?= base_url()?>dashboard" class="nav-link <?= (sidebar($menubar, ['dashboard'])) ? 'active' : '' ?>">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>Dashboard</p>
+                  <p>Customer Dashboard</p>
                 </a>
               </li>
               <li class="nav-item" style="display: <?= $session->Role == "Artist" ? '' : 'none'?>">
                 <a href="<?= base_url()?>artist" class="nav-link <?= (sidebar($menubar, ['artist'])) ? 'active' : '' ?>">
                   <i class="nav-icon fas fa-brush"></i>
                   <p>Assigned Layouts</p>
-                </a>
-              </li>
-              <li class="nav-item"  style="display:<?= $session->Role == "Artist" ? 'none' : ''?>">
-                <a href="<?= base_url()?>customer" class="nav-link <?= (sidebar($menubar, ['customer'])) ? 'active' : '' ?>">
-                  <i class="fas fa-users nav-icon"></i>
-                  <p>Customers</p>
                 </a>
               </li>
               <li class="nav-item" style="display: <?= empty($session->Branch) || $session->Role == "Admin" || $session->Role == "Cashier" ? '' : 'none'?>">
@@ -148,30 +148,30 @@ function main_header($menubar = [])
               </li> -->
             </ul>
           </li>
-          <li class="nav-item menu-open" style="display: <?= empty($session->Branch) ? '' : 'none'?>">
-            <a href="#" class="nav-link">
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link"  style="display: <?= empty($session->Branch) || $session->Role == "Admin" ? '' : 'none'?>">
               <!-- <i class="nav-icon fas fa-cog"></i> -->
               <p>
                 Management
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
+            <ul class="nav nav-treeview" >
+              <li class="nav-item"  style="display: <?= empty($session->Branch) ? '' : 'none'?>">
                 <a href="<?= base_url()?>management" class="nav-link <?= (sidebar($menubar, ['list_management'])) ? 'active' : '' ?>">
                   <i class="fas fa-list nav-icon"></i>
                   <p>List Management</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" style="display: <?= empty($session->Branch) || $session->Role == "Admin" ? '' : 'none'?>">
                 <a href="<?= base_url()?>management/user_management" class="nav-link <?= (sidebar($menubar, ['user_management'])) ? 'active' : '' ?>">
                   <i class="fas fa-user nav-icon"></i>
-                  <p>User Management</p>
+                  <p>User Management</p>  
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item menu-open" style="display: <?= empty($session->Branch) || $session->Role == "Admin" || $session->Role == "Cashier" ? '' : 'none'?>">
+          <li class="nav-item menu-open" style="display: <?= empty($session->Branch) || $session->Role == "Admin" ? '' : 'none'?>">
             <a href="#" class="nav-link">
               <!-- <i class="nav-icon fas fa-file"></i> -->
               <p>
@@ -290,6 +290,8 @@ function main_header($menubar = [])
 
  <!-- <script src="<?= base_url() ?>assets/theme/html-version/scripts/app.js"></script> -->
 <script src="<?= base_url() ?>assets/js/noPostBack.js"></script>
+<script src="<?= base_url()?>assets/js/service.js"></script>
+
 <script>
   var base_url = '<?=base_url()?>';
   var baseUrl = '<?=base_url()?>';
@@ -344,6 +346,22 @@ $('#signout').on('click',function(){
     // });
   });
   
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": false, "lengthChange": false, "autoWidth": false,"searching": false,"info": false, "retrieve": true,"ordering": false,
+      // "buttons": ["excel"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+
   $(function () {
     /* ChartJS
      * -------

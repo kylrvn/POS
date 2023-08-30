@@ -187,3 +187,28 @@ function load_chart() {
   });
 }
 
+$(document).on('click', '.btn_void', function() {
+
+  if (confirm("Are you sure you want to void this payment?") == true) {
+    $.post({
+      url: 'service/Report_service/void',
+      data: {
+          Payment_ID: $(this).val(),
+      },
+      success: function(e) {
+          var e = JSON.parse(e);
+          if (e.has_error == false) {
+              toastr.success(e.message);
+             
+          } else {
+              toastr.error(e.message);
+          }
+      },
+  })
+  } else {
+    return;
+  }
+  setTimeout(function() {
+    window.location.reload();
+}, 2000);
+});

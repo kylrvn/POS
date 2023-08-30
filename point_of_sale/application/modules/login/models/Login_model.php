@@ -46,4 +46,30 @@ class Login_model extends CI_Model
             return array('error_message' => $ex->getMessage(), 'has_error' => true);
         }
     }
+
+    public function update_branch(){
+        try{     
+            $data = array(
+                'Branch' => $this->Branch,
+            );
+
+            $this->db->trans_start();
+                         
+            $this->db->where('ID', 17);
+            $this->db->update($this->Table->user,$data);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false, 'cust_id'=>$insert_id);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
 }

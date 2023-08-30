@@ -33,12 +33,25 @@ class Create_order_model extends CI_Model
         $query = $this->db->get()->row();
         return $query;
     }
+    
 
     public function get_items(){
         $this->db->select('*');
         $this->db->where('List_category', "Items");
         $this->db->from($this->Table->list);
         $this->db->order_by('List_name', 'asc');
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
+    public function retrieve_order(){
+        $this->db->select(
+            'i.*,'.
+            'l.List_name'
+        );
+        $this->db->where('Order_ID', $this->ID);
+        $this->db->from($this->Table->item. ' i');
+        $this->db->join($this->Table->list. ' l', 'l.ID=i.Item_id', 'left');
         $query = $this->db->get()->result();
         return $query;
     }

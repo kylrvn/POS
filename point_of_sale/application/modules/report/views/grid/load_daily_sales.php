@@ -50,7 +50,7 @@ if(!empty($details)){
        <td>NONE</td>
        <td><?=$value->List_name == "Cash" ? number_format($value->P_Amount_paid,2) : ''?></td>
        <td><?=$value->List_name == "Online Payment" ? number_format($value->P_Amount_paid,2) : ''?></td>
-
+       <td><button class="btn btn-sm btn-flat btn-danger btn_void" value="<?=$value->P_ID?>">Void</button></td>
     </tr>
 
  <?php  

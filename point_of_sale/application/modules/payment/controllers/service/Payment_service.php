@@ -26,6 +26,7 @@ class Payment_service extends MY_Controller
     $this->psModel->Incharge_ID = $this->session->ID;
     $this->psModel->Order_ID = $this->input->post("Order_id");
     $this->psModel->Amount_paid = $this->input->post("Amount_paid");
+    $this->psModel->Amount_rendered = $this->input->post("Amount_rendered");
     $this->psModel->Payment_mode = $this->input->post("Payment_mode");
     $this->psModel->mockupFilename = $this->input->post("mockupFilename");
     $this->psModel->Receipt_number = $this->input->post("Receipt_number");
@@ -167,6 +168,12 @@ class Payment_service extends MY_Controller
 		}
 	
 		// Return response
+		echo json_encode($response);
+	}
+
+	public function cancel_order(){
+		$this->psModel->Order_id = $this->input->post("Order_id");
+		$response = $this->psModel->cancel_order();
 		echo json_encode($response);
 	}
 }

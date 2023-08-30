@@ -18,7 +18,10 @@ class Management_model extends CI_Model
     }
 
     public function get_list(){
+        $cats = array("Items", "Status", "Branch");
+       
         $this->db->select('*');
+        $this->db->where_in('List_category', $cats );
         $this->db->from($this->Table->list);
         $this->db->order_by('List_category','asc');
         $this->db->order_by('List_name','asc');
@@ -28,9 +31,12 @@ class Management_model extends CI_Model
 
     public function get_user(){
         $this->db->select('*');
+        if(!empty($this->session->Branch)){
+            $this->db->where('Branch', $this->session->Branch);
+        }
+        $this->db->where('Active', 1);
         $this->db->from($this->Table->user);
         $this->db->order_by('LName','asc');
-        $this->db->where('Active', 1);
         $query = $this->db->get()->result();
         return $query;
     }
@@ -50,6 +56,16 @@ class Management_model extends CI_Model
         $this->db->where('ID', $this->list_id);
 
         $query = $this->db->get()->row();
+        return $query;
+    }
+
+    public function get_branch(){
+        $this->db->select('*');
+        $this->db->where('List_category', 'Branch');
+        $this->db->from($this->Table->list);
+      
+        $this->db->order_by('List_name', 'asc');
+        $query = $this->db->get()->result();
         return $query;
     }
 
