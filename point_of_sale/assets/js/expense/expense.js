@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // load_expenses();
+    load_expenses();
 })
 
 //load expenses table/grid
@@ -69,6 +69,7 @@ var editFunction = (x) => {
             $('#aamount').val(e.Actual_Money);
             $('#aexp').val(e.expense);
             $('#balance').val(e.Balance);
+            $('#Branch').val(e.Branch);
             $('#ID').val(e.ID);
             $('#image_2').val(e.Image);
             
@@ -88,7 +89,7 @@ $("#expbtn").click(function () {
     var actualExpenses = $("#aexp").val();
     var balance = $("#balance").val(); // Since it's disabled, you may not want to include this here
     var branch = $("#Branch").val();
-  
+    
     // Get the uploaded image file
     var imageFile = $("#image")[0].files[0]; // This will get the first selected file (you can add validation if needed)
   
@@ -139,7 +140,7 @@ $("#expbtn").click(function () {
     var branch = $("#Branch").val();
     var ID = $("#ID").val();
     var image_2 = $("#image_2").val();
-  
+    
     // Get the uploaded image file
     var imageFile = $("#image")[0].files[0]; // This will get the first selected file (you can add validation if needed)
   
@@ -193,3 +194,42 @@ $("#expbtn").click(function () {
     // window.location.href = base_url+"point_of_sale/payment/?custid="+x+'&oid='+e;
     // alert();
 }
+
+$(document).on('click', '.btn_void_exp', function() {
+  if (confirm("Are you sure you want to void this expense?") == true) {
+    $.post({
+      url: base_url+'expense/service/Expense_service/void',
+      data: {
+          Expense_id: $(this).val(),
+      },
+      success: function(e) {
+          var e = JSON.parse(e);
+          if (e.has_error == false) {
+              toastr.success(e.message);
+              setTimeout(function() {
+                window.location.reload();
+            }, 2000);
+          } else {
+              toastr.error(e.message);
+          }
+      },
+  })
+  } else {
+    return;
+  }
+  
+});
+
+
+$(document).on('click', '#submit_date_exp', function() {
+  // console.log($('#d_from').val() + " "+ $('#d_to').val());
+  $(document).gmLoadPage({
+      url:  base_url+'expense/get_expenses',
+      data: {
+          d_from: $('#d_from').val(),
+          d_to: $('#d_to').val()
+      },
+      load_on: "#load_expenses",
+  })
+
+});

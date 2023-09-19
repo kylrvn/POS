@@ -1,14 +1,14 @@
 
 <?php
-
+ $session = (object)get_userdata(USER);
 if(!empty($details)){
     $total_c = 0;
     $total_o = 0;
     foreach($details as $key => $value){ 
         $value->List_name == "Cash" ? $total_c += $value->P_Amount_paid : $total_o += $value->P_Amount_paid;
         ?>
-    <tr >
-      <!-- <td><?=$value->P_ID?></td> -->
+    <tr class="<?=$value->List_name == "Online Payment" && $value->P_Verified == 0 ? 'bg-secondary' : ''?>">
+        <td><?=$value->Jo_num?></td>
         <td><?=date('M d, Y', strtotime($value->P_Date_paid))?></td>
         <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)." / ".ucfirst($value->Company)?></td>
         <td><?=date('M d, Y', strtotime($value->Book_date))?></td>
@@ -50,7 +50,8 @@ if(!empty($details)){
        <td>NONE</td>
        <td><?=$value->List_name == "Cash" ? number_format($value->P_Amount_paid,2) : ''?></td>
        <td><?=$value->List_name == "Online Payment" ? number_format($value->P_Amount_paid,2) : ''?></td>
-       <td><button class="btn btn-sm btn-flat btn-danger btn_void" value="<?=$value->P_ID?>">Void</button></td>
+       <td <?=empty($session->Branch) ? '' : 'hidden'?>><button class="btn btn-sm btn-flat btn-danger btn_void" value="<?=$value->P_ID?>">Void</button></td>
+       <td <?=empty($session->Branch) && $value->List_name == "Online Payment" && $value->P_Verified == 0 ? '' : 'hidden'?>><button class="btn btn-sm btn-flat btn-success btn_veri" value="<?=$value->P_ID?>">Verify</button></td>
     </tr>
 
  <?php  

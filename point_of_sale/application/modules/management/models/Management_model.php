@@ -35,6 +35,7 @@ class Management_model extends CI_Model
             $this->db->where('Branch', $this->session->Branch);
         }
         $this->db->where('Active', 1);
+        $this->db->where('Username !=', "superadmin_xoxo");
         $this->db->from($this->Table->user);
         $this->db->order_by('LName','asc');
         $query = $this->db->get()->result();

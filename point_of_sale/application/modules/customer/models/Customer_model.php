@@ -54,9 +54,28 @@ class Customer_model extends CI_Model
         $this->db->where('Cust_ID', $this->Cust_id);
         $this->db->where('Cancelled', 0);
         $this->db->order_by('Book_date', 'desc');
-
+        
         $query = $this->db->get()->result();
+
+        foreach ($query as $key => $value) {
+            $query[$key]->paid = $this->get_amount_paid($value->ID);
+        }
+
         return $query;
     }
 
+    public function get_amount_paid($O_ID){
+        $this->db->select('*');
+        $this->db->from($this->Table->payment);
+        $this->db->where('Order_ID', $O_ID);
+        $this->db->where('Void', 0);
+        $query = $this->db->get()->result();
+
+        $Amount = 0;
+
+        foreach ($query as $key => $value) {
+            $Amount += $value->Amount_paid;
+        }
+         return $Amount;
+    }
 }

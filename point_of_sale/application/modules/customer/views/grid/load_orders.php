@@ -11,7 +11,19 @@ if(!empty($orders)){
         <td><?=$value->Jo_num?></td>
         <td><?= date('M d, Y',strtotime($value->Book_date))?></td>
         <td class="<?= $curr_date >= $d_date ? 'text-danger text-bold':''?>"><?=date('M d, Y',strtotime($value->Deadline))?></td>
-        <td><?=$value->Payment_status?></td>
+        <td>
+            <?php
+                if($value->paid == 0){
+                    echo '<b class="text-danger text-bold">UNPAID</b>';
+                } elseif($value->paid < $value->Total_amt){
+                    echo '<b class="text-primary text-bold">DOWN</b>';
+                } elseif($value->paid >= $value->Total_amt){
+                    echo '<b class="text-success text-bold">PAID</b>';
+                }
+            
+            ?>
+        </td>
+        <!-- <td><?=$value->Payment_status?></td> -->
     </tr>
 
  <?php  

@@ -69,6 +69,9 @@ main_header(['customer']);
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="">Branch</label>
+                                <?php if(!empty($session->Branch)){ ?>
+                                    <input type="text" class="form-control" disabled id="Branch" value="<?=$session->Branch?>">
+                                <?php } else { ?>
                                 <select class="form-control" style="width: 100%;" id="Branch">
                                     <?php
                                         foreach($branch as $key => $value){ ?>
@@ -77,6 +80,7 @@ main_header(['customer']);
                                     
                                     ?>
                                 </select>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 <?php
 main_header(['expense']);
+$session = (object)get_userdata(USER);
 ?>
 <!-- ############ PAGE START-->
 
@@ -46,6 +47,19 @@ main_header(['expense']);
                             <label for="">Actual Money</label>
                             <input type="number" id="aamount" class="form-control inpt_edit" placeholder="Actual Money">
                         </div>
+
+                        <div class="form-group" <?=empty($session->Branch) ? '' : 'hidden'?>>
+                            <label for="">Insert to Branch</label>
+                            <select class="form-control" style="width: 100%;" id="Branch">
+                                <option value=""></option>
+                                <?php
+                                    foreach($branch as $key => $value){ ?>
+                                        <option value="<?=$value->List_name?>"><?=$value->List_name?></option>
+                                    <?php }
+                                ?>
+                            </select>
+                        </div>
+
 
 
                         <!-- <div class="form-group">
@@ -94,12 +108,29 @@ main_header(['expense']);
                 <div class="card-body table-responsive">
                     <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center">
                         <!-- <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span> -->
+                        <div class="input-group input-group-sm">
+                            
+                            <label class="mr-2"for="">From</label>
+                            <input type="date" id="d_from" class="form-control form-control-sm">
+
+                            <label class="ml-2 mr-2" for="">To</label>
+                            <input type="date" id="d_to" class="form-control form-control-sm">
+
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default" id="submit_date_exp">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        
+                        </div>
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Date</th>
                                 <th>Description</th>
                                 <th>Incharge</th>
+                                <th>Branch</th>
                                 <th>Actual Money</th>
                                 <th>Actual Expenses</th>
                                 <th>Balance</th>
@@ -109,27 +140,43 @@ main_header(['expense']);
                             <?php
 
                             if (!empty($expenses)) {
+                                $total_act = 0;
+                                $total_exp = 0;
                                 foreach ($expenses as $key => $value) {
-                                    // $d_date = date('Y-m-d',strtotime($value->Deadline));
-                                    // $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
-                            ?>
-                                    <tr>
-                                        <td><?= $key+1 ?></td>
-                                        <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
-                                        <td><?= ucfirst(@$value->Descr) ?></td>
-                                        <td><?= @$value->FName." ".@$value->LName ?></td>
-                                        <td><?= number_format(@$value->Actual_Money,2) ?></td>
-                                        <td><?= number_format(@$value->expense,2) ?></td>
-                                        <td><?= number_format(@$value->Balance,2) ?></td>
-                                        <td>
-                                            <button class=" btn-primary btn-xs edit_exp" value="<?=$value->ID?>"><i class="fa fa-pencil-alt"></i></button>
-                                            <button class=" btn-success btn-xs clickable-row"  data-toggle="modal" data-target="#paymentProofModal" data-img="<?= $value->Image ?>"><i class="fa fa-eye"></i></button>
-                                        </td>
-                                    </tr>
+                                        // $d_date = date('Y-m-d',strtotime($value->Deadline));
+                                        // $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
+                                        $total_act += $value->Actual_Money;
+                                        $total_exp += $value->expense;
+                                    ?>
+                                        <tr>
+                                            <td><?= $key+1 ?></td>
+                                            <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
+                                            <td class="text-wrap"><?= ucfirst(@$value->Descr) ?></td>
+                                            <td><?= @$value->FName." ".@$value->LName ?></td>
+                                            <td><?= number_format(@$value->Actual_Money,2) ?></td>
+                                            <td><?= number_format(@$value->expense,2) ?></td>
+                                            <td><?= number_format(@$value->Balance,2) ?></td>
+                                            <td>
+                                                <button class=" btn-primary btn-xs edit_exp" value="<?=$value->ID?>"><i class="fa fa-pencil-alt"></i></button>
+                                                <button class=" btn-success btn-xs clickable-row"  data-toggle="modal" data-target="#paymentProofModal" data-img="<?= $value->Image ?>"><i class="fa fa-eye"></i></button>
+                                                <button <?=empty($session->Branch) ? '' : 'hidden'?> class="btn btn-xs btn-danger btn_void_exp" value="<?=$value->ID?>">Void</button></td>
+                                            </td>
+                                        </tr>
 
-                                <?php
-                                }
-                            } else { ?>
+                                    <?php
+                                } ?>
+
+                                <tr>                     
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-bold text-danger"><?= number_format(@$total_act,2)?></td>
+                                    <td class="text-bold text-danger"><?= number_format(@$total_exp,2)?></td>
+                                    <td class="text-bold text-danger"><?= number_format(@$total_act - $total_exp,2)?></td>
+                                    <td></td>
+                                </tr>
+                        <?php } else { ?>
                                 <tr>
                                     <td colspan="8">
                                         <div>

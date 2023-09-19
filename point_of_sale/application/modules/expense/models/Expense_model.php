@@ -19,18 +19,42 @@ class Expense_model extends CI_Model
 
     public function get_expenses(){
         $this->db->select(
-            'e.*,'.
+            'e.Branch as e_Branch,'.
+            'e.ID,'.
+            'e.Image,'.
+            'e.Date,'.
+            'e.Date,'.
+            'e.Descr,'.
+            'e.Actual_Money,'.
+            'e.expense,'.
+            'e.Balance,'.
             'u.FName,'.
-            'u.LName,'
+            'u.LName,'.
+            'u.Branch as u_branch'
 
         );
         $this->db->from($this->Table->expenses.' e');
         $this->db->join($this->Table->user.' u', 'u.ID=e.Incharge','left');
+        $this->db->where('e.Void', 0);
+
+        if(@$this->d_from != NULL || @$this->d_to != NULL){
+            $this->db->where('e.date_created >=', @$this->d_from);
+            $this->db->where('e.date_created <=', @$this->d_to);
+
+        } else{
+            $this->db->where('e.Date', date('Y-m-d'));
+        }
 
         if(!empty($this->session->Branch)){
-            $this->db->where('u.Branch', $this->session->Branch);
-            $this->db->where('e.Incharge', $this->session->ID);
-        }
+            if($this->session->Role == "Admin"){
+                $this->db->where('e.Branch', $this->session->Branch);
+                // $this->db->where('e.Branch', "Bacolod");
+            } else{
+                $this->db->where('u.Branch', $this->session->Branch);
+                $this->db->where('e.Incharge', $this->session->ID);
+            }
+        } 
+
         $query = $this->db->get()->result();
         return $query;
         //  echo json_encode($query);
@@ -42,6 +66,16 @@ class Expense_model extends CI_Model
         $this->db->where('ID', $this->exp_id);
 
         $query = $this->db->get()->row();
+        return $query;
+    }
+
+    public function get_branch(){
+        $this->db->select('*');
+        $this->db->where('List_category', 'Branch');
+        $this->db->from($this->Table->list);
+      
+        $this->db->order_by('List_name', 'asc');
+        $query = $this->db->get()->result();
         return $query;
     }
 }

@@ -37,4 +37,10 @@ class Expense_service extends MY_Controller
 		$response = $this->esModel->edit_expense();
 		echo json_encode($response);
 	}
+
+	public function void(){
+		$this->esModel->Expense_ID = $this->input->post("Expense_id");
+		$response = $this->esModel->void();
+		echo json_encode($response);
+	}
 }

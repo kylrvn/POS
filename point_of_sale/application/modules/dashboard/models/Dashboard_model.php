@@ -41,6 +41,8 @@ class Dashboard_model extends CI_Model
             else if($this->Filter_type == "Customer" && !empty($this->Filter_value)){
                 $this->db->like('CONCAT(c.FName, " ", c.LName)', $this->Filter_value);
                 $this->db->or_like('c.Company', $this->Filter_value);
+                $this->db->where('o.Cancelled', 0);
+
             }
              else if($this->Filter_type == "Payment Status"){
                 $this->db->where('o.Payment_status', $this->Filter_value);
@@ -113,6 +115,7 @@ class Dashboard_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->Table->payment);
         $this->db->where('Order_ID', $O_ID);
+        $this->db->where('Void', 0);
         $query = $this->db->get()->result();
 
         $Amount = 0;
@@ -126,6 +129,7 @@ class Dashboard_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->Table->reference);
         $this->db->where('Order_ID', $O_ID);
+        $this->db->order_by('ID', 'desc');
         $query = $this->db->get()->row();
 
 
@@ -140,4 +144,19 @@ class Dashboard_model extends CI_Model
 
         return $query;
     }
+
+    // public function get_amount_paid($O_ID){
+    //     $this->db->select('*');
+    //     $this->db->from($this->Table->payment);
+    //     $this->db->where('Void', 0);
+    //     $query = $this->db->get()->result();
+
+    //     $Amount = 0;
+
+    //     foreach ($query as $key => $value) {
+    //         $Amount += $value->Amount_paid;
+    //         $query[$key]->mock_up = $this->get_mock_up($value->Order_ID);
+    //     }
+    //      return $Amount;
+    // }
 }

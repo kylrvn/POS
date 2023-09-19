@@ -46,4 +46,10 @@ class Report_service extends MY_Controller
 		$response = $this->rsModel->void();
 		echo json_encode($response);
 	}
+
+	public function verify(){
+		$this->rsModel->Payment_ID = $this->input->post("Payment_ID");
+		$response = $this->rsModel->verify();
+		echo json_encode($response);
+	}
 }

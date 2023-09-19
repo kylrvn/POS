@@ -157,6 +157,14 @@ $('#save_edit_customer').click(function() {
     })
 });
 
+// function myFunction(e,x){
+//     window.location.href = "point_of_sale/payment/?custid="+x+'&oid='+e;
+// }
+
 function myFunction(e,x){
-    window.location.href = "point_of_sale/payment/?custid="+x+'&oid='+e;
+    // use this for local
+    window.location.href = base_url+"point_of_sale/payment/?custid="+x+'&oid='+e;
+    
+    // use this for hosting
+    // window.location.href = base_url+"payment/?custid="+x+'&oid='+e;
 }

@@ -38,12 +38,15 @@ class Expense extends MY_Controller
 	// 	$this->data['content'] = 'sales_report';
 	// 	$this->load->view('layout', $this->data);
 	// $this->coModel->ID = $this->input->get('custid');
-	$this->data['expenses'] = $this->eModel->get_expenses();
+	$this->data['branch'] = $this->eModel->get_branch();
+	// $this->data['expenses'] = $this->eModel->get_expenses();
 	$this->data['content'] = 'index';
 	$this->load->view('layout', $this->data);
 	}
 
 	public function get_expenses() {
+		$this->eModel->d_from = $this->input->post("d_from");
+		$this->eModel->d_to = $this->input->post("d_to");
 
 		$this->data['expenses'] = $this->eModel->get_expenses();
 		$this->data['content'] = 'grid/load_expenses';

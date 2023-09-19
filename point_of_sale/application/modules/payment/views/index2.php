@@ -69,7 +69,8 @@ main_header(['create_order']);
                                                         <th style="width: 10px">#</th>
                                                         <th>Item</th>
                                                         <th>Qty</th>
-                                                        <th>Amount</th>
+                                                        <th>Unit Price</th>
+                                                        <th>Subtotal</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -82,6 +83,7 @@ main_header(['create_order']);
                                                                 <td><?=$key+1?></td>
                                                                 <td><?=$value->List_name?></td>
                                                                 <td><?=$value->Item_qty?></td>
+                                                                <td><?=number_format(($value->Item_unitprice/$value->Item_qty),2)?></td>
                                                                 <td><?=number_format($value->Item_unitprice,2)?></td>
                                                             </tr>
                                                          <?php   
@@ -91,9 +93,10 @@ main_header(['create_order']);
                                                             
                                                         ?>
                                                         <tr class="text-bold text-danger">
-                                                            <td>Subtotal</td>
+                                                            <td>Total</td>
                                                             <td></td>
                                                             <td><?=$totalqty?></td>
+                                                            <td></td>
                                                             <td>&#8369 <?=number_format($totalamt,2)?></td>
                                                         </tr>
                                                 </tbody>
@@ -213,10 +216,10 @@ main_header(['create_order']);
                                                         <input type="date" class="form-control form-control-sm" id="Due_date" <?= $balance == 0 ? 'disabled' : ''?>>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row" id="amnt">
+                                                <div class="form-group row " id="amnt">
                                                     <label class="col-sm-4 col-form-label"><small>Amount to Pay</small></label>
                                                     <div class="col-sm-8">
-                                                        <input type="number" class="form-control form-control-sm"  id="Amount_paid" placeholder="Amount" <?= $balance == 0 ? 'disabled' : ''?> <?=$session->Role == "Front Desk" ? 'disabled' : ''?>>
+                                                        <input type="number" class="form-control form-control-sm"  id="Amount_paid" placeholder="Amount" <?= $balance == 0 ? 'disabled' : ''?>>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row" id="amnt_rendered">
@@ -273,7 +276,7 @@ main_header(['create_order']);
                                         </div>
                                         <div class="col-sm-6">
                                             <h6 class="dates2">Deadline: <b><?=date('M d, Y', strtotime($order_dets->Deadline))?></b></h6>
-                                            <h6 class="dates">Deadline: <input id="d_date" class="form-control" type="date" value="<?=date($order_dets->Deadline)?>"></b></h6>
+                                            <h6 class="dates">Deadline: <input id="deadline_date" class="form-control" type="date" value="<?=date($order_dets->Deadline)?>"></b></h6>
 
                                             <label for="">Deadline Note</label>
                                             <p class="<?=empty($order_dets->Deadline_notes) ? 'text-danger text-bold' : ''?> note_area2"><?=empty($order_dets->Deadline_notes) ? 'No note' : $order_dets->Deadline_notes ?></p>
@@ -424,10 +427,11 @@ main_header(['create_order']);
         $clickableClass = ($value->Mode == 'Online Payment') ? 'clickable-row' : '';
         $modalID = 'paymentProofModal' . $key; // Unique modal ID for each row
         ?>
-        <tr class="<?=$clickableClass?>" data-toggle="<?=$value->Mode == "Cash" ? '' : 'modal'?>" data-target="#<?=$modalID?>" data-pID="<?=$value->ID?>">
+        <tr class="<?=$clickableClass?> <?=$value->Void == 1 ? 'bg-gradient-danger' : ''?>" data-toggle="<?=$value->Mode == "Cash" ? '' : 'modal'?>" data-target="#<?=$modalID?>" data-pID="<?=$value->ID?>">
             <td><?=$key + 1?></td>
             <td>&#8369 <?=number_format($value->Amount_paid, 2)?></td>
-            <td><?=$value->Mode == "Cash On Delivery (COD)" ? date('M d, Y', strtotime($value->Due_date)) : date('M d, Y', strtotime($value->Date_paid))?></td>
+            <!-- <td><?=$value->Mode == "Cash On Delivery (COD)" ? date('M d, Y', strtotime($value->Due_date)) : date('M d, Y', strtotime($value->Date_paid))?></td> -->
+            <td><?=$value->Payment_mode == 52 ? date('M d, Y', strtotime($value->Due_date)) : date('M d, Y', strtotime($value->Date_paid)) ?></td>
             <td>
                 <?php
                     if($value->Mode == "Cash"){

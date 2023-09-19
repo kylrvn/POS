@@ -14,9 +14,12 @@ $(document).ready(function () {
 
 
 function myFunction(e,x){
+    // use this for local
     window.location.href = base_url+"point_of_sale/payment/?custid="+x+'&oid='+e;
+    
+    // use this for hosting
+    // window.location.href = base_url+"payment/?custid="+x+'&oid='+e;
 }
-
 var load_status_filter = (y,x) => {
     $(document).gmLoadPage({
        url: 'dashboard/get_details',

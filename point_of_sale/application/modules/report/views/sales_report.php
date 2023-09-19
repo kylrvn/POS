@@ -53,6 +53,7 @@ main_header(['sales_report']);
                     <table class="table table-hover text-nowrap table-sm table-striped">
                         <thead>
                             <tr>
+                                <th>Item Code</th>
                                 <th>Date</th>
                                 <th>Customer Name</th>
                                 <th>Book Date</th>

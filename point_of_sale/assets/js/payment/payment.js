@@ -139,7 +139,7 @@ $(document).on('click', '#save_dets', function() {
             b_note: $('#b_note').val(),
             d_note: $('#d_note').val(),
             freebies: $('#freebies').val(),
-            d_date: $('#d_date').val(),
+            d_date: $('#deadline_date').val(),
         },
         success: function(e) {
             var e = JSON.parse(e);
@@ -181,7 +181,7 @@ $(document).on('click', '#submit_req', function() {
                 toastr.success("Document(s) Successfully uploaded.");
                 setTimeout(function() {
                     window.location.reload();
-                }, 500);
+                }, 2000);
             } else {
                 toastr.error("ERROR");
             }
@@ -190,9 +190,9 @@ $(document).on('click', '#submit_req', function() {
             console.error(error);
         }
     });
-    setTimeout(function() {
-        window.location.reload();
-    }, 500);
+    // setTimeout(function() {
+    //     window.location.reload();
+    // }, 500);
 });
 
 // $(document).on('click', '#view_mockup', function() {
@@ -252,6 +252,7 @@ $(document).ready(function() {
             way_num.css('display', 'none');
             terms.css('display', 'none');
             d_date.css('display', 'none');
+            // document.getElementById('amnt').disabled = false;
         } else if(selectedOption === "49"){
             // Cash
             proofOfPaymentGroup.css('display', 'none');
@@ -325,7 +326,7 @@ $(document).on('click', '#cancel_order', function() {
             if (e.has_error == false) {
                 toastr.success(e.message);
                 setTimeout(function() {
-                    window.location.reload();
+                    window.location.href = base_url+"/dashboard";
                 }, 2000);
             } else {
                 toastr.error(e.message);

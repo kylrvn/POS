@@ -71,4 +71,30 @@ class Report_services_model extends CI_Model
         return (array('message'=>$msg->getMessage(), 'has_error'=>true));
     }
    }
+
+   public function verify(){
+    try{     
+        $data = array(
+            'Verified' => 1
+        );
+
+        $this->db->trans_start();
+                       
+        $this->db->where('ID', $this->Payment_ID);
+        $this->db->update($this->Table->payment,$data);
+
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE)
+        {                
+            $this->db->trans_rollback();
+            throw new Exception(ERROR_PROCESSING, true);	
+        }else{
+            $this->db->trans_commit();
+            return array('message'=>VERIFIED, 'has_error'=>false);
+        }
+    }
+    catch(Exception$msg){
+        return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+    }
+   }
 }

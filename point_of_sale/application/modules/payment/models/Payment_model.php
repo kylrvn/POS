@@ -82,6 +82,7 @@ class Payment_model extends CI_Model
         $this->db->select('*');
 
         $this->db->where('Order_ID', $this->OrderID);
+        $this->db->where('Void', 0);
         $this->db->from($this->Table->payment);
 
         $query = $this->db->get()->result();

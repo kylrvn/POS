@@ -143,7 +143,11 @@ $.post({
                 $('.btn_add_item').attr('disabled','disabled');
                 
                 $('#proceed_payment').click(function() {
+                    // use this for local
                     window.location.href = base_url+"point_of_sale/payment/?custid="+$('#cust_id').val()+'&oid='+e.id;
+
+                    // use this for hosting
+                    // window.location.href = base_url+"payment/?custid="+$('#cust_id').val()+'&oid='+e.id;
                 });
 
             } else {

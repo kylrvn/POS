@@ -109,6 +109,7 @@ class Report_model extends CI_Model
             'e.*' 
         );
         $this->db->from($this->Table->expenses . ' e');
+        $this->db->where('e.Void', 0);
        
 
         if(!empty($this->session->Branch)){
@@ -161,7 +162,7 @@ class Report_model extends CI_Model
                 'SUM(e.expense) AS totalexpense'
         );
         $this->db->from($this->Table->expenses . ' e');
-       
+        $this->db->where('e.Void', 0);
 
         if(!empty($this->session->Branch)){
             $this->db->where('e.Incharge', $this->session->ID);
@@ -205,6 +206,7 @@ class Report_model extends CI_Model
             'p.Amount_paid as P_Amount_paid,'.
             'p.Status as P_Status,'.
             'p.Date_paid as P_Date_paid,'.
+            'p.Verified as P_Verified,'.
             'o.*,'.
             'c.*,'.
             'l.*,'.
@@ -215,21 +217,21 @@ class Report_model extends CI_Model
         $this->db->from($this->Table->payment. ' p');
         $this->db->join($this->Table->order. ' o', 'o.ID=p.Order_ID', 'left');
         $this->db->join($this->Table->customer. ' c', 'c.ID=o.Cust_ID', 'left');
-        $this->db->join($this->Table->item. ' i', 'i.Order_ID=o.ID', 'left');
+        // $this->db->join($this->Table->item. ' i', 'i.Order_ID=o.ID', 'left');
         $this->db->join($this->Table->list. ' l', 'l.ID=p.Payment_mode', 'left');
         $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
         $this->db->join($this->Table->proof. ' pr', 'pr.Payment_ID=p.ID', 'left');
         $this->db->join($this->Table->user. ' u', 'u.ID=p.Incharge_ID', 'left');
         $this->db->where('p.Void',0);
 
-        if(!empty($this->d_from || $this->d_to)){
-            $this->db->where('p.Date_paid >=', $this->d_from);
-            $this->db->where('p.Date_paid <=', $this->d_to);
+        // if(!empty($this->d_from || $this->d_to)){
+        //     $this->db->where('p.Date_paid >=', $this->d_from);
+        //     $this->db->where('p.Date_paid <=', $this->d_to);
 
-        } else{
-            $this->db->like('p.Date_paid', date('Y-m-d'));
+        // } else{
+        //     $this->db->like('p.Date_paid', date('Y-m-d'));
 
-        }
+        // }
         if(!empty($this->session->Branch)){
             $this->db->where('u.Branch', $this->session->Branch);
         }
