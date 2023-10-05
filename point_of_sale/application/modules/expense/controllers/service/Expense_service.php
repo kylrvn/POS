@@ -38,6 +38,11 @@ class Expense_service extends MY_Controller
 		echo json_encode($response);
 	}
 
+	public function add_image(){	
+		$response = $this->esModel->add_image();
+		echo json_encode($response);
+	}
+
 	public function void(){
 		$this->esModel->Expense_ID = $this->input->post("Expense_id");
 		$response = $this->esModel->void();

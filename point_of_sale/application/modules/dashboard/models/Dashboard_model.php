@@ -31,9 +31,12 @@ class Dashboard_model extends CI_Model
         $this->db->join($this->Table->list. ' l', 'l.ID=o.Status', 'left');
         $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
         $this->db->where('o.Cancelled', 0);
+       
         if(!empty($this->session->Branch)){
             $this->db->where('c.Branch', $this->session->Branch);
-        }
+        } 
+       
+
         if(!empty($this->Filter_value) && $this->Filter_value != "All"){
             if($this->Filter_type == "Order Status"){
                 $this->db->where('Status', $this->Filter_value);
@@ -46,14 +49,29 @@ class Dashboard_model extends CI_Model
             }
              else if($this->Filter_type == "Payment Status"){
                 $this->db->where('o.Payment_status', $this->Filter_value);
+            }  
+            else if($this->Filter_type == "Branch"){
+                $this->db->where('c.Branch', $this->Filter_value);
+            }
+            else if($this->Filter_type == "Book Date"){
+                $value = explode(' - ', $this->Filter_value);
+                $valueone = date("Y-m-d", strtotime($value[0]));
+                $valuetwo =  date("Y-m-d", strtotime($value[1]));
+                $this->db->where('o.Book_date >=', @$valueone);
+                $this->db->where('o.Book_date <=', @$valuetwo);
+                // echo json_encode($valueone);
             }
            
         } 
+        else if($this->Filter_value != "All"){
+            $this->db->where('MONTH(o.Book_date)', date('m'));
+        }
         // $this->db->join($this->Table->payment. ' p', '.ID=o.Status', 'left');
-
+       
        
         $this->db->group_by('i.Order_id');
-        $this->db->order_by('o.ID', 'desc');
+        // $this->db->order_by('o.ID', 'desc');
+        $this->db->order_by('o.Deadline', 'asc');
         $query = $this->db->get()->result();
 
         
@@ -159,4 +177,16 @@ class Dashboard_model extends CI_Model
     //     }
     //      return $Amount;
     // }
+
+    //  BAGO NI SA
+
+    public function get_branch(){
+        $this->db->select('*');
+        $this->db->where('List_category', 'Branch');
+        $this->db->from($this->Table->list);
+      
+        $this->db->order_by('List_name', 'asc');
+        $query = $this->db->get()->result();
+        return $query;
+    }
 }

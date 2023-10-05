@@ -254,6 +254,8 @@ function main_header($menubar = [])
 <script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/toastr/toastr.min.js"></script>
+<!-- InputMask -->
+<script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/moment/moment.min.js"></script>
 <!-- date-range-picker -->
 <script src="<?= base_url()?>assets/theme/adminlte/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Select2 -->
@@ -292,6 +294,7 @@ function main_header($menubar = [])
 <script src="<?= base_url() ?>assets/js/noPostBack.js"></script>
 <script src="<?= base_url()?>assets/js/service.js"></script>
 
+
 <script>
   var base_url = '<?=base_url()?>';
   var baseUrl = '<?=base_url()?>';
@@ -303,6 +306,8 @@ function main_header($menubar = [])
 $('.select2bs4').select2({
   theme: 'bootstrap4'
 })
+  //Date range picker
+  $('#reservation').daterangepicker()
 var base_url = <?php echo json_encode(base_url())?>;
 
 $('#signout').on('click',function(){

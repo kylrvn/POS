@@ -69,4 +69,12 @@ class Management_service extends MY_Controller
 		echo json_encode($response);
 	}
 
+	public function update_list(){
+		$this->msModel->ID = $this->input->post("ID");
+		$this->msModel->List = $this->input->post("List");
+		$this->msModel->Category = $this->input->post("Category");
+		$response = $this->msModel->update_list();
+		echo json_encode($response);
+	}
+
 }

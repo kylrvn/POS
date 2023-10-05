@@ -41,7 +41,9 @@ main_header(['create_order']);
                             <span class="description">Customer Name</span>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-sm btn-danger" id="cancel_order" value="<?=$order_dets->ID?>" <?=$last_paid == 0 ? '' : 'hidden'?>>Cancel Order</button>
+
+                    <!-- <button type="button" class="btn btn-sm btn-danger" id="cancel_order" value="<?=$order_dets->ID?>" <?=$last_paid == 0 ? '' : 'hidden'?>>Cancel Order</button> -->
+                    <button type="button" class="btn btn-sm btn-danger" id="cancel_order" value="<?=$order_dets->ID?>" <?=empty(@$last_paid_cancel_order_ref) ? '' : 'hidden'?>>Cancel Order</button>
                     <div class="row mt-2 ">
                         <div class="col-sm-6">
                            <div class="card card-primary">

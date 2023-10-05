@@ -35,6 +35,7 @@ class Report extends MY_Controller
 		$this->data['cash'] =  $this->rModel->get_cash();
 		$this->data['online'] =  $this->rModel->get_online();
 		$this->data['expense'] =  $this->rModel->get_expense();
+		$this->data['branch'] = $this->rModel->get_branch(); //BAGO NI SA
 		
 		$this->data['content'] = 'summary_report';
 		$this->load->view('layout', $this->data);
@@ -42,11 +43,14 @@ class Report extends MY_Controller
 
 	public function sales(){
 		// $this->data['monthly'] =  $this->rModel->get_monthly();
+		$this->data['branch'] = $this->rModel->get_branch();//  BAGO NI SA
+
 		$this->data['content'] = 'sales_report';
 		$this->load->view('layout', $this->data);
 	}
 
 	public function load_summ() {
+		$this->rModel->Branch = ($this->input->post("Branch") == "undefined" ? "All" : $this->input->post("Branch")); //BAGO NI SA
 		$monthlyData = $this->rModel->get_monthly();
 		$expense =  $this->rModel->get_expense_monthly();
 		
@@ -56,9 +60,12 @@ class Report extends MY_Controller
 	
 		$this->load->view('grid/summary', $summaryData);
 		$this->load->view('grid/chart', $chartData);
+		
 	}
 
 	public function load_items() {
+		$this->rModel->Branch = ($this->input->post("Branch") == "undefined" ? "All" : $this->input->post("Branch")); //BAGO NI SA
+		// $this->rModel->Branch = $this->input->post("Branch"); //BAGO NI SA
 		$itemlist = $this->rModel->get_itemlist();
 		
 		// echo json_encode($itemlist);
@@ -83,6 +90,7 @@ class Report extends MY_Controller
 	public function load_daily_sales() {
 		$this->rModel->d_from = $this->input->post("d_from");
 		$this->rModel->d_to = $this->input->post("d_to");
+		$this->rModel->branch = $this->input->post("branch"); //BAGO NI SA
 
 		$this->data['details'] = $this->rModel->get_daily_sales();
 	

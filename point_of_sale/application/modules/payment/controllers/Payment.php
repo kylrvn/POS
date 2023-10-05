@@ -42,6 +42,7 @@ class Payment extends MY_Controller
 		$this->data['order_dets'] = $this->pModel->get_order_details();
 		$this->data['p_mode'] = $this->pModel->get_payment_modes();
 		$this->data['last_paid'] = $this->pModel->get_last_paid();
+		$this->data['last_paid_cancel_order_ref'] = $this->pModel->last_paid_cancel_order_ref();
 		$this->data['status'] = $this->pModel->get_status();
 		$this->data['p_history'] = $this->pModel->get_p_history();
 		$this->data['users'] = $this->pModel->get_users();

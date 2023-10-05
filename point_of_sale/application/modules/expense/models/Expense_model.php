@@ -54,6 +54,12 @@ class Expense_model extends CI_Model
                 $this->db->where('e.Incharge', $this->session->ID);
             }
         } 
+        //  BAGO NI SA
+        else {
+            if(!empty($this->branch && $this->branch != "All")){
+                $this->db->where('u.Branch', $this->branch);
+            }
+        }
 
         $query = $this->db->get()->result();
         return $query;

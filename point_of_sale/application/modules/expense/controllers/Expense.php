@@ -47,6 +47,7 @@ class Expense extends MY_Controller
 	public function get_expenses() {
 		$this->eModel->d_from = $this->input->post("d_from");
 		$this->eModel->d_to = $this->input->post("d_to");
+		$this->eModel->branch = $this->input->post("branch"); //  BAGO NI SA
 
 		$this->data['expenses'] = $this->eModel->get_expenses();
 		$this->data['content'] = 'grid/load_expenses';

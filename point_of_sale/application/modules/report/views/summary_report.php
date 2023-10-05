@@ -23,6 +23,20 @@ main_header(['summary_report']);
 <section class="content">
     <div class="container-fluid">
         <h3 class="text-bold">OVERALL SALES</h3>
+        <!-- BAGO NI SA -->
+        <div class="row mb-2" <?=empty($session->Branch) ? '' : 'hidden'?>>
+            <div class="col-sm-3">
+                <select class="form-control form-control-sm" style="width: 100%;" id="Branch">
+                    <option value="" disabled selected>Select Branch</option>
+                    <option value="All">All</option>
+                    <?php
+                        foreach($branch as $key => $value){ ?>
+                            <option value="<?=$value->List_name?>"><?=$value->List_name?></option>
+                        <?php }
+                    ?>
+                </select>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-4 col-sm-12">
                 <!-- small box -->

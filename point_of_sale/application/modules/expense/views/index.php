@@ -80,7 +80,7 @@ $session = (object)get_userdata(USER);
                         <div class="form-group act_image" style="display: none;">
                             <label for="">Upload Image</label>
                             <input type="file" name="image_input_name" id="image" class="form-control">
-                            <input type="text" name="image_input_name" id="image_2" class="form-control">
+                            <input type="text" name="image_input_name" id="image_2" class="form-control" style="display:none">
                         </div>
 
                         <!-- <div class="form-group">
@@ -95,6 +95,7 @@ $session = (object)get_userdata(USER);
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary" id="expbtn">Add</button>
                         <button type="button" class="btn btn-warning" id="expedit" style="display: none">Update</button>
+                        <button type="button" class="btn btn-primary" id="add_image" style="display: none">Add Image</button>
                     </div>
                 </form>
             </div>
@@ -109,7 +110,15 @@ $session = (object)get_userdata(USER);
                     <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center">
                         <!-- <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span> -->
                         <div class="input-group input-group-sm">
-                            
+                                    <!-- BAGO NI SA -->
+                            <select class="form-control form-control-sm mr-1" style="width: 10%;" id="branch_filter" <?=empty($session->Branch) ? '' : 'hidden'?>>
+                                <option value="All">All Branch</option>
+                                <?php 
+                                    foreach($branch as $key => $x){ ?>
+                                    <option value="<?=$x->List_name?>"><?=$x->List_name?></option>
+                                <?php } ?>
+                            </select>
+
                             <label class="mr-2"for="">From</label>
                             <input type="date" id="d_from" class="form-control form-control-sm">
 
@@ -201,11 +210,11 @@ $session = (object)get_userdata(USER);
                 <div class="modal-header">
                     <h5 class="modal-title">Proof Receipt</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span  class="close">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+                    <div id="image-container"></div>
                 </div>
             </div>
         </div>

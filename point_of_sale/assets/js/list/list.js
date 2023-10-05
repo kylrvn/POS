@@ -122,12 +122,15 @@ var editFunctionList = (x) => {
             var e = JSON.parse(e);
             $('#List').val(e.List_name);
             $('#Category').val(e.List_category);
-            var x = document.getElementById("List").disabled = true;
-            var y = document.getElementById("Category").disabled = true;
+
+            // var x = document.getElementById("List").disabled = true;
+            // var y = document.getElementById("Category").disabled = true;
             $('#delete_list').val(e.ID);
+            $('#Update_list').val(e.ID);
             
             $('#Save').css('display','none');
             $('#Delete').css('display','inline');
+            $('#Update_list').css('display','inline');
     },
   })
 }
@@ -205,6 +208,32 @@ $('#delete_list').click(function() {
           var e = JSON.parse(e);
           if(e.has_error == false){
               $('#modal-default').modal('hide');
+              toastr.success(e.message);
+              load_list();
+              setTimeout(function(){
+                window.location.reload();
+            },2000); 
+
+          } 
+      },
+  })
+});
+
+$('#Update_list').click(function() {
+  $.post({
+      url: 'management/service/Management_service/update_list',
+      // selector: '.form-control',
+      data: {
+          ID: $(this).val(),
+          List: $('#List').val(),
+          Category: $('#Category').val()
+          
+      },
+      success:function(e)
+          {
+          var e = JSON.parse(e);
+          if(e.has_error == false){
+              // $('#modal-default').modal('hide');
               toastr.success(e.message);
               load_list();
               setTimeout(function(){

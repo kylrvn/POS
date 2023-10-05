@@ -31,6 +31,7 @@ class Dashboard extends MY_Controller
 
 		$this->data['status'] = $this->dModel->get_status();
 		$this->data['session'] =  $this->session;
+		$this->data['branch'] = $this->dModel->get_branch();
 		// if($this->session->Role == "Artist"){
 		// 	$this->data['content'] = 'index_artist';
 
@@ -45,6 +46,7 @@ class Dashboard extends MY_Controller
 	public function get_details(){
 		$this->dModel->Filter_value = $this->input->post("Filter_value");
 		$this->dModel->Filter_type = $this->input->post("Filter_type");
+		// $this->dModel->Branch = $this->input->post("Branch");
 		$this->data['details'] = $this->dModel->get_details();
 		$this->data['content'] = 'grid/load_details';
 		$this->load->view('layout', $this->data);

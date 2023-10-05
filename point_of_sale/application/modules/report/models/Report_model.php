@@ -32,6 +32,7 @@ class Report_model extends CI_Model
         if(!empty($this->session->Branch)){
             $this->db->where('c.Branch', $this->session->Branch);
         }
+        
 
         $query = $this->db->get()->result();
         $Amount = 0;
@@ -112,10 +113,19 @@ class Report_model extends CI_Model
         $this->db->where('e.Void', 0);
        
 
+        // if(!empty($this->session->Branch)){
+        //     $this->db->where('e.Incharge', $this->session->ID);
+        // }
+
         if(!empty($this->session->Branch)){
-            $this->db->where('e.Incharge', $this->session->ID);
-        }
-      
+            if($this->session->Role == "Admin"){
+                $this->db->where('e.Branch', $this->session->Branch);
+                // $this->db->where('e.Branch', "Bacolod");
+            } else{
+                $this->db->where('u.Branch', $this->session->Branch);
+                $this->db->where('e.Incharge', $this->session->ID);
+            }
+        } 
 
         $query = $this->db->get()->result();
         $Amount = 0;
@@ -144,6 +154,12 @@ class Report_model extends CI_Model
         if(!empty($this->session->Branch)){
             $this->db->where('c.Branch', $this->session->Branch);
         }
+          // BAGO NI SA
+          else {
+            if($this->Branch !="All"){
+                $this->db->where('c.Branch', $this->Branch);
+            }
+        }
         // if(@$this->report_year!=null){
         //     // where $this->report_year == date_paid but year
         $this->db->where('YEAR(p.date_paid)', date("Y"));
@@ -165,8 +181,21 @@ class Report_model extends CI_Model
         $this->db->where('e.Void', 0);
 
         if(!empty($this->session->Branch)){
-            $this->db->where('e.Incharge', $this->session->ID);
+            if($this->session->Role == "Admin"){
+                $this->db->where('e.Branch', $this->session->Branch);
+                // $this->db->where('e.Branch', "Bacolod");
+            } else{
+                $this->db->where('u.Branch', $this->session->Branch);
+                $this->db->where('e.Incharge', $this->session->ID);
+            }
+        } 
+         // BAGO NI SA
+         else {
+            if($this->Branch !="All"){
+                $this->db->where('e.Branch', $this->Branch);
+            }
         }
+        
         // if(@$this->report_year!=null){
         //     // where $this->report_year == date_paid but year
         $this->db->where('YEAR(e.Date)', date("Y"));
@@ -190,6 +219,12 @@ class Report_model extends CI_Model
         
         if(!empty($this->session->Branch)){
             $this->db->where('c.Branch', $this->session->Branch);
+        }  
+        // BAGO NI SA
+        else {
+            if($this->Branch !="All"){
+                $this->db->where('c.Branch', $this->Branch);
+            }
         }
 
         $this->db->group_by('i.Item_id');
@@ -224,16 +259,22 @@ class Report_model extends CI_Model
         $this->db->join($this->Table->user. ' u', 'u.ID=p.Incharge_ID', 'left');
         $this->db->where('p.Void',0);
 
-        // if(!empty($this->d_from || $this->d_to)){
-        //     $this->db->where('p.Date_paid >=', $this->d_from);
-        //     $this->db->where('p.Date_paid <=', $this->d_to);
+        if(!empty($this->d_from || $this->d_to)){
+            $this->db->where('p.Date_paid >=', $this->d_from);
+            $this->db->where('p.Date_paid <=', $this->d_to);
 
-        // } else{
-        //     $this->db->like('p.Date_paid', date('Y-m-d'));
+        } else{
+            $this->db->like('p.Date_paid', date('Y-m-d'));
 
-        // }
+        }
         if(!empty($this->session->Branch)){
             $this->db->where('u.Branch', $this->session->Branch);
+        }   
+        //  BAGO NI SA
+        else {
+            if(!empty($this->branch && $this->branch != "All")){
+                $this->db->where('u.Branch', $this->branch);
+            }
         }
         $query = $this->db->get()->result();
 
@@ -241,7 +282,7 @@ class Report_model extends CI_Model
         foreach ($query as $key => $value) {
             $query[$key]->items =  $this->get_items($value->Order_ID);
             $query[$key]->paid = $this->get_amount_paid($value->Order_ID);
-            $query[$key]->proof = $this->get_proof($value->Proof_ID);
+            $query[$key]->proof = $this->get_proof($value->P_ID);
         }
 
        return $query;
@@ -289,6 +330,17 @@ class Report_model extends CI_Model
         $this->db->where('List_category', "Status");     
         $query = $this->db->get()->result();
 
+        return $query;
+    }
+//  BAGO NI SA
+
+    public function get_branch(){
+        $this->db->select('*');
+        $this->db->where('List_category', 'Branch');
+        $this->db->from($this->Table->list);
+      
+        $this->db->order_by('List_name', 'asc');
+        $query = $this->db->get()->result();
         return $query;
     }
 }

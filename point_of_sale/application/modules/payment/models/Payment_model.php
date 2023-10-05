@@ -86,12 +86,29 @@ class Payment_model extends CI_Model
         $this->db->from($this->Table->payment);
 
         $query = $this->db->get()->result();
+        
         $Amount = 0;
 
         foreach ($query as $key => $value) {
             $Amount += $value->Amount_paid;
         }
-         return $Amount;
+        return $Amount;
+    }
+
+    public function last_paid_cancel_order_ref(){
+        $this->db->select('*');
+
+        $this->db->where('Order_ID', $this->OrderID);
+        $this->db->where('Void', 0);
+        $this->db->from($this->Table->payment);
+
+        $query = $this->db->get()->result();
+     
+        $lp_ID = 0;
+        foreach ($query as $key => $value) {
+            $lp_ID = @$value->ID;
+        }
+        return $lp_ID;
     }
 
     public function get_p_history(){

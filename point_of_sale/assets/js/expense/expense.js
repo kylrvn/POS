@@ -75,6 +75,7 @@ var editFunction = (x) => {
             
             $('#expbtn').css('display','none');
             $('#expedit').css('display','inline');
+            $('#add_image').css('display','inline');
             // $('#Reset').css('display','inline');
     },
   })
@@ -181,13 +182,89 @@ $("#expbtn").click(function () {
     });
   });
   
+  $("#add_image").click(function () {
+    var ID = $("#ID").val();
+    var image_2 = $("#image_2").val();
+    
+    // Get the uploaded image file
+    var imageFile = $("#image")[0].files[0]; // This will get the first selected file (you can add validation if needed)
+  
+    // Create a FormData object to send both form data and the image
+    var formData = new FormData();
+    formData.append("image_2", image_2);
+    formData.append("ID", ID);
+    formData.append("image", imageFile);
+   
+    // Use AJAX to send the form data and image to the server
+    $.ajax({
+      type: "POST",
+      url: base_url + "expense/service/Expense_service/add_image",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        var e = JSON.parse(response);
+        if (e.has_error == false) {
+          toastr.success(e.message);
+        } else {
+          toastr.error(e.message);
+        }
+        setTimeout(function() {
+          window.location.reload();
+      }, 2000);
+      },
+      error: function () {
+        toastr.error("An error occurred during the upload.");
+      },
+    });
+  });
+
+  // SINGLE RETURN OF IMAGE
+  // $(document).on('click', '.clickable-row', function() {
+  //   var img = $(this).data('img');
+  //   console.log(img);
+  //   var imgTag = '<img id="paymentProofImage" src="'+base_url+'assets/uploaded/proofs/'+ img +'" alt="Proof of Receipt" class="img-fluid">';
+  //   $('.modal-body').html(imgTag);
+  //   $('#paymentProofModal').modal('show');
+  //   // alert();
+  // });
+
+  // MULTIPLE RETURN OF IMAGE
   $(document).on('click', '.clickable-row', function() {
     var img = $(this).data('img');
-    console.log(img);
-    var imgTag = '<img id="paymentProofImage" src="'+base_url+'assets/uploaded/proofs/'+ img +'" alt="Proof of Receipt" class="img-fluid">';
-    $('.modal-body').html(imgTag);
-    $('#paymentProofModal').modal('show');
-    // alert();
+    separatedArray = img.split(', ');
+    console.log(separatedArray);
+    // Get a reference to the modal and the container within it
+    const modal = document.getElementById('paymentProofModal');
+    const container = document.getElementById('image-container');
+
+    // Loop through the array and create <img> tags with src attributes
+    for (let i = 0; i < separatedArray.length; i++) {
+      const img = document.createElement('img');
+      img.src = base_url+'assets/uploaded/proofs/'+separatedArray[i];
+      img.classList.add('img-fluid');
+      container.appendChild(img);
+    }
+
+    // Close the modal when the close button (×) is clicked
+      const closeButton = document.getElementsByClassName('close')[0];
+      closeButton.addEventListener('click', function() {
+        // Clear all child elements within the container
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+        modal.style.display = 'none';
+      });
+      // Close the modal when the user clicks outside of it
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+           // Clear all child elements within the container
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+          modal.style.display = 'none';
+        }
+      });
   });
 
   function sampleFunction(e,x){
@@ -227,7 +304,8 @@ $(document).on('click', '#submit_date_exp', function() {
       url:  base_url+'expense/get_expenses',
       data: {
           d_from: $('#d_from').val(),
-          d_to: $('#d_to').val()
+          d_to: $('#d_to').val(),
+          branch: $('#branch_filter').val(), //  BAGO NI SA
       },
       load_on: "#load_expenses",
   })

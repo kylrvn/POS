@@ -14,8 +14,8 @@ if (!empty($expenses)) {
                 <td><?= $key+1 ?></td>
                 <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
                 <td class="text-wrap"><?= ucfirst(@$value->Descr) ?></td>
-                <td><?= @$value->FName." ".@$value->LName ?></td>
-                <td><?=empty($value->e_Branch) ? $value->u_branch : $value->e_Branch?></td>
+                <td class="text-wrap"><?= @$value->FName." ".@$value->LName ?></td>
+                <td class="text-wrap"><?=empty($value->e_Branch) ? $value->u_branch : $value->e_Branch?></td>
                 <td><?= number_format(@$value->Actual_Money,2) ?></td>
                 <td><?= number_format(@$value->expense,2) ?></td>
                 <td><?= number_format(@$value->Balance,2) ?></td>

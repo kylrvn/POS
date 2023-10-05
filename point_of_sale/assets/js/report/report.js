@@ -1,13 +1,21 @@
-var load_summ = () => {
+var load_summ = (x) => {
   $(document).gmLoadPage({
     url: "report/load_summ",
+     // BAGO NI SA
+     data: {
+      Branch: x,
+     },
     load_on: "#report-summary",
   });
 };
 
-var load_items = () => {
+var load_items = (x) => {
   $(document).gmLoadPage({
     url: "report/load_items",
+    // BAGO NI SA
+    data: {
+      Branch: x,
+     },
     load_on: "#list-items",
   });
 };
@@ -32,13 +40,22 @@ $(document).ready(function () {
   load_daily_sales();
 });
 
+// BAGO NI SA
+$(document).on('change', '#Branch', function() {
+  var branch = $(this).val();
+  load_summ(branch);
+  load_items(branch);
+  load_daily_sales(branch);
+});
+
 $(document).on('click', '#submit_date', function() {
   console.log($('#d_from').val() + " "+ $('#d_to').val());
   $(document).gmLoadPage({
       url: "report/load_daily_sales",
       data: {
           d_from: $('#d_from').val(),
-          d_to: $('#d_to').val()
+          d_to: $('#d_to').val(),
+          branch: $('#branch_filter').val() //BAGO NI SA
       },
       load_on: "#load_daily_sales",
   })

@@ -180,6 +180,55 @@ class Expense_services_model extends CI_Model
         }
     }
 
+    public function add_image()
+    {
+        try {
+            $date = $this->input->post('Date_added');
+            $description = $this->input->post('Desc');
+            $branch;
+            if(empty($this->input->post('Branch'))){
+                $branch = $this->session->Branch;
+            } else{
+                $branch = $this->input->post('Branch');
+            }
+            $ID = $this->input->post('ID');
+            $image_2 = $this->input->post('image_2');
+
+                // Get the uploaded image file
+                $image = $_FILES['image'];
+                
+              
+                // Image upload configuration
+                $config['upload_path'] = FCPATH . 'assets/uploaded/proofs/'; 
+                $config['allowed_types'] = 'jpg|png|jpeg|gif'; 
+                // $config['encrypt_name'] = TRUE; // Encrypt the filename. Activate if u want encrypted name for image files.
+                $config['max_size'] = 10240; // 10 MB in bytes
+
+                $this->load->library('upload', $config);
+
+               // // Upload the image
+                if ($this->upload->do_upload('image')) {
+                
+                    $uploadData = $this->upload->data();
+                    $imagePath = $image_2.", ".$uploadData['file_name']; // Image file name
+                } else {
+                    throw new Exception('Image upload failed: ' . $this->upload->display_errors('', ''));
+                }
+
+                $data = array(
+                    'Image' => $imagePath 
+                );
+
+            // Update the data into the database
+            $this->db->where('ID', $ID);
+            $this->db->update($this->Table->expenses, $data);
+
+            return array('message' => 'Image added successfully.', 'has_error' => false);
+        } catch (Exception $e) {
+            return array('message' => $e->getMessage(), 'has_error' => true);
+        }
+    }
+
     public function void(){
         try{     
             $data = array(

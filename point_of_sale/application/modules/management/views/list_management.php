@@ -51,6 +51,7 @@ main_header(['list_management']);
                         <div class="card-footer">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default" id="Save">Submit</button>
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-list" style="display: none" id="Delete">Delete</button>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-list2" style="display: none" id="Update_list">Update</button>
                         </div>
                     </form>
                 </div>

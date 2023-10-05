@@ -63,6 +63,29 @@ main_header(['dashboard']);
                             <option value="Down">Down</option>
                         </select>
                     </div>
+                    
+                    <div class="card-tools">
+                        <select class="form-control form-control-sm" style="width: 100%; display:none" id="Branch_filter">
+                            <option value="" disabled selected>Select Branch</option>
+                            <option value="All">All</option>
+                            <?php
+                                foreach($branch as $key => $value){ ?>
+                                    <option value="<?=$value->List_name?>"><?=$value->List_name?></option>
+                                <?php }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="card-tools">
+                        <div class="input-group"  style="display:none" id="Book_date">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control float-right Book_date_filter" id="reservation">
+                        </div>
+                    </div>
 
                     <div class="card-tools mr-5">
                         <select class="form-control form-control-sm" style="width: 100%;" id="Filter_by">
@@ -70,8 +93,11 @@ main_header(['dashboard']);
                             <option value="Customer">Customer</option>
                             <option value="Payment Status">Payment Status</option>
                             <option value="Order Status">Order Status</option>
+                            <option value="Book Date">Book Date</option>
+                            <option value="Branch" <?=empty($session->Branch) ? '' : 'hidden'?>>Branch</option>
                         </select>
                     </div>
+                  
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">

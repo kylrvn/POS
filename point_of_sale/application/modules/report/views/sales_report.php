@@ -1,5 +1,7 @@
 <?php
 main_header(['sales_report']);
+$session = (object)get_userdata(USER);
+
 ?>
 <!-- ############ PAGE START-->
 
@@ -31,7 +33,15 @@ main_header(['sales_report']);
                    
                     <div class="card-tools">
                         <div class="input-group input-group-sm">
-                        
+                            <!-- BAGO NI SA -->
+                            <select class="form-control form-control-sm mr-2" style="width: 10%;" id="branch_filter" <?=empty($session->Branch) ? '' : 'hidden'?>> 
+                                <option value="All">All Branch</option>
+                                <?php 
+                                    foreach($branch as $key => $x){ ?>
+                                    <option value="<?=$x->List_name?>"><?=$x->List_name?></option>
+                                <?php } ?>
+                            </select>
+
                             <label class="mr-2"for="">From</label>
                             <input type="date" id="d_from" class="form-control form-control-sm">
 
