@@ -338,3 +338,84 @@ $(document).on('click', '#cancel_order', function() {
     }
    
 });
+
+// november 17
+$(document).on('click', '#update_order', function() {
+    $('.to_hide_update').hide();
+    $('.to_hide_update_2').show();
+    $('#cancel_update').show();
+    $(this).hide();
+    document.querySelectorAll(".to_edit").forEach(element => element.disabled = false);
+
+   
+});
+
+$(document).on('click', '#cancel_update', function() {
+    $('.to_hide_update').show();
+    $('.to_hide_update_2').hide();
+    document.querySelectorAll(".to_edit").forEach(element => element.disabled = true);
+    $('#update_order').show();
+    $(this).hide();
+   
+});
+
+$(document).on('click', '#delete_item', function() {
+    if (confirm("Are you sure you want to delete this item?") == true) {
+        $.post({
+          url: baseUrl + 'payment/service/Payment_service/delete_item',
+          data: {
+              Item_id: $(this).data('id'),
+              Amount: $(this).data('amount'),
+              Qty: $(this).data('qty'),
+              Oid: $(this).data('oid'),
+          },
+          success: function(e) {
+              var e = JSON.parse(e);
+              if (e.has_error == false) {
+                  toastr.success(e.message);
+                  setTimeout(function() {
+                      window.location.reload();
+                  }, 2000);
+              } else {
+                  toastr.error(e.message);
+              }
+          },
+      })
+      } else {
+        return;
+      }
+     
+});
+
+$(document).on('click', '#update_item', function() {
+    var qty = $('.item_qty_'+$(this).data('id')).val();
+    var amount = $('.item_amount_'+$(this).data('id')).val() * qty;
+
+    if (confirm("Are you sure you want to update this item?") == true) {
+        $.post({
+          url: baseUrl + 'payment/service/Payment_service/update_item',
+          data: {
+              Item_id: $(this).data('id'),
+              Amount: amount,
+              Qty: qty,
+              Oid: $(this).data('oid'),
+          },
+          success: function(e) {
+              var e = JSON.parse(e);
+              if (e.has_error == false) {
+                  toastr.success(e.message);
+                  setTimeout(function() {
+                      window.location.reload();
+                  }, 2000);
+              } else {
+                  toastr.error(e.message);
+              }
+          },
+      })
+      } else {
+        return;
+      }
+     
+});
+
+// end of november 17

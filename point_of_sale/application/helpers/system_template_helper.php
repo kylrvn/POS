@@ -140,6 +140,12 @@ function main_header($menubar = [])
                   <p>Expense</p>
                 </a>
               </li>
+              <li class="nav-item" style="display: <?= empty($session->Branch) || $session->Role == "Admin" || $session->Role == "Cashier" ? '' : 'none'?>">
+                <a href="<?= base_url()?>deposit" class="nav-link <?= (sidebar($menubar, ['deposit'])) ? 'active' : '' ?>">
+                  <i class="fas fa-money-bill-wave nav-icon"></i>
+                  <p>Deposit</p>
+                </a>
+              </li>
               <!-- <li class="nav-item">
                 <a href="<?= base_url()?>create_order" class="nav-link <?= (sidebar($menubar, ['create_order'])) ? 'active' : '' ?>">
                   <i class="fas fa-pen nav-icon"></i>
@@ -331,35 +337,26 @@ $('#signout').on('click',function(){
     //   "responsive": true, "lengthChange": false, "autoWidth": false,
     //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    if ( $.fn.dataTable.isDataTable( '#tableformat1' ) ) {
-      table = $('#tableformat1').DataTable();
-    }
-    else {
-        table = $('#tableformat1').DataTable( {
-            paging: true
-            // retrieve: true,
-        } );
-    }
-    // $('#hahaa').DataTable({
-    //   "paging": true,
-    //   "lengthChange": false,
-    //   "searching": true,
-    //   "ordering": true,
-    //   "info": true,
-    //   "autoWidth": false,
-    //   "responsive": true,
-    // });
+    // if ( $.fn.dataTable.isDataTable( '#tableformat1' ) ) {
+    //   table = $('#tableformat1').DataTable();
+    // }
+    // else {
+    //     table = $('#tableformat1').DataTable( {
+    //         paging: true
+    //         // retrieve: true,
+    //     } );
+    // }
   });
   
   $(function () {
     $("#example1").DataTable({
-      "responsive": false, "lengthChange": false, "autoWidth": false,"searching": false,"info": false, "retrieve": true,"ordering": false,
+      "responsive": false, "lengthChange": false, "pageLength": 50,"autoWidth": false,"searching": false,"info": false, "retrieve": true,"ordering": false,
       // "buttons": ["excel"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false,

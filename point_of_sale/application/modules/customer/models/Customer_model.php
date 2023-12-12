@@ -24,6 +24,7 @@ class Customer_model extends CI_Model
             $this->db->where('Branch', $this->session->Branch);
         }
 
+        $this->db->where('Active', 0);
         $this->db->order_by('ID', 'desc');
         $query = $this->db->get()->result();
         return $query;

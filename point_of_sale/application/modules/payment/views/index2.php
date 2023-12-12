@@ -68,11 +68,14 @@ main_header(['create_order']);
                                             <table class="table table-bordered" id="table_id">
                                                 <thead>
                                                     <tr>
-                                                        <th style="width: 10px">#</th>
-                                                        <th>Item</th>
-                                                        <th>Qty</th>
-                                                        <th>Unit Price</th>
-                                                        <th>Subtotal</th>
+                                                        <!-- november 17 -->
+                                                            <th style="width: 10%">#</th>
+                                                            <th>Item</th>
+                                                            <th style="width: 20%">Qty</th>
+                                                            <th>Unit Price</th>
+                                                            <th class="to_hide_update">Subtotal</th>
+                                                            <th class="to_hide_update_2" style="display:none"></th>
+                                                        <!-- end of november 17 -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -84,9 +87,17 @@ main_header(['create_order']);
                                                              <tr class="lh-1">
                                                                 <td><?=$key+1?></td>
                                                                 <td><?=$value->List_name?></td>
-                                                                <td><?=$value->Item_qty?></td>
-                                                                <td><?=number_format(($value->Item_unitprice/$value->Item_qty),2)?></td>
-                                                                <td><?=number_format($value->Item_unitprice,2)?></td>
+                                                                <!-- november 17 -->
+                                                                    <!-- <td><?=$value->Item_qty?></td> -->
+                                                                    <!-- <td><?=number_format(($value->Item_unitprice/$value->Item_qty),2)?></td> -->
+                                                                    <td><input type="number" class="form-control form-control-sm to_edit item_qty_<?=$value->ID?>" disabled value="<?=$value->Item_qty?>" ></td>
+                                                                    <td><input type="number" class="form-control form-control-sm to_edit item_amount_<?=$value->ID?>" disabled value="<?=number_format(($value->Item_unitprice/$value->Item_qty),2)?>"></td>
+                                                                    <td class="to_hide_update"><?=number_format($value->Item_unitprice,2)?></td>
+                                                                    <td class="to_hide_update_2" style="display:none">
+                                                                        <button type="button" class="btn btn-xs btn-danger" id="delete_item" data-id="<?=$value->ID?>" data-amount="<?=@$value->Item_unitprice?>" data-qty="<?=@$value->Item_qty?>" data-oid="<?=@$value->Order_ID?>" <?=!empty($session->Branch) ? 'hidden':''?>><i class="fa fa-trash"></i></button>
+                                                                        <button type="button" class="btn btn-xs btn-primary" id="update_item" data-id="<?=$value->ID?>" data-oid="<?=@$value->Order_ID?>"><i class="fa fa-pen"></i></button>
+                                                                    </td>
+                                                                <!-- end of november 17 -->
                                                             </tr>
                                                          <?php   
                                                                 $totalqty += $value->Item_qty; 
@@ -103,8 +114,12 @@ main_header(['create_order']);
                                                         </tr>
                                                 </tbody>
                                             </table>
-                                            <a role="button" href="<?=base_url()?>/create_order/edit_order?oid=<?=$order_dets->ID?>&custid=<?=$cust_details->ID?>" class="btn btn-warning btn-sm" id="update_order">Update Order</a>
-                                       </div>
+                                            <!-- november 17 -->
+                                                <a role="button" href="<?=base_url()?>create_order/add_order?oid=<?=$order_dets->ID?>&custid=<?=$cust_details->ID?>" class="btn btn-success btn-sm" id="add_order" <?=$last_paid >= $order_dets->Total_amt ? 'hidden':''?>>Add Order</a>
+                                                <button type="button" class="btn btn-warning btn-sm" id="update_order" <?=$last_paid >= $order_dets->Total_amt ? 'hidden':''?>>Update Order</button>    
+                                                <button type="button" class="btn btn-warning btn-sm" id="cancel_update" style="display:none">Cancel/Done</button>
+                                            <!-- end of november 17 -->
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">

@@ -1,5 +1,6 @@
 
 <?php
+$session = (object)get_userdata(USER);
 
 if(!empty($details)){
     $curr_date = date('Y-m-d');
@@ -7,11 +8,17 @@ if(!empty($details)){
         $d_date = date('Y-m-d',strtotime($value->Deadline));
         $fivedays = date("Y-m-d", strtotime("-5 days", strtotime($curr_date)));
         ?>
-    <tr  onClick="myFunction(<?=$value->Order_ID?>, <?=$value->Customer_ID?>)" >
+
+        <?php 
+            if($session->Role == "Production Manager"){ ?>
+                <tr>
+         <?php } else { ?>
+            <tr  onClick="myFunction(<?=$value->Order_ID?>, <?=$value->Customer_ID?>)" >
+        <?php } ?>
+
         <!-- <td><?=$key+1?></td> -->
         <td><?=$value->Jo_num?></td>
-        <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)." / ".ucfirst($value->Company)?></td>
-        <td><?=$value->CNumber?></td>
+        <td><?=ucfirst($value->FName)." ".ucfirst($value->LName)." / ".ucfirst($value->Company)?></br><?=$value->CNumber?></td>
         <td>   
             <?php
                 if(empty(@$value->mock_up->Mockup_design)){
@@ -22,37 +29,37 @@ if(!empty($details)){
                <?php }
             ?>
         </td>
-        <td><?=$value->Status?></td>
-        <td><?=date('M d, Y', strtotime($value->Book_date))?></td>
-        <td class="
-            <?php
-                if($value->paid >= $value->Total_amt){
-                    echo 'text-bold';
-                } else if($curr_date >= $d_date){
-                    echo 'text-indigo text-bold';
-                }
-                else if($fivedays <= $d_date){
-                    echo "text-danger text-bold";
-                }
-            ?>
-        ">
-            <?=date('M d, Y',strtotime($value->Deadline))?>
+        <td class="text-wrap"><?=$value->Status?></td>
+        <td>
+            Book date: <?=date('M d, Y', strtotime($value->Book_date))?>
+                </br>
+            <p class="
+                <?php
+                        if($value->paid >= $value->Total_amt){
+                            echo 'text-bold';
+                        } else if($curr_date >= $d_date){
+                            echo 'text-indigo text-bold';
+                        }
+                        else if($fivedays <= $d_date){
+                            echo "text-danger text-bold";
+                        }
+                    ?>
+                    ">
+                Deadline: <?=date('M d, Y',strtotime($value->Deadline))?>
+            </p>
         </td>
         <td> 
             <?php foreach($value->sewer as $key => $sewer){
-                echo ucfirst($sewer->FName)." ".ucfirst($sewer->LName);
+                echo "Sewer: ".ucfirst($sewer->FName)." ".ucfirst($sewer->LName);
             }?>
-        </td>
-        <td> 
+            <br>
             <?php foreach($value->layout as $key => $layout){
-                echo ucfirst($layout->FName)." ".ucfirst($layout->LName);
+                echo "Layout: ".ucfirst($layout->FName)." ".ucfirst($layout->LName);
             }?>
-        </td> 
-        <td> 
+            <br>
             <?php foreach($value->setup as $key => $setup){
-                echo ucfirst($setup->FName)." ".ucfirst($setup->LName);
+                echo "Setup: ".ucfirst($setup->FName)." ".ucfirst($setup->LName);
             }?>
-        </td>
         <td>
             <?php foreach($value->items as $key => $items){
                 $total  = $items->Item_qty * $items->Item_unitprice;

@@ -164,6 +164,7 @@ main_header(['customer']);
 
                         <div class="card-footer">
                             <button type="button" class="btn btn-warning" id="edit_customer">Update</button>
+                            <button type="button" class="btn btn-danger" id="delete_customer">Delete</button>
                             <button type="button" class="btn btn-primary" id="c_order_2">Create Order</button>
                             <button type="button" class="btn btn-danger" id="cancel_edit_customer">Cancel</button>
                             <button type="button" class="btn btn-primary" id="save_edit_customer">Save changes</button>
@@ -185,6 +186,7 @@ main_header(['customer']);
                                     <th>Booking Date</th>
                                     <th>Deadline</th>
                                     <th>Payment Status</th>
+                                    <th>Mockup</th>
                                 </tr>
                             </thead>
                             <tbody id="load_orders">
@@ -198,6 +200,29 @@ main_header(['customer']);
        
     </div>
 </section>
+
+<div class="modal" tabindex="-1" role="dialog" id="view_modal_customer">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mockup Design </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- ... -->
+                <div class="modal-body">
+                    <!-- Display the current mockup design -->
+                    <img id="mockupImage" src="<?php echo base_url(); ?>assets/uploaded/proofs/" alt="Mockup Design" class="img-fluid">
+                </div>
+
+                <div class="modal-footer">
+                    <!-- Add a button to view previous designs -->
+                    <!-- <button type="button" class="btn btn-secondary" id="view_previous_designs" data-toggle="modal" data-target="#previousDesignsModal">View Previous Designs</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- CONFIRMATION MODAL -->
 <div class="modal fade" id="modal-default">

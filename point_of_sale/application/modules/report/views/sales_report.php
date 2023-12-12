@@ -60,7 +60,7 @@ $session = (object)get_userdata(USER);
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap table-sm table-striped">
+                    <table id="" class="table table-hover text-wrap table-sm table-striped" style="font-size: 10pt;">
                         <thead>
                             <tr>
                                 <th>Item Code</th>
@@ -77,6 +77,7 @@ $session = (object)get_userdata(USER);
                                 <th>Waybill Number</th>
                                 <th>Cash</th>
                                 <th>Online Payment</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="load_daily_sales">

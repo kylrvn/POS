@@ -36,35 +36,59 @@ class Dashboard_model extends CI_Model
             $this->db->where('c.Branch', $this->session->Branch);
         } 
        
-
+        
         if(!empty($this->Filter_value) && $this->Filter_value != "All"){
             if($this->Filter_type == "Order Status"){
                 $this->db->where('Status', $this->Filter_value);
+
+                $value = explode(' - ', $this->Filter_date);
+                $valueone = date("Y-m-d", strtotime($value[0]));
+                $valuetwo =  date("Y-m-d", strtotime($value[1]));
+                $this->db->where('o.Book_date >=', @$valueone);
+                $this->db->where('o.Book_date <=', @$valuetwo);
             } 
             else if($this->Filter_type == "Customer" && !empty($this->Filter_value)){
                 $this->db->like('CONCAT(c.FName, " ", c.LName)', $this->Filter_value);
                 $this->db->or_like('c.Company', $this->Filter_value);
                 $this->db->where('o.Cancelled', 0);
 
-            }
-             else if($this->Filter_type == "Payment Status"){
-                $this->db->where('o.Payment_status', $this->Filter_value);
-            }  
-            else if($this->Filter_type == "Branch"){
-                $this->db->where('c.Branch', $this->Filter_value);
-            }
-            else if($this->Filter_type == "Book Date"){
-                $value = explode(' - ', $this->Filter_value);
+                $value = explode(' - ', $this->Filter_date);
                 $valueone = date("Y-m-d", strtotime($value[0]));
                 $valuetwo =  date("Y-m-d", strtotime($value[1]));
                 $this->db->where('o.Book_date >=', @$valueone);
                 $this->db->where('o.Book_date <=', @$valuetwo);
-                // echo json_encode($valueone);
+
             }
+             else if($this->Filter_type == "Payment Status"){
+                $this->db->where('o.Payment_status', $this->Filter_value);
+
+                $value = explode(' - ', $this->Filter_date);
+                $valueone = date("Y-m-d", strtotime($value[0]));
+                $valuetwo =  date("Y-m-d", strtotime($value[1]));
+                $this->db->where('o.Book_date >=', @$valueone);
+                $this->db->where('o.Book_date <=', @$valuetwo);
+            }  
+            else if($this->Filter_type == "Branch"){
+                $this->db->where('c.Branch', $this->Filter_value);
+
+                $value = explode(' - ', $this->Filter_date);
+                $valueone = date("Y-m-d", strtotime($value[0]));
+                $valuetwo =  date("Y-m-d", strtotime($value[1]));
+                $this->db->where('o.Book_date >=', @$valueone);
+                $this->db->where('o.Book_date <=', @$valuetwo);
+            }
+            // else if($this->Filter_type == "Book Date"){
+            //     $value = explode(' - ', $this->Filter_value);
+            //     $valueone = date("Y-m-d", strtotime($value[0]));
+            //     $valuetwo =  date("Y-m-d", strtotime($value[1]));
+            //     $this->db->where('o.Book_date >=', @$valueone);
+            //     $this->db->where('o.Book_date <=', @$valuetwo);
+            //     echo json_encode($this->Filter_value);
+            // }
            
         } 
         else if($this->Filter_value != "All"){
-            $this->db->where('MONTH(o.Book_date)', date('m'));
+            $this->db->where('MONTH(o.Deadline)', date('m'));
         }
         // $this->db->join($this->Table->payment. ' p', '.ID=o.Status', 'left');
        

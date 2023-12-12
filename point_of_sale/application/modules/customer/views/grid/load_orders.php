@@ -6,7 +6,8 @@ if(!empty($orders)){
     foreach($orders as $key => $value){ 
         $d_date = date('Y-m-d',strtotime($value->Deadline));
         ?>
-    <tr  onClick="myFunction(<?=$value->ID?>, <?=$value->Cust_ID?>)" >
+    <!-- <tr  onClick="myFunction(<?=$value->ID?>, <?=$value->Cust_ID?>)" > -->
+    <tr>
         <!-- <td><?=$key+1?></td> -->
         <td><?=$value->Jo_num?></td>
         <td><?= date('M d, Y',strtotime($value->Book_date))?></td>
@@ -24,8 +25,8 @@ if(!empty($orders)){
             ?>
         </td>
         <!-- <td><?=$value->Payment_status?></td> -->
+        <td><button type="button" data-oid="<?=@$value->ID?>" id="view_mockup_customer" class="btn btn-xs btn-primary">View <i class="fa fa-eye"></i></button></td>
     </tr>
-
  <?php  
      }
 } else { ?>

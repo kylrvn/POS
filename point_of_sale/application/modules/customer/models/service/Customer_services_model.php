@@ -90,4 +90,45 @@ class Customer_services_model extends CI_Model
             return (array('message'=>$msg->getMessage(), 'has_error'=>true));
         }
     }
+
+    public function delete(){
+        try{     
+            if($this->check_cust_order_exist() == null){
+           
+                $data = array(
+                    'Active' => '1',
+                );
+
+                $this->db->trans_start();
+                
+                $this->db->where('ID', $this->ID);
+                $this->db->update($this->Table->customer,$data);
+
+                $this->db->trans_complete();
+                if ($this->db->trans_status() === FALSE)
+                {                
+                    $this->db->trans_rollback();
+                    throw new Exception(ERROR_PROCESSING, true);	
+                }else{
+                    $this->db->trans_commit();
+                    return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+                }
+            } else {
+                return array('message'=>"Order can't be deleted, their is/are active order/s for this customer.", 'has_error'=>true);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function check_cust_order_exist(){
+        $this->db->select('*');
+        $this->db->from($this->Table->order);
+        $this->db->where('Cust_ID', $this->ID);
+        $this->db->where('Cancelled', 0);
+
+        $query = $this->db->get()->row();
+        return $query;
+    }
 }

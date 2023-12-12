@@ -354,4 +354,152 @@ class Payment_services_model extends CI_Model
             return (array('message'=>$msg->getMessage(), 'has_error'=>true));
         }
        }
+// november 17
+    public function delete_item(){
+        try{     
+            $this->db->trans_start();
+                           
+            $this->db->where('ID', $this->Item_id);
+            $this->db->delete($this->Table->item);
+            
+            $this->update_deleted_order_amounts();
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+    public function update_deleted_order_amounts(){
+        try{     
+            $this->db->trans_start();
+                           
+            $this->db->select('*');
+            $this->db->from($this->Table->order);
+            $this->db->where('ID', $this->Oid);
+
+            $query = $this->db->get()->row();
+
+            $new_total_amount = $query->Total_amt - $this->Amount;            
+            $new_subtotal = $query->Subtotal - $this->Amount;            
+            $new_qty = $query->Act_qty - $this->Qty;
+
+            $data = array(
+                'Total_amt' => $new_total_amount,
+                'Act_qty' => $new_qty,
+                'Subtotal' => $new_subtotal,
+            );
+
+            $this->db->where('ID', $this->Oid);
+            $this->db->update($this->Table->order,$data);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+   
+    public function update_updated_order_amounts(){
+        try{     
+            $this->db->trans_start();
+                           
+            $this->db->select('*');
+            $this->db->from($this->Table->order);
+            $this->db->where('ID', $this->Oid);
+
+            $query = $this->db->get()->row();
+            $old_selected_item_qty = $this->get_total_qty_amount()->Item_qty;
+            $old_selected_item_amount = $this->get_total_qty_amount()->Item_unitprice;
+
+            $new_qty = ($query->Act_qty - $old_selected_item_qty) + $this->Qty;
+            $new_total_amount = ($query->Total_amt - $old_selected_item_amount) + $this->Amount;
+            $new_subtotal = ($query->Subtotal - $old_selected_item_amount) + $this->Amount;
+
+            // var_dump($new_total_amount);
+
+            $data = array(
+                'Total_amt' => $new_total_amount,
+                'Act_qty' => $new_qty,
+                'Subtotal' => $new_subtotal,
+            );
+
+            $this->db->where('ID', $this->Oid);
+            $this->db->update($this->Table->order,$data);
+            
+            $this->update_item();
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+     public function get_total_qty_amount(){
+        $this->db->select("*");
+        $this->db->from($this->Table->item);
+        $this->db->where('Order_ID', $this->Oid);
+        $this->db->where('ID', $this->Item_id);
+
+        $query = $this->db->get()->row();
+
+        return $query;
+    }
+
+    public function update_item(){
+        try{     
+            $this->db->trans_start();
+            
+            $data = array(
+                'Item_qty' => $this->Qty,
+                'item_unitprice' => $this->Amount,
+            );
+
+            $this->db->where('ID', $this->Item_id);
+            $this->db->update($this->Table->item,$data);
+            
+            $this->get_total_qty_amount();
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
+// end of november 17
 }

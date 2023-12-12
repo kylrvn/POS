@@ -16,6 +16,8 @@ class Customer extends MY_Controller
 
 		$model_list = [
 			'customer/Customer_model' => 'cModel',
+			'payment/Payment_model' => 'pModel',
+
 		];
 		$this->load->model($model_list);
 	}
@@ -32,8 +34,14 @@ class Customer extends MY_Controller
 		$this->data['session'] =  $this->session;
 		$this->data['customers'] = $this->cModel->get_customers();
 		$this->data['branch'] = $this->cModel->get_branch();
+
+		$this->pModel->OrderID = $this->input->post('Order_id');
+		$this->data['mockup_result'] = $this->pModel->retrieve_design();
+
+		// echo json_encode($this->pModel->retrieve_design()->Mockup_design);
 		$this->data['content'] = 'index';
 		$this->load->view('layout', $this->data);
+
 	}
 
 	public function get_cust_details()

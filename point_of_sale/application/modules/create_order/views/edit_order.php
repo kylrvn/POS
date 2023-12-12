@@ -64,7 +64,7 @@ $oid = $_GET['oid'];
                            <div class="card card-primary">
                                 <div class="card-body">
                                     <div class="row">
-                                       <div class="col-sm-12">
+                                       <!-- <div class="col-sm-12">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -88,7 +88,7 @@ $oid = $_GET['oid'];
                                             <div class="form-group">
                                                 <textarea type="text" class="form-control form-control-sm" placeholder="Deadline Notes" id="d_notes"></textarea>
                                             </div>
-                                       </div>
+                                       </div> -->
                                        <div class="col-sm-12">
                                             <label>Items</label>
                                             <table class="table table-bordered" id="table_id">
@@ -132,7 +132,7 @@ $oid = $_GET['oid'];
                                             <input type="file" class="form-control form-control-sm"  id="t_qty">
                                         </div>
                                     </div> -->
-                                    <div class="row mt-2">
+                                    <!-- <div class="row mt-2">
                                         <div class="col-sm-4">
                                             <label for="" class="text-center" >Discount</label>
                                         </div>
@@ -155,7 +155,7 @@ $oid = $_GET['oid'];
                                         <div class="col-sm-8">
                                             <textarea type="text" class="form-control form-control-sm" id="freebies"></textarea>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="row mt-2">
                                         <div class="col-sm-4">
                                         </div>
@@ -202,7 +202,7 @@ $oid = $_GET['oid'];
             </div> -->
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="save_items">Save</button>
+                <button type="button" class="btn btn-primary" id="save_items" data-oid="<?=@$OID?>" data-custid="<?=$custID?>">Save</button>
             </div>
         </div>
     </div>

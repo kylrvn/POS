@@ -6,6 +6,7 @@ $(document).ready(function () {
     $('#cancel_edit_customer').css('display','none');
     $('#save_edit_customer').css('display','none');
     $('#edit_customer').attr('disabled', 'disabled');
+    $('#delete_customer').attr('disabled', 'disabled');
     $('#c_order_2').attr('disabled', 'disabled');
 
 });
@@ -90,6 +91,7 @@ $('#search_customer').change(function() {
            $('#ID_v').val(e.ID);
            $('#edit_customer').attr('disabled', false);
            $('#c_order_2').attr('disabled', false);
+           $('#delete_customer').attr('disabled', false);
 
            $('#c_order_2').click(function() {
                 window.location.href = "create_order/index/"+ e.ID;
@@ -111,9 +113,34 @@ $('#search_customer').change(function() {
                 $('#edit_customer').css('display', 'inline');
                 $('#c_order_2').css('display','inline');
             });
-
         },
     })
+});
+
+$('#delete_customer').click(function() {
+    if (confirm("Delete this customer?") == true) {
+        $.post({
+            url: 'customer/service/Customer_service/delete',
+            data: {
+            ID: $('#search_customer').val()
+            },
+            success:function(x)
+            {
+                var x = JSON.parse(x);
+
+               if(x.has_error == false){
+                toastr.success(x.message); 
+               } else {
+                toastr.error(x.message); 
+               }
+            },
+        })
+    } else {
+        toastr.error("Cancelled"); 
+
+    }  setTimeout(function(){
+        window.location.reload();
+    },1500); 
 });
 
 // EDIT CUSTOMER DETAILS
@@ -168,3 +195,17 @@ function myFunction(e,x){
     // use this for hosting
     // window.location.href = base_url+"payment/?custid="+x+'&oid='+e;
 }
+
+$(document).on('click', '#view_mockup_customer', function() {
+    $.post({
+        url: 'customer/index',
+        data: {
+            Order_id: $(this).data('oid'),
+        },
+        success: function(e) {
+            var e = JSON.parse(e);
+        },
+    })
+    $('#view_modal_customer').modal('show');
+
+});

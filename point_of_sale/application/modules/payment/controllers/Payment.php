@@ -59,11 +59,13 @@ class Payment extends MY_Controller
 		$this->load->view('layout', $this->data);
 	}
 
-	// public function retrieve_design(){
-	// 	$this->pModel->OrderID = $this->input->post('Order_id');
+	public function retrieve_design(){
+		$this->pModel->OrderID = $this->input->post('Order_id');
 
-	// 	$this->data['mockup_design'] = $this->pModel->retrieve_design();
-	// 	$this->data['content'] = 'view_mockup';
-	// 	$this->load->view('layout',$this->data);
-	// }
+		// $this->data['mockup_design'] = $this->pModel->retrieve_design();
+		// $this->data['content'] = 'view_mockup';
+		// $this->load->view('layout',$this->data);
+		$response = $this->pModel->retrieve_design();
+		echo json_encode($response);
+	}
 }

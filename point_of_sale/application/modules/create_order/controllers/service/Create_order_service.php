@@ -40,4 +40,25 @@ class Create_order_service extends MY_Controller
 		echo json_encode($response);
 	}
 
+	public function save_additional_order(){
+		$this->cosModel->ID = $this->input->post("custID");
+		$this->cosModel->oid = $this->input->post("oid");
+		$this->cosModel->Qty = $this->input->post("Qty");
+		$this->cosModel->Total = $this->input->post("Total");
+		// $this->cosModel->B_date = $this->input->post("B_date");
+		$this->cosModel->Item_id = $this->input->post("Item_id");
+		$this->cosModel->Item_qty = $this->input->post("Item_qty");
+		$this->cosModel->Item_amount = $this->input->post("Item_amount");
+		// $this->cosModel->D_date = $this->input->post("D_date");
+		// $this->cosModel->D_notes = $this->input->post("D_notes");
+		// $this->cosModel->B_notes = $this->input->post("B_notes");
+		// $this->cosModel->Freebies = $this->input->post("Freebies");
+		$this->cosModel->Subtotal = $this->input->post("Subtotal");
+		// $this->cosModel->Discount = $this->input->post("Discount");
+
+
+		$response = $this->cosModel->save_additional_order();
+		echo json_encode($response);
+	}
+
 }

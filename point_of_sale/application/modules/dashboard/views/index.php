@@ -76,8 +76,19 @@ main_header(['dashboard']);
                         </select>
                     </div>
 
+                    <div class="card-tools ml-5 mr-5">
+                        <select class="form-control form-control-sm" style="width: 100%;" id="Filter_by">
+                            <option value="" disabled selected>-- Filter By --</option>
+                            <option value="Customer">Customer</option>
+                            <option value="Payment Status">Payment Status</option>
+                            <option value="Order Status">Order Status</option>
+                            <!-- <option value="Book Date">Book Date</option> -->
+                            <option value="Branch" <?=empty($session->Branch) ? '' : 'hidden'?>>Branch</option>
+                        </select>
+                    </div>
+
                     <div class="card-tools">
-                        <div class="input-group"  style="display:none" id="Book_date">
+                        <div class="input-group"  id="Book_date">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
                                     <i class="far fa-calendar-alt"></i>
@@ -87,33 +98,22 @@ main_header(['dashboard']);
                         </div>
                     </div>
 
-                    <div class="card-tools mr-5">
-                        <select class="form-control form-control-sm" style="width: 100%;" id="Filter_by">
-                            <option value="" disabled selected>-- Filter By --</option>
-                            <option value="Customer">Customer</option>
-                            <option value="Payment Status">Payment Status</option>
-                            <option value="Order Status">Order Status</option>
-                            <option value="Book Date">Book Date</option>
-                            <option value="Branch" <?=empty($session->Branch) ? '' : 'hidden'?>>Branch</option>
-                        </select>
-                    </div>
-                  
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center">
+                    <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center" style="font-size: 10pt;">
                         <thead>
                             <tr>
                                 <th>Item Code</th>
-                                <th>Customer</th>
-                                <th>Contact Number</th>
+                                <th>Customer Details</th>
+                                <!-- <th>Contact Number</th> -->
                                 <th>Mockup Design</th>
                                 <th>Status</th>
-                                <th>Book Date</th>
-                                <th>Deadline</th>
-                                <th>Sewer</th>
-                                <th>Layout Artist</th>
-                                <th>Setup Artist</th>
+                                <th>Dates</th>
+                                <!-- <th>Deadline</th> -->
+                                <th>Assignee</th>
+                                <!-- <th>Layout Artist</th>
+                                <th>Setup Artist</th> -->
                                 <th>Items</th>
                                 <!-- <th>Total Amount</th>
                                 <th>Received Payment</th>

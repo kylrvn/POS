@@ -225,9 +225,9 @@ $(document).on('click', '.btn_void', function() {
   } else {
     return;
   }
-  setTimeout(function() {
-    window.location.reload();
-}, 2000);
+//   setTimeout(function() {
+//     window.location.reload();
+// }, 2000);
 });
 
 $(document).on('click', '.btn_veri', function() {
@@ -251,7 +251,7 @@ $(document).on('click', '.btn_veri', function() {
   } else {
     return;
   }
-  setTimeout(function() {
-    window.location.reload();
-}, 2000);
+//   setTimeout(function() {
+//     window.location.reload();
+// }, 2000);
 });

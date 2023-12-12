@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2023 at 06:03 PM
+-- Generation Time: Dec 12, 2023 at 02:35 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_bank`
+--
+
+CREATE TABLE `tbl_bank` (
+  `ID` int(11) NOT NULL,
+  `Date` datetime NOT NULL,
+  `Proof` varchar(255) NOT NULL,
+  `Cash` double NOT NULL,
+  `Notes` varchar(255) NOT NULL,
+  `Incharge` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `tbl_bank`
+--
+
+INSERT INTO `tbl_bank` (`ID`, `Date`, `Proof`, `Cash`, `Notes`, `Incharge`) VALUES
+(1, '2023-12-11 00:00:00', '0vy8rx8hvd9k0frx7.jpg', 200, 'undefined', 17),
+(2, '2023-12-11 00:00:00', '0vy8rx8hvd9k0frx8.jpg', 150, 'sample notes', 17),
+(3, '2023-12-11 00:00:00', '0vy8rx8hvd9k0frx9.jpg', 700, 'sampleadhsajdg uasgdsjab kjhsdjka', 17);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_customers`
 --
 
@@ -33,18 +57,23 @@ CREATE TABLE `tbl_customers` (
   `LName` varchar(255) NOT NULL,
   `Company` varchar(255) NOT NULL,
   `CNumber` varchar(12) NOT NULL,
-  `Branch` varchar(255) NOT NULL
+  `Branch` varchar(255) NOT NULL,
+  `Active` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_customers`
 --
 
-INSERT INTO `tbl_customers` (`ID`, `FName`, `LName`, `Company`, `CNumber`, `Branch`) VALUES
-(1, 'angelo', 'morancil', '', '091234567', 'Bacolod'),
-(2, 'kevin', 'daniel', 'sample', '0912378381', 'Bacolod'),
-(3, 'sample', 'sample', 'sample', '1232131232', 'Bacolod'),
-(4, 'new', 'customer', '', '0932823232', 'Bacolod');
+INSERT INTO `tbl_customers` (`ID`, `FName`, `LName`, `Company`, `CNumber`, `Branch`, `Active`) VALUES
+(1, 'angelo', 'morancil', '', '091234567', 'Cebu', 0),
+(2, 'kevin', 'daniel', 'sample', '0912378381', 'Bacolod', 0),
+(3, 'sample', 'sample', 'sample', '1232131232', 'Bacolod', 0),
+(4, 'new', 'customer', '', '0932823232', 'Cebu', 0),
+(5, 'samasdadd', 'sadas', 'asdasd', '12313', 'Bacolod', 1),
+(6, 'dsadasd', 'dsad', 'sad', '12313', 'Bacolod', 1),
+(7, 'dasdad', 'dsasd', 'dsada', '123123', 'Bacolod', 1),
+(8, 'angelo', 'morancil', 'sample company', '0932136875', 'Bacolod', 0);
 
 -- --------------------------------------------------------
 
@@ -71,9 +100,9 @@ CREATE TABLE `tbl_expenses` (
 --
 
 INSERT INTO `tbl_expenses` (`ID`, `Date`, `Descr`, `Actual_Money`, `Balance`, `Incharge`, `expense`, `Branch`, `Image`, `date_created`, `Void`) VALUES
-(1, '2023-08-03', 'sample expense', 200, 0, '17', 200, 'Cebu', 'papa1.jpg', '2023-08-03 23:06:06', 0),
+(1, '2023-08-03', 'sample expense', 200, 0, '17', 200, 'Cebu', 'papa1.jpg, 3rd_assignment.jpg', '2023-08-03 23:06:06', 0),
 (2, '2023-08-03', 'sample 2', 100, -10, '20', 110, '', 'mama.jpg', '2023-08-03 23:08:44', 0),
-(3, '2023-08-16', 'sample3ds', 100, 0, '20', 100, '', '', '2023-08-03 23:11:52', 0),
+(3, '2023-08-16', 'sample3ds', 100, 0, '17', 100, '', '0vy8rx8hvd9k0frx4.jpg', '2023-08-03 23:11:52', 0),
 (10, '2023-08-14', 'sampke new update', 1222, 922, '20', 300, '', 'underatking1.jpg', '2023-08-14 23:12:39', 0),
 (11, '2023-08-15', 'bago ni sa ', 200, 100, '22', 100, '', 'PayslipJuly15231.png', '2023-08-15 17:10:35', 0),
 (12, '2023-08-15', 'bago ni lwat', 222, 122, '17', 100, 'Cebu', 'pexels-ono-kosuki-5648103.jpg', '2023-08-15 17:12:37', 0),
@@ -86,7 +115,10 @@ INSERT INTO `tbl_expenses` (`ID`, `Date`, `Descr`, `Actual_Money`, `Balance`, `I
 (26, '2023-09-19', 'sample branch again', 1000, 0, '17', 0, 'Bacolod', '', '2023-09-19 23:06:05', 0),
 (27, '2023-09-19', 'sample cashiers expense', 3000, 2877, '20', 123, 'Bacolod', 'Untitled5.png', '2023-09-19 23:07:29', 0),
 (30, '2023-09-19', 'sample cebu', 1000, 900, '17', 100, 'Cebu', 'Untitled4.png', '2023-09-19 23:13:08', 0),
-(31, '2023-09-19', 'sample another cebu', 2000, 1800, '19', 200, 'Cebu', 'Untitled6.png', '2023-09-19 23:14:13', 0);
+(31, '2023-09-19', 'sample another cebu', 2000, 1800, '19', 200, 'Cebu', 'Untitled6.png', '2023-09-19 23:14:13', 0),
+(32, '2023-10-03', 'sample expense', 1000, 900, '17', 100, 'Bacolod', 'Untitled8.png, 370729927_675222784492521_6371211429627225095_n.png', '2023-10-03 22:35:24', 0),
+(33, '2023-10-05', 'sadasfasf', 1555, 1455, '17', 100, '', 'ReneSticker1.jpg, 384554647_1472167986936644_8920472340139005242_n.png', '2023-10-05 22:38:58', 0),
+(34, '2023-10-25', 'sample', 20000000, 0, '17', 0, '', '', '2023-10-25 00:12:03', 0);
 
 -- --------------------------------------------------------
 
@@ -115,7 +147,18 @@ INSERT INTO `tbl_item` (`ID`, `Order_ID`, `Customer_ID`, `Item_id`, `Item_qty`, 
 (83, 5, 2, 10, 2, 110),
 (84, 6, 4, 13, 2, 300),
 (85, 7, 4, 16, 2, 100),
-(86, 7, 4, 23, 3, 300);
+(86, 7, 4, 23, 3, 300),
+(87, 8, 2, 14, 2, 200),
+(88, 9, 1, 23, 12, 2400),
+(89, 10, 7, 14, 2, 444),
+(90, 11, 4, 33, 2, 4),
+(91, 11, 4, 16, 2, 100),
+(92, 11, 4, 34, 2, 200),
+(93, 11, 4, 23, 4, 200),
+(99, 12, 8, 9, 12, 1200),
+(100, 12, 8, 12, 2, 600),
+(101, 12, 8, 21, 3, 150),
+(102, 12, 8, 12, 1, 60);
 
 -- --------------------------------------------------------
 
@@ -143,7 +186,7 @@ INSERT INTO `tbl_list` (`ID`, `List_name`, `List_category`) VALUES
 (12, 'Jersey Short only', 'Items'),
 (13, 'Jacket', 'Items'),
 (14, 'Hoodie', 'Items'),
-(15, 'Jersey set and Upper', 'Items'),
+(15, 'Jersessssdsadqweqy set and Upper', 'Status'),
 (16, 'Banner', 'Items'),
 (17, 'Bike Cycling', 'Items'),
 (18, 'Polo Zipper, Polo Shirt, Tshirt', 'Items'),
@@ -152,7 +195,7 @@ INSERT INTO `tbl_list` (`ID`, `List_name`, `List_category`) VALUES
 (21, 'Jersey Upper only - NBA Cut', 'Items'),
 (23, 'Jersey and Tshirt', 'Items'),
 (24, 'Tshirt and Polo', 'Items'),
-(25, 'Jersey Upper - Set - Tshirt', 'Items'),
+(25, 'Jersey Upper - Set - Tshirtsss', 'Items'),
 (26, 'Chinese Collar', 'Items'),
 (27, 'Polor - Zipper and Chinese Collar', 'Items'),
 (28, 'Polo Zipper and Tshirt', 'Items'),
@@ -243,13 +286,18 @@ CREATE TABLE `tbl_order` (
 --
 
 INSERT INTO `tbl_order` (`ID`, `Jo_num`, `Cust_ID`, `Order_note`, `Deadline_notes`, `Act_qty`, `Total_amt`, `Subtotal`, `Discount`, `Freebies`, `Status`, `Book_date`, `Deadline`, `Sewer_assign`, `Layout_artist`, `Setup_artist`, `Payment_status`, `Cancelled`) VALUES
-(1, 'JO-001', 1, '', '', 5, 1250, 1250, 0, '', '45', '2023-07-21', '2023-07-21', '19', '21', '', 'PAID', 0),
+(1, 'JO-001', 1, '', '', 5, 1250, 1250, 0, '', '45', '2023-07-21', '2023-07-21', '19', '21', '', 'DOWN', 0),
 (2, 'JO-002', 2, '', '', 2, 200, 200, 0, '', '37', '2023-07-27', '2023-07-27', '', '21', '', 'PAID', 0),
 (3, 'JO-003', 3, '', '', 2, 200, 200, 0, '', '37', '2023-08-05', '2023-08-05', '', '', '', 'PAID', 0),
-(4, 'JO-004', 2, '', '', 12, 1728, 1728, 0, '', '37', '2023-08-14', '2023-01-30', '', '', '', 'DOWN', 0),
+(4, 'JO-004', 2, '', '', 12, 1728, 1728, 0, '', '39', '2023-08-14', '2023-01-30', '', '', '', 'DOWN', 0),
 (5, 'JO-005', 2, '', '', 2, 110, 110, 0, '', '37', '2023-08-15', '2023-08-25', '', '', '', 'PAID', 0),
 (6, 'JO-006', 4, '', '', 2, 300, 300, 0, '', '37', '2023-08-30', '2023-08-30', '', '', '', 'UNPAID', 1),
-(7, 'JO-007', 4, '', '', 5, 400, 400, 0, '', '37', '2023-08-31', '2023-08-31', '', '', '', 'DOWN', 0);
+(7, 'JO-007', 4, '', '', 5, 400, 400, 0, '', '37', '2023-08-31', '2023-08-31', '', '', '', 'DOWN', 0),
+(8, 'JO-008', 2, '', '', 2, 200, 200, 0, '', '37', '2023-09-26', '2023-10-26', '', '', '', 'DOWN', 0),
+(9, 'JO-009', 1, '', '', 12, 2400, 2400, 0, '', '37', '2023-10-03', '2023-10-03', '', '', '', 'UNPAID', 0),
+(10, 'JO-0010', 7, '', '', 2, 444, 444, 0, '', '37', '2023-11-03', '2023-11-03', '', '', '', 'UNPAID', 1),
+(11, 'JO-0011', 4, '', '', 2, 4, 4, 0, '', '37', '2023-11-03', '2023-11-03', '', '', '', 'UNPAID', 0),
+(12, 'JO-0012', 8, '', '', 27, 2910, 2910, 0, '', '37', '2023-11-17', '2023-12-02', '', '', '', 'UNPAID', 0);
 
 -- --------------------------------------------------------
 
@@ -294,7 +342,11 @@ INSERT INTO `tbl_payment` (`ID`, `Order_ID`, `Amount_paid`, `Amount_rendered`, `
 (47, 7, 100, 200, '', '49', '2023-09-03 00:00:00', 22, '1232189', NULL, 0, 0),
 (52, 7, 100, 200, '', '49', '2023-09-04 10:33:31', 22, '78979870', '0000-00-00', 0, 0),
 (53, 7, 125, 444, '', '49', '2023-09-04 13:53:16', 20, '5424', '0000-00-00', 0, 0),
-(54, 7, 50, 0, '', '50', '2023-09-06 22:58:03', 22, '3213', '0000-00-00', 0, 0);
+(54, 7, 50, 0, '', '50', '2023-09-06 22:58:03', 22, '3213', '0000-00-00', 0, 1),
+(55, 1, 150, 0, '', '50', '2023-09-20 22:01:17', 17, '3214113', '0000-00-00', 0, 0),
+(62, 8, 0, 0, '', '52', '2023-10-02 21:49:35', 17, '43123413', '2023-10-26', 1, 0),
+(63, 8, 0, 0, '', '51', '2023-10-02 21:50:09', 17, '453454141', '2023-10-11', 0, 0),
+(64, 2, 100, 0, '', '49', '2023-11-21 22:28:46', 20, '1231', '0000-00-00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -325,7 +377,8 @@ INSERT INTO `tbl_proof` (`ID`, `Payment_ID`, `Proof_of_payment`) VALUES
 (13, 17, '5_367683835_971563704153256_7968492444444433043_n.jpg'),
 (14, 18, '5_photo-1519046904884-53103b34b206.jpg'),
 (15, 30, '4_underatking.jpg'),
-(16, 54, '7_photo-1519046904884-53103b34b206.jpg');
+(16, 54, '7_photo-1519046904884-53103b34b206.jpg'),
+(17, 55, '1_Untitled.png');
 
 -- --------------------------------------------------------
 
@@ -350,7 +403,9 @@ INSERT INTO `tbl_reference` (`ID`, `Order_ID`, `Mockup_design`, `Payment_ID`, `P
 (5, 2, '2_2_Signature.png', 0, ''),
 (6, 4, '4_2_photo-1519046904884-53103b34b206.jpg', 0, ''),
 (7, 7, '7_4_373041636_604488438561395_1368383583981943511_n.png', 0, ''),
-(8, 7, '7_4_370729927_675222784492521_6371211429627225095_n.png', 0, '');
+(8, 7, '7_4_370729927_675222784492521_6371211429627225095_n.png', 0, ''),
+(9, 9, '9_1_318971956_609042697842579_5381770708412096345_n.png', 0, ''),
+(10, 9, '9_1_381663496_3593233991004331_6597037442523606317_n.jpg', 0, '');
 
 -- --------------------------------------------------------
 
@@ -382,13 +437,19 @@ INSERT INTO `tbl_user` (`ID`, `FName`, `LName`, `Username`, `Branch`, `Password`
 (19, 'Cebu', 'User', 'cebu_user', 'Cebu', 'ceba418f83ec6b44fc7cbe90554cbbaa0f4bb8f9', '%4(^NY@Md*oVx14#hzP1nYYwMAzDEb?Rw(E)M>)1>IvN*Ky12#', 'db34888ccc79d8fafd19273ffea6aa9bf0eefcbe:8f3bbe4c9a8eefa13d6a2f5994950d5c484b7854:0a69b3262059b7e967bd6ea929581a30b956fcfa1', 53, 'Admin', 0, 1),
 (20, 'Bacolod', 'User', 'bacolod_user', 'Bacolod', '1e6d2d9618a7174469025c62084e6e56dbfc58eb', '8UABBh^/3D9Ic>^1DBRBgD)EtI$u?vY&awH&(QMQHw8^6fkZYC', '9d9ad58e688f7ea2268235b9325dd96de8e0b003:36f29d24c8ee8729f9635834d8b48f61ac2620ff:bb2afc7b6bc085f920db0376495f7795141ae1c91', 53, 'Admin', 0, 1),
 (21, 'Angelo', 'Morancil', 'gelomorancil', 'Bacolod', 'cfcaf686cb8ae67778844fa3729a1c3702ddee6b', '#aZnqpZO0ixT4At$1LIW1I>Yigymw)PSqQ<(QHWqPv19&>yPOM', '1a958fedebf8dfa6ee786279e827c19a5c7639fc:d2068db76dfa36723a4e125de061bd7dde8d09a9:724f9d7c70e51a1711393e2d747463f7632bd2de1', 56, 'Artist', 0, 1),
-(22, 'maria', 'ozawa', 'bacolod_cashier', 'Bacolod', '7c3d858df57355965216783c8beb7acae61306fd', 'Qu^$Xq5$r3Y3ky621JFB>BNm^(yf9wl\\bPItHDR.MKd%HIZa/$', 'a6041a358c106cd25a7cc1c6c2205f332658189c:ad9cf528bf38a13143767b4fa711b7b60d682d73:d7b4ed3cfb8d134b1af45e3d28b415120be287621', 54, 'Cashier', 0, 1),
-(23, 'mang', 'kanor', 'bacolod_frontdesk', 'Bacolod', '716ed652bdfbc67c152364c48c413541a89b0c64', 'wc11QNB#\\N!Xwc$!o>A.$o$h6ZgCPD?QC1WC7hy$$J.Qyg^9Mx', 'ecb0064767328759cc2e1393d96974477a9f234b:9e5b740895cd4f0280d631ce4bb1b1b11e1a3f99:8659758313c48da220e4da826e7c79646d4bf7881', 55, 'Front Desk', 0, 1),
+(22, 'maria', 'ozawa', 'bacolod_cashier', 'Cebu', '7c3d858df57355965216783c8beb7acae61306fd', 'Qu^$Xq5$r3Y3ky621JFB>BNm^(yf9wl\\bPItHDR.MKd%HIZa/$', 'a6041a358c106cd25a7cc1c6c2205f332658189c:ad9cf528bf38a13143767b4fa711b7b60d682d73:d7b4ed3cfb8d134b1af45e3d28b415120be287621', 54, 'Cashier', 0, 1),
+(23, 'mangsss', 'kanorsss', 'bacolod_pm', 'Bacolod', '00fe66691142b368c3bd9680d1d0ff1775e32a22', 'QO?\\Za/Ev./@gvjDSfHCvtriJ@#0M#NP.osn^v(IWiKFXs!h32', 'ecb0064767328759cc2e1393d96974477a9f234b:9e5b740895cd4f0280d631ce4bb1b1b11e1a3f99:8659758313c48da220e4da826e7c79646d4bf7881', 57, 'Production Manager', 0, 1),
 (24, 'xo', 'xo', 'superadmin_xoxo', '', '11f6171e4a9749d28e874bc0a77b9810ce533f82', '>~>zBruflhjvx$Dr\\e@DRuHGkOt$>(K/t)?b2P.X0DYeasdE)\\', '77dae9144822f93fb0bd1bfea6e98ef99019dd7d:47639a9fd38b15ff64176154cb5470bf1c4a6fce:0c680fc6e6e4322a08c71f5c57731a08d87484b41', 53, 'Admin', 0, 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_bank`
+--
+ALTER TABLE `tbl_bank`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `tbl_customers`
@@ -459,22 +520,28 @@ ALTER TABLE `tbl_user`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_bank`
+--
+ALTER TABLE `tbl_bank`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `tbl_customers`
 --
 ALTER TABLE `tbl_customers`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_expenses`
 --
 ALTER TABLE `tbl_expenses`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tbl_item`
 --
 ALTER TABLE `tbl_item`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `tbl_list`
@@ -492,25 +559,25 @@ ALTER TABLE `tbl_modules`
 -- AUTO_INCREMENT for table `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `tbl_proof`
 --
 ALTER TABLE `tbl_proof`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_reference`
 --
 ALTER TABLE `tbl_reference`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`

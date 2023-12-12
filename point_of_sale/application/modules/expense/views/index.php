@@ -107,7 +107,7 @@ $session = (object)get_userdata(USER);
                         <h3 class="card-title">Order History</h3>
                     </div> -->
                 <div class="card-body table-responsive">
-                    <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center">
+                    <table id="tbl_expense_search" class="table table-hover text-nowrap table-sm table-striped text-center" style="font-size: 10pt;">
                         <!-- <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span> -->
                         <div class="input-group input-group-sm">
                                     <!-- BAGO NI SA -->

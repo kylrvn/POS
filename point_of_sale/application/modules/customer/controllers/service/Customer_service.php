@@ -43,4 +43,11 @@ class Customer_service extends MY_Controller
 		echo json_encode($response);
 	}
 
+	public function delete(){
+		$this->csModel->ID = $this->input->post("ID");
+
+		$response = $this->csModel->delete();
+		echo json_encode($response);
+	}
+
 }

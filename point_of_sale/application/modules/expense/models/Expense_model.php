@@ -37,29 +37,29 @@ class Expense_model extends CI_Model
         $this->db->join($this->Table->user.' u', 'u.ID=e.Incharge','left');
         $this->db->where('e.Void', 0);
 
-        if(@$this->d_from != NULL || @$this->d_to != NULL){
-            $this->db->where('e.date_created >=', @$this->d_from);
-            $this->db->where('e.date_created <=', @$this->d_to);
+        // if(@$this->d_from != NULL || @$this->d_to != NULL){
+        //     $this->db->where('e.date_created >=', @$this->d_from);
+        //     $this->db->where('e.date_created <=', @$this->d_to);
 
-        } else{
-            $this->db->where('e.Date', date('Y-m-d'));
-        }
+        // } else{
+        //     $this->db->where('e.Date', date('Y-m-d'));
+        // }
 
-        if(!empty($this->session->Branch)){
-            if($this->session->Role == "Admin"){
-                $this->db->where('e.Branch', $this->session->Branch);
-                // $this->db->where('e.Branch', "Bacolod");
-            } else{
-                $this->db->where('u.Branch', $this->session->Branch);
-                $this->db->where('e.Incharge', $this->session->ID);
-            }
-        } 
-        //  BAGO NI SA
-        else {
-            if(!empty($this->branch && $this->branch != "All")){
-                $this->db->where('u.Branch', $this->branch);
-            }
-        }
+        // if(!empty($this->session->Branch)){
+        //     if($this->session->Role == "Admin"){
+        //         $this->db->where('e.Branch', $this->session->Branch);
+        //         // $this->db->where('e.Branch', "Bacolod");
+        //     } else{
+        //         $this->db->where('u.Branch', $this->session->Branch);
+        //         $this->db->where('e.Incharge', $this->session->ID);
+        //     }
+        // } 
+        // //  BAGO NI SA
+        // else {
+        //     if(!empty($this->branch && $this->branch != "All")){
+        //         $this->db->where('u.Branch', $this->branch);
+        //     }
+        // }
 
         $query = $this->db->get()->result();
         return $query;

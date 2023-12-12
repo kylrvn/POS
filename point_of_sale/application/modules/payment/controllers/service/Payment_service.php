@@ -176,4 +176,25 @@ class Payment_service extends MY_Controller
 		$response = $this->psModel->cancel_order();
 		echo json_encode($response);
 	}
+
+	// november 17
+	public function delete_item(){
+		$this->psModel->Item_id = $this->input->post("Item_id");
+		$this->psModel->Amount = $this->input->post("Amount");
+		$this->psModel->Qty = $this->input->post("Qty");
+		$this->psModel->Oid = $this->input->post("Oid");
+		$response = $this->psModel->delete_item();
+		echo json_encode($response);
+	}
+
+	public function update_item(){
+		$this->psModel->Item_id = $this->input->post("Item_id");
+		$this->psModel->Amount = $this->input->post("Amount");
+		$this->psModel->Qty = $this->input->post("Qty");
+		$this->psModel->Oid = $this->input->post("Oid");
+		$response = $this->psModel->update_updated_order_amounts();
+		echo json_encode($response);
+	}
+
+	// end of november 17
 }

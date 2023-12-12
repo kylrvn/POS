@@ -52,6 +52,8 @@ if(!empty($details)){
        <td><?=$value->List_name == "Online Payment" ? number_format($value->P_Amount_paid,2) : ''?></td>
        <td <?=empty($session->Branch) ? '' : 'hidden'?>><button class="btn btn-sm btn-flat btn-danger btn_void" value="<?=$value->P_ID?>">Void</button></td>
        <td <?=empty($session->Branch) && $value->List_name == "Online Payment" && $value->P_Verified == 0 ? '' : 'hidden'?>><button class="btn btn-sm btn-flat btn-success btn_veri" value="<?=$value->P_ID?>">Verify</button></td>
+       <td></td>
+
     </tr>
 
  <?php  
@@ -67,9 +69,13 @@ if(!empty($details)){
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
         <td><b>Total</b></td>
         <td class="text-danger text-bold"><?=number_format($total_c,2)?></td>
         <td class="text-danger text-bold"><?=number_format($total_o,2)?></td>
+        <td></td>
+        <td></td>
+
     </tr>
      <?php
 } else { ?>

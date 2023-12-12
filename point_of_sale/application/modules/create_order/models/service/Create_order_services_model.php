@@ -117,4 +117,92 @@ class Create_order_services_model extends CI_Model
             return (array('message'=>$msg->getMessage(), 'has_error'=>true));
         }
     }
+
+
+    public function save_additional_order(){
+        try{     
+            
+            if(empty($this->Item_id)){
+                throw new Exception(NO_SELECTION, true);
+            }
+
+            $this->db->select('*');
+            $this->db->from($this->Table->order);
+            $this->db->where('ID', $this->oid);
+    
+            $query = $this->db->get()->row();
+    
+            $new_total = $query->Total_amt + $this->Total;
+            $new_subtotal = $query->Subtotal + $this->Total;
+            $new_qty = $query->Act_qty + $this->Qty;
+          
+
+            $this->db->trans_start();
+                           
+            $data = array(
+                'Total_amt' => $new_total,
+                'Act_qty' => $new_qty,
+                'Subtotal' => $new_subtotal,
+            );
+
+            $this->db->where('ID', $this->oid);
+            $this->db->update($this->Table->order,$data);
+            $this->save_additional_order_items();
+
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+
+    }
+
+    public function save_additional_order_items(){
+        try{     
+            $lenght = sizeof($this->Item_id);
+            $x = 0;
+            $this->db->trans_start();
+
+            while($x <= $lenght){
+                if(!empty($this->Item_id[$x])){
+                    $data = array(
+                        'Customer_ID' => $this->ID,
+                        'Order_ID' => $this->oid,
+                        'Item_id' => $this->Item_id[$x],
+                        'Item_qty' => $this->Item_qty[$x],
+                        'Item_unitprice' => $this->Item_amount[$x],
+                        // 'Book_date' => date('Y-m-d', strtotime($this->B_date))
+                    );
+        
+                    $this->db->insert($this->Table->item,$data);
+    
+                 
+                }
+                $x++;
+            }
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>SAVED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
+        }
+    }
+
 }

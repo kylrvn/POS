@@ -228,7 +228,7 @@ class Payment_model extends CI_Model
 
     public function retrieve_design(){
         $this->db->select(
-            '*'
+            'Mockup_design'
         );
 
         $this->db->where('Order_ID', $this->OrderID);
