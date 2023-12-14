@@ -25,14 +25,16 @@ class Deposit_services_model extends CI_Model
             $date = $this->input->post('Date');
             $note = $this->input->post('Note');
             $cash = $this->input->post('Cash');
+            $mode = $this->input->post('Mode');
             $branch;
             if(empty($this->input->post('Branch'))){
                 $branch = $this->session->Branch;
             } else{
                 $branch = $this->input->post('Branch');
             }
-            
-               // Get the uploaded image file
+
+            if(isset($_FILES['image'])){
+                  // Get the uploaded image file
                $image = $_FILES['image'];
                 
               
@@ -49,16 +51,17 @@ class Deposit_services_model extends CI_Model
                
                    $uploadData = $this->upload->data();
                    $imagePath = $uploadData['file_name']; // Image file name
-               } else {
-                   throw new Exception('Image upload failed: ' . $this->upload->display_errors('', ''));
-               }
+               } 
+            }
+             
 
             $data = array(
                 'Date' => $date,
                 'Notes' => $note,
                 'Cash' => $cash,
                 'Incharge' => $this->session->ID,
-                'Proof' => $imagePath 
+                'Proof' => $imagePath ?? false,
+                'Mode' => $mode ,
             );
 
             // Insert the data into the database
@@ -67,6 +70,28 @@ class Deposit_services_model extends CI_Model
             return array('message' => 'Expense added successfully.', 'has_error' => false);
         } catch (Exception $e) {
             return array('message' => $e->getMessage(), 'has_error' => true);
+        }
+    }
+
+    public function delete(){
+        try{     
+
+            $this->db->where('ID', $this->Deposit_id);
+            $this->db->delete($this->Table->bank);
+                           
+    
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE)
+            {                
+                $this->db->trans_rollback();
+                throw new Exception(ERROR_PROCESSING, true);	
+            }else{
+                $this->db->trans_commit();
+                return array('message'=>DELETED_SUCCESSFUL, 'has_error'=>false);
+            }
+        }
+        catch(Exception$msg){
+            return (array('message'=>$msg->getMessage(), 'has_error'=>true));
         }
     }
 }

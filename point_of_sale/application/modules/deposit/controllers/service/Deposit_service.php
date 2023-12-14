@@ -24,4 +24,11 @@ class Deposit_service extends MY_Controller
 		$response = $this->dsModel->add_deposit();
 		echo json_encode($response);
 	}
+
+	public function delete(){
+		$this->dsModel->Deposit_id = $this->input->post("Deposit_id");
+
+		$response = $this->dsModel->delete();
+		echo json_encode($response);
+	}
 }

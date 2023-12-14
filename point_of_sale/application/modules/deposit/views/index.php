@@ -1,6 +1,7 @@
 <?php
 main_header(['deposit']);
 $session = (object)get_userdata(USER);
+@$proof = $_GET['proof']; 
 ?>
 <!-- ############ PAGE START-->
 
@@ -25,7 +26,7 @@ $session = (object)get_userdata(USER);
             <div class="col-lg-4 col-sm-12">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h4 class="text-bold">12000</h4>
+                        <h4 class="text-bold cards" id="total_deposit"><?=number_format(@$total_deposit-@$total_withdrawal,2)?></h4>
 
                         <p>Total Deposit</p>
                     </div>
@@ -34,10 +35,22 @@ $session = (object)get_userdata(USER);
                     </div>
                 </div>
             </div>
+            <!-- <div class="col-lg-4 col-sm-12">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h4 class="text-bold" id="total_withdrawal"><?=number_format(@$total_withdrawal,2)?></h4>
+
+                        <p>Withdrawal</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                </div>
+            </div> -->
             <div class="col-lg-4 col-sm-12">
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h4 class="text-bold">2400</h4>
+                        <h4 class="text-bold" id="total_undeposit"><?=number_format((@$profit - @$total_deposit)+@$total_withdrawal,2)?></h4>
 
                         <p>Un-deposit Money</p>
                     </div>
@@ -49,7 +62,7 @@ $session = (object)get_userdata(USER);
             <div class="col-lg-4 col-sm-12">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h4 class="text-bold">93827</h4>
+                        <h4 class="text-bold" id="total_profit"><?=number_format(@$profit,2)?></h4>
 
                         <p>Total Running Profit</p>
                     </div>
@@ -75,6 +88,15 @@ $session = (object)get_userdata(USER);
                         </div>
 
                         <div class="form-group">
+                            <label for="">Mode</label>
+                            <select class="form-control" id="Mode">
+                                <option value="Withdrawal" selected>Withdrawal</option>
+                                <option value="Deposit">Deposit</option>
+                                
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="">Cash</label>
                             <input type="number" id="cash" class="form-control inpt_edit" placeholder="Actual Money">
                         </div>
@@ -91,6 +113,7 @@ $session = (object)get_userdata(USER);
                         </div>
                     </div>
 
+                    
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary" id="add">Add</button>
                         <!-- <button type="button" class="btn btn-warning" id="expedit" style="display: none">Update</button>
@@ -104,7 +127,7 @@ $session = (object)get_userdata(USER);
             <div class="card card-primary">
                 <div class="card-body table-responsive">
                     <table id="tbl_expense_search" class="table table-hover text-nowrap table-sm table-striped text-center" style="font-size: 10pt;">
-                        <!-- <div class="input-group input-group-sm">
+                        <div class="input-group input-group-sm">
                             <select class="form-control form-control-sm mr-1" style="width: 10%;" id="branch_filter" <?=empty($session->Branch) ? '' : 'hidden'?>>
                                 <option value="All">All Branch</option>
                                 <?php 
@@ -121,18 +144,20 @@ $session = (object)get_userdata(USER);
 
 
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-default" id="submit_date_exp">
+                                <button type="submit" class="btn btn-default" id="submit_filter_deposit">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         
-                        </div> -->
+                        </div>
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Date</th>
+                                <th>Deposit</th>
+                                <th>Withdrawal</th>
                                 <th>Notes</th>
-                                <th>Cash</th>
+                                <th>Incharge</th>
                             </tr>
                         </thead>
                         <tbody id="load_deposit">
