@@ -59,32 +59,9 @@ $session = (object)get_userdata(USER);
                     </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                    <table id="" class="table table-hover text-wrap table-sm table-striped" style="font-size: 10pt;">
-                        <thead>
-                            <tr>
-                                <th>Item Code</th>
-                                <th>Date</th>
-                                <th>Customer Name</th>
-                                <th>Book Date</th>
-                                <th>Item</th>
-                                <th>Amount to Pay</th>
-                                <th>Payment</th>
-                                <th>Payment Mode</th>
-                                <th>Proof</th>
-                                <th>Cashier</th>
-                                <th>Status</th>
-                                <th>Waybill Number</th>
-                                <th>Cash</th>
-                                <th>Online Payment</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="load_daily_sales">
-                            
-                        </tbody>
-                    </table>
-                </div>
+                <div class="" id="load_daily_sales">
+                <!-- KYLE 12-19-2023
+                    Moved Entire table to grid -> load_daily_sales -->
                 <!-- /.card-body -->
                 </div>
                 <!-- /.card -->

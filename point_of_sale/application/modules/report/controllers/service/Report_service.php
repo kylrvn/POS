@@ -33,9 +33,11 @@ class Report_service extends MY_Controller
 		// $this->load->view('layout', $this->data);
 
 		$monthlyData = $this->rsModel->get_monthly();
+		$expense =  $this->rsModel->get_expense_monthly();
 	
 		$summaryData['monthly'] = $monthlyData;
 		$chartData['monthly'] = $monthlyData;
+		$summaryData['expense'] = $expense;
 	
 		$this->load->view('grid/summary', $summaryData);
 		$this->load->view('grid/chart', $chartData);

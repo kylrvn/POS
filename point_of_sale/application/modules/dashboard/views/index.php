@@ -76,10 +76,24 @@ main_header(['dashboard']);
                         </select>
                     </div>
 
+                    <!-- Added by KYLE 12-19-2023 -->
+                    <div class="card-tools">
+                        <select class="form-control form-control-sm" style="width: 100%; display:none" id="staff_filter">
+                            <option value="" disabled selected>Select Staff</option>
+                            <option value="All">All</option>
+                            <?php
+                                foreach($staff_assigned as $key => $value){ ?>
+                                    <option value="<?=$value->FName ."-". $value->LName?>" > <?=$value->FName ." ". $value->LName?> </option>
+                                <?php }
+                            ?>
+                        </select>
+                    </div>
+
                     <div class="card-tools ml-5 mr-5">
                         <select class="form-control form-control-sm" style="width: 100%;" id="Filter_by">
                             <option value="" disabled selected>-- Filter By --</option>
                             <option value="Customer">Customer</option>
+                            <option value="Staff_Assigned">Staff Assigned</option>
                             <option value="Payment Status">Payment Status</option>
                             <option value="Order Status">Order Status</option>
                             <!-- <option value="Book Date">Book Date</option> -->
@@ -99,32 +113,9 @@ main_header(['dashboard']);
                     </div>
 
                 </div>
+                <!-- Edited By KYLE 12-19-2023 Moved Entire table to grid -> load_details -->
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                    <table id="example1" class="table table-hover text-nowrap table-sm table-striped text-center" style="font-size: 10pt;">
-                        <thead>
-                            <tr>
-                                <th>Item Code</th>
-                                <th>Customer Details</th>
-                                <!-- <th>Contact Number</th> -->
-                                <th>Mockup Design</th>
-                                <th>Status</th>
-                                <th>Dates</th>
-                                <!-- <th>Deadline</th> -->
-                                <th>Assignee</th>
-                                <!-- <th>Layout Artist</th>
-                                <th>Setup Artist</th> -->
-                                <th>Items</th>
-                                <!-- <th>Total Amount</th>
-                                <th>Received Payment</th>
-                                <th>Balance</th> -->
-                                <th>Payment Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="load_details">
-                            
-                        </tbody>
-                    </table>
+                <div class="" id="load_details">
                 </div>
                 <!-- /.card-body -->
                 </div>

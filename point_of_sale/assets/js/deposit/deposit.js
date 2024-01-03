@@ -46,6 +46,14 @@ $("#add").click(function () {
       $("#total_deposit").load(" #total_deposit");
       $("#total_undeposit").load(" #total_undeposit");
       $("#total_profit").load(" #total_profit");
+      $(".inpt_edit").val("");
+
+      const currentDate = new Date().toISOString().split('T')[0];
+
+      // Set the current date to the input element
+      document.getElementById('date').value = currentDate;
+
+      
       // $("#total_withdrawal").load(" #total_withdrawal");
 
       },

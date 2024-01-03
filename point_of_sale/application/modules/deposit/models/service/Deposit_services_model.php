@@ -27,6 +27,14 @@ class Deposit_services_model extends CI_Model
             $cash = $this->input->post('Cash');
             $mode = $this->input->post('Mode');
             $branch;
+            
+            if(
+                empty($cash) ||
+                empty($note)
+                ){
+                throw new Exception(EMPTY_FIELDS, true);
+            }   
+
             if(empty($this->input->post('Branch'))){
                 $branch = $this->session->Branch;
             } else{
@@ -52,6 +60,8 @@ class Deposit_services_model extends CI_Model
                    $uploadData = $this->upload->data();
                    $imagePath = $uploadData['file_name']; // Image file name
                } 
+            } else {
+                throw new Exception("Please select image to uploads", true);
             }
              
 
@@ -67,7 +77,7 @@ class Deposit_services_model extends CI_Model
             // Insert the data into the database
             $this->db->insert($this->Table->bank, $data);
 
-            return array('message' => 'Expense added successfully.', 'has_error' => false);
+            return array('message' => 'Deposit added successfully.', 'has_error' => false);
         } catch (Exception $e) {
             return array('message' => $e->getMessage(), 'has_error' => true);
         }

@@ -17,19 +17,25 @@ class Dashboard_model extends CI_Model
         $this->Table = json_decode(TABLE);
     }
    
+    // Modified By KYLE 12-19-2023
+    // added u.FName as SA_Fname/u.LName as SA_Lname/$this->db->join($this->Table->user. ' u', 'u.ID = o.CreatedBy', 'left');
+    // Added CreatedBy field in DB tbl_order
     public function get_details(){
         $this->db->select(
             'o.*,'.
             'c.*,'.
             'i.*,'.
             'r.Mockup_design,'.
-            'l.List_name as Status'
+            'l.List_name as Status,'.
+            'u.FName as SA_Fname,'.
+            'u.LName as SA_Lname,'
         );
         $this->db->from($this->Table->order. ' o');
         $this->db->join($this->Table->customer. ' c', 'c.ID=o.Cust_ID', 'left');
         $this->db->join($this->Table->item. ' i', 'i.Order_ID=o.ID', 'left');
         $this->db->join($this->Table->list. ' l', 'l.ID=o.Status', 'left');
         $this->db->join($this->Table->reference. ' r', 'r.Order_ID=o.ID', 'left');
+        $this->db->join($this->Table->user. ' u', 'u.ID = o.CreatedBy', 'left');
         $this->db->where('o.Cancelled', 0);
        
         if(!empty($this->session->Branch)){
@@ -76,6 +82,13 @@ class Dashboard_model extends CI_Model
                 $valuetwo =  date("Y-m-d", strtotime($value[1]));
                 $this->db->where('o.Book_date >=', @$valueone);
                 $this->db->where('o.Book_date <=', @$valuetwo);
+            }
+            // Added by KYLE 12-19-2023
+            else if($this->Filter_type == "Staff_Assigned"){
+                $Name = explode('-', $this->Filter_value);
+                $this->db->where('u.FName', $Name[0]);
+                $this->db->where('u.LName', $Name[1]);
+
             }
             // else if($this->Filter_type == "Book Date"){
             //     $value = explode(' - ', $this->Filter_value);
@@ -210,6 +223,16 @@ class Dashboard_model extends CI_Model
         $this->db->from($this->Table->list);
       
         $this->db->order_by('List_name', 'asc');
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
+    // Added by KYLE 12-19-2023
+    public function get_staff_assigned(){
+        $this->db->select('*');
+        // $this->db->where('Role', 'Sales Agent');
+        $this->db->from($this->Table->user);
+        $this->db->order_by('FName', 'asc');
         $query = $this->db->get()->result();
         return $query;
     }

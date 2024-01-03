@@ -28,6 +28,7 @@ class Report_services_model extends CI_Model
         $this->db->from($this->Table->payment.' p');
         $this->db->join($this->Table->order.' o', 'o.ID=p.Order_ID', 'left');
         $this->db->join($this->Table->customer . ' c', 'c.ID=o.Cust_ID', 'left');
+        $this->db->where('p.Void',0);
        
 
         if(!empty($this->session->Branch)){
@@ -46,6 +47,33 @@ class Report_services_model extends CI_Model
          return $query;
    }
 
+   public function get_expense_monthly()
+   {
+       $this->db->select(
+           'e.Date,' .
+               'SUM(e.expense) AS totalexpense'
+       );
+       $this->db->from($this->Table->expenses . ' e');
+       $this->db->where('e.Void', 0);
+
+       if(!empty($this->session->Branch)){
+           if($this->session->Role == "Admin"){
+               $this->db->where('e.Branch', $this->session->Branch);
+               // $this->db->where('e.Branch', "Bacolod");
+           } else{
+               $this->db->where('u.Branch', $this->session->Branch);
+               $this->db->where('e.Incharge', $this->session->ID);
+           }
+       } 
+       
+      
+       $this->db->group_by('Month(e.Date)');
+       $this->db->group_by('Year(e.Date)');
+
+       $query = $this->db->get()->result();
+       return $query;
+   }
+   
    public function void(){
     try{     
         $data = array(

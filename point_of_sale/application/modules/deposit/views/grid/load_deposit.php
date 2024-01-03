@@ -12,7 +12,7 @@ if (!empty($result)) {
                 <td><?= $key+1 ?></td>
                 <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
                 <td class="text-wrap"><?= @$value->Mode == "Deposit" ? number_format(@$value->Cash,2) : "-"?></td>
-                <td class="text-wrap"><?= @$value->Mode == "Withdrawal" ? number_format(@$value->Cash,2) : ""?></td>
+                <td class="text-wrap"><?= @$value->Mode == "Withdrawal" ? number_format(@$value->Cash,2) : "-"?></td>
                 <td class="text-wrap"><?= ucfirst(@$value->Notes) ?></td>
                 <td class="text-wrap"><?= ucfirst($value->FName." ".@$value->LName."(".@$value->Branch.")") ?></td>
                 <td>

@@ -83,7 +83,7 @@ $session = (object)get_userdata(USER);
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Date</label>
-                            <input type="date" id="date" class="form-control inpt_edit" value="<?=date('Y-m-d')?>" placeholder="Date">
+                            <input type="date" id="date" class="form-control" value="<?=date('Y-m-d')?>" placeholder="Date">
                             <input type="text" id="ID"value="" hidden>
                         </div>
 
@@ -103,7 +103,7 @@ $session = (object)get_userdata(USER);
 
                         <div class="form-group act_image">
                             <label for="">Upload Proof</label>
-                            <input type="file" name="image_input_name" id="image" class="form-control">
+                            <input type="file" name="image_input_name" id="image" class="form-control inpt_edit">
                             <input type="text" name="image_input_name" id="image_2" class="form-control" style="display:none">
                         </div>
 

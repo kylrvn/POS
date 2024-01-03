@@ -70,6 +70,14 @@ $('#Branch_filter').change(function() {
     load_status_filter(y,x,z);
 });
 
+// Added by KYLE 12-19-2023
+$('#staff_filter').change(function() {
+    var y = $(this).val();
+    var x = $('#Filter_by').val();
+    var z = $('.Book_date_filter').val();
+    load_status_filter(y,x,z);
+});
+
 // $('.Book_date_filter').change(function() {
 //     var y = $(this).val();
 //     var x = $('#Filter_by').val();
@@ -84,24 +92,38 @@ $('#Filter_by').change(function() {
         $('#Branch_filter').hide(); 
         $('#Payment_filter').hide();
         $('#Status_filter').show();
+        $('#staff_filter').hide();
         // $('#Book_date').hide();
     } else if(selected == "Payment Status"){
         $('#search_customer').hide();
         $('#Branch_filter').hide();
         $('#Status_filter').hide();
         $('#Payment_filter').show();
+        $('#staff_filter').hide();
         // $('#Book_date').hide();
     } else if(selected == "Customer"){
         $('#Status_filter').hide();
         $('#Branch_filter').hide();
         $('#Payment_filter').hide();
         $('#search_customer').show();
+        $('#staff_filter').hide();
         // $('#Book_date').hide();
     } else if(selected == "Branch"){
         $('#Status_filter').hide();
         $('#Branch_filter').show();
         $('#Payment_filter').hide();
         $('#search_customer').hide();
+        $('#staff_filter').hide();
+        // $('#Book_date').hide();
+    } 
+
+    // Added by KYLE 12-19-2023
+    else if(selected == "Staff_Assigned"){
+        $('#Status_filter').hide();
+        $('#Branch_filter').hide();
+        $('#Payment_filter').hide();
+        $('#search_customer').hide();
+        $('#staff_filter').show();
         // $('#Book_date').hide();
     } 
     // else if(selected == "Book Date"){

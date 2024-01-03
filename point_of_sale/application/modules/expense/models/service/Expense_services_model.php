@@ -65,6 +65,8 @@ class Expense_services_model extends CI_Model
     public function add_expense()
     {
         try {
+
+
             $date = $this->input->post('Date_added');
             $description = $this->input->post('Desc');
             $actualMoney = $this->input->post('Actual_money');
@@ -72,6 +74,15 @@ class Expense_services_model extends CI_Model
             $actualExpenses = $this->input->post('Actual_Expenses');
             $balance = $this->input->post('Balance');
             $branch;
+
+            if(empty($date) ||
+               empty($description) ||
+               empty($actualMoney)
+            ){
+                throw new Exception(EMPTY_FIELDS);
+            }
+
+
             if(empty($this->input->post('Branch'))){
                 $branch = $this->session->Branch;
             } else{
@@ -167,7 +178,8 @@ class Expense_services_model extends CI_Model
                     'expense' => $actualExpenses,
                     'Balance' => $balance,
                     'Branch' => $branch,
-                    'Image' => $imagePath 
+                    'Image' => $imagePath,
+                    'Editted' => 1
                 );
 
             // Update the data into the database

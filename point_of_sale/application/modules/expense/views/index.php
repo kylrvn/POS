@@ -106,100 +106,84 @@ $session = (object)get_userdata(USER);
                 <!-- <div class="card-header">
                         <h3 class="card-title">Order History</h3>
                     </div> -->
-                <div class="card-body table-responsive">
-                    <table id="tbl_expense_search" class="table table-hover text-nowrap table-sm table-striped text-center" style="font-size: 10pt;">
-                        <!-- <span style="font-style:italic"><strong>Note: Click row to preview proof of payment</strong></span> -->
-                        <div class="input-group input-group-sm">
-                                    <!-- BAGO NI SA -->
-                            <select class="form-control form-control-sm mr-1" style="width: 10%;" id="branch_filter" <?=empty($session->Branch) ? '' : 'hidden'?>>
-                                <option value="All">All Branch</option>
-                                <?php 
-                                    foreach($branch as $key => $x){ ?>
-                                    <option value="<?=$x->List_name?>"><?=$x->List_name?></option>
-                                <?php } ?>
-                            </select>
 
-                            <label class="mr-2"for="">From</label>
-                            <input type="date" id="d_from" class="form-control form-control-sm">
+                    <!-- Modified by KYLE 12-19-2023 -->
+                    <div class="input-group input-group-sm" style="margin-top:1rem; margin-left:1rem; margin-left:1rem;">
 
-                            <label class="ml-2 mr-2" for="">To</label>
-                            <input type="date" id="d_to" class="form-control form-control-sm">
-
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default" id="submit_date_exp">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        
+                        <select class="form-control-sm mr-1" style="width: 30%;" id="branch_filter" <?=empty($session->Branch) ? '' : 'hidden'?>>
+                            <option value="All">All Branch</option>
+                            <?php 
+                                foreach($branch as $key => $x){ ?>
+                                <option value="<?=$x->List_name?>"><?=$x->List_name?></option>
+                            <?php } ?>
+                        </select>
+                        <label class="mr-2"for="" style=" margin-left:1rem;">From</label>
+                        <input type="date" id="d_from" class="form-control form-control-sm" style="max-width: 25%;">
+                        <label class="ml-2 mr-2" for="" style=" margin-left:1rem;">To</label>
+                        <input type="date" id="d_to" class="form-control form-control-sm" style="max-width: 25%;">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default" id="submit_date_exp">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Incharge</th>
-                                <th>Branch</th>
-                                <th>Actual Money</th>
-                                <th>Actual Expenses</th>
-                                <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody id="load_expenses">
-                            <?php
-
-                            if (!empty($expenses)) {
-                                $total_act = 0;
-                                $total_exp = 0;
-                                foreach ($expenses as $key => $value) {
-                                        // $d_date = date('Y-m-d',strtotime($value->Deadline));
-                                        // $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
-                                        $total_act += $value->Actual_Money;
-                                        $total_exp += $value->expense;
-                                    ?>
-                                        <tr>
-                                            <td><?= $key+1 ?></td>
-                                            <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
-                                            <td class="text-wrap"><?= ucfirst(@$value->Descr) ?></td>
-                                            <td><?= @$value->FName." ".@$value->LName ?></td>
-                                            <td><?= number_format(@$value->Actual_Money,2) ?></td>
-                                            <td><?= number_format(@$value->expense,2) ?></td>
-                                            <td><?= number_format(@$value->Balance,2) ?></td>
-                                            <td>
-                                                <button class=" btn-primary btn-xs edit_exp" value="<?=$value->ID?>"><i class="fa fa-pencil-alt"></i></button>
-                                                <button class=" btn-success btn-xs clickable-row"  data-toggle="modal" data-target="#paymentProofModal" data-img="<?= $value->Image ?>"><i class="fa fa-eye"></i></button>
-                                                <button <?=empty($session->Branch) ? '' : 'hidden'?> class="btn btn-xs btn-danger btn_void_exp" value="<?=$value->ID?>">Void</button></td>
-                                            </td>
-                                        </tr>
-
-                                    <?php
-                                } ?>
-
-                                <tr>                     
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-bold text-danger"><?= number_format(@$total_act,2)?></td>
-                                    <td class="text-bold text-danger"><?= number_format(@$total_exp,2)?></td>
-                                    <td class="text-bold text-danger"><?= number_format(@$total_act - $total_exp,2)?></td>
-                                    <td></td>
-                                </tr>
-                        <?php } else { ?>
-                                <tr>
-                                    <td colspan="8">
-                                        <div>
-                                            <center>
-                                                <h6>No data available in table.</h6>
-                                            </center>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php }
-                            ?>
-                        </tbody>
-                    </table>
+                                
+                    </div>
+                
+                    <!-- Moved Entire table to grid -> load_expenses KYLE 12-19-2023 -->
+                <div class="" id="load_expenses">
                 </div>
+                 
+<?php
+
+if (!empty($expenses)) {
+    $total_act = 0;
+    $total_exp = 0;
+    foreach ($expenses as $key => $value) {
+            // $d_date = date('Y-m-d',strtotime($value->Deadline));
+            // $clickableClass = ($value->Mode == 'online payment') ? 'clickable-row' : '';
+            $total_act += $value->Actual_Money;
+            $total_exp += $value->expense;
+        ?>
+            <tr>
+                <td><?= $key+1 ?></td>
+                <td><?= date('M d, Y', strtotime(@$value->Date)) ?></td>
+                <td class="text-wrap"><?= ucfirst(@$value->Descr) ?></td>
+                <td><?= @$value->FName." ".@$value->LName ?></td>
+                <td><?= number_format(@$value->Actual_Money,2) ?></td>
+                <td><?= number_format(@$value->expense,2) ?></td>
+                <td><?= number_format(@$value->Balance,2) ?></td>
+                <td>
+                    <button class=" btn-primary btn-xs edit_exp" value="<?=$value->ID?>"><i class="fa fa-pencil-alt"></i></button>
+                    <button class=" btn-success btn-xs clickable-row"  data-toggle="modal" data-target="#paymentProofModal" data-img="<?= $value->Image ?>"><i class="fa fa-eye"></i></button>
+                    <button <?=empty($session->Branch) ? '' : 'hidden'?> class="btn btn-xs btn-danger btn_void_exp" value="<?=$value->ID?>">Void</button></td>
+                </td>
+            </tr>
+
+        <?php
+    } ?>
+
+    <tr>                     
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="text-bold text-danger"><?= number_format(@$total_act,2)?></td>
+        <td class="text-bold text-danger"><?= number_format(@$total_exp,2)?></td>
+        <td class="text-bold text-danger"><?= number_format(@$total_act - $total_exp,2)?></td>
+        <td></td>
+    </tr>
+<?php } else { ?>
+    <tr>
+        <td colspan="8">
+            <div>
+                <center>
+                    <h6>No data available in table.</h6>
+                </center>
+            </div>
+        </td>
+    </tr>
+<?php }
+?>
             </div>
         </div>
     </div>

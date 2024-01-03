@@ -19,7 +19,7 @@ class Login extends MY_Controller
 	}
 
 	public function authentication()
-	{
+	{	
 		unset_userdata(USER);
 		$this->data['content'] = 'index';
 		$this->load->view($this->data['content'], $this->data);

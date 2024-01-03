@@ -122,18 +122,24 @@ function main_header($menubar = [])
                   <p>Customers</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" style="display: <?=  $session->Role == "Artist" ? 'none' : ''?>">
                 <a href="<?= base_url()?>dashboard" class="nav-link <?= (sidebar($menubar, ['dashboard'])) ? 'active' : '' ?>">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Customer Dashboard</p>
                 </a>
               </li>
-              <li class="nav-item" style="display: <?= $session->Role == "Artist" ? '' : 'none'?>">
+              <li class="nav-item">
+                <a href="<?= base_url() ?>kanban" class="nav-link <?= (sidebar($menubar, ['kanban'])) ? 'active' : '' ?>">
+                  <i class="fas fa-clipboard-list nav-icon"></i>
+                  <p>Trello Board</p>
+                </a>
+              </li>
+              <!-- <li class="nav-item" style="display: <?= $session->Role == "Artist" ? '' : 'none'?>">
                 <a href="<?= base_url()?>artist" class="nav-link <?= (sidebar($menubar, ['artist'])) ? 'active' : '' ?>">
                   <i class="nav-icon fas fa-brush"></i>
                   <p>Assigned Layouts</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item" style="display: <?= empty($session->Branch) || $session->Role == "Admin" || $session->Role == "Cashier" ? '' : 'none'?>">
                 <a href="<?= base_url()?>expense" class="nav-link <?= (sidebar($menubar, ['expense'])) ? 'active' : '' ?>">
                   <i class="fas fa-money-bill-wave nav-icon"></i>
@@ -209,6 +215,29 @@ function main_header($menubar = [])
     <!-- /.sidebar -->
   </aside>
 
+      <div class="modal" tabindex="-1" role="dialog" id="idle">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">You are Idling</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <h4 style="color: red;">
+                YOU SESSION WILL BE LOGGED OUT SOON IF YOU DONT MOVE YOUR MOUSE, PRESS ANY KEY ON YOUR KEYBOARD, OR CLOSE THIS WINDOW.
+              </h4>
+            </div>
+
+            <div class="modal-footer text-right">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
       <?php
@@ -322,6 +351,26 @@ $('#signout').on('click',function(){
 
   $(function () {
   bsCustomFileInput.init();
+
+   // the ol reliable idle signout
+   $(document).on('mousemove keypress', function() {
+          time = new Date().getTime(); //refreshes timer
+        });
+
+        function refresh() {
+          // console.log("a:"+ time);
+          if (new Date().getTime() - time == 200000) {
+            $('#idle').modal('show');
+            // console.log("modal");
+            setTimeout(refresh, 1000);
+          } else if (new Date().getTime() - time >= 300000) { //60000 = 1 min
+            window.location = base_url + "login/authentication";
+          } else {
+            setTimeout(refresh, 1000);
+          }
+        }
+
+        setTimeout(refresh, 1000); //initiates the recursion
 });
 </script>
 </body>

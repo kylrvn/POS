@@ -70,9 +70,16 @@ class Deposit_model extends CI_Model
     }
 
     public function get_total_deposit(){
-        $this->db->select('*');
-        $this->db->from($this->Table->bank);
+        $this->db->select(
+            'b.*'
+        );
+        $this->db->from($this->Table->bank.' b');
+        $this->db->join($this->Table->user.' u', 'u.ID=b.Incharge','left');
         $this->db->where('Mode', "Deposit");
+
+        if(!empty($this->session->Branch)){
+            $this->db->where('u.Branch', $this->session->Branch);
+        }
 
         $query = $this->db->get()->result();
         $Amount = 0;
@@ -84,9 +91,16 @@ class Deposit_model extends CI_Model
     }
 
     public function get_total_withdrawal(){
-        $this->db->select('*');
-        $this->db->from($this->Table->bank);
+        $this->db->select(
+            'b.*'
+        );
+        $this->db->from($this->Table->bank.' b');
+        $this->db->join($this->Table->user.' u', 'u.ID=b.Incharge','left');
         $this->db->where('Mode', "Withdrawal");
+
+        if(!empty($this->session->Branch)){
+            $this->db->where('u.Branch', $this->session->Branch);
+        }
 
         $query = $this->db->get()->result();
         $Amount = 0;

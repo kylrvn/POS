@@ -32,6 +32,7 @@ class Dashboard extends MY_Controller
 		$this->data['status'] = $this->dModel->get_status();
 		$this->data['session'] =  $this->session;
 		$this->data['branch'] = $this->dModel->get_branch();
+		$this->data['staff_assigned'] = $this->dModel->get_staff_assigned();
 		// if($this->session->Role == "Artist"){
 		// 	$this->data['content'] = 'index_artist';
 

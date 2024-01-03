@@ -28,6 +28,7 @@ class Expense_model extends CI_Model
             'e.Actual_Money,'.
             'e.expense,'.
             'e.Balance,'.
+            'e.Editted,'.
             'u.FName,'.
             'u.LName,'.
             'u.Branch as u_branch'
