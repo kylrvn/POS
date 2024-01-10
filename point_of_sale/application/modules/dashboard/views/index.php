@@ -115,7 +115,7 @@ main_header(['dashboard']);
                 </div>
                 <!-- Edited By KYLE 12-19-2023 Moved Entire table to grid -> load_details -->
                 <!-- /.card-header -->
-                <div class="" id="load_details">
+                <div class="ml-3 mr-3" id="load_details">
                 </div>
                 <!-- /.card-body -->
                 </div>

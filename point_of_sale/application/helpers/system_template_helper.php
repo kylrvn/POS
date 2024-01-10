@@ -146,6 +146,12 @@ function main_header($menubar = [])
                   <p>Expense</p>
                 </a>
               </li>
+              <li class="nav-item" style="display: <?= empty($session->Branch) || $session->Role == "Admin" || $session->Role == "Cashier" ? '' : 'none'?>">
+                <a href="<?= base_url()?>inventory" class="nav-link <?= (sidebar($menubar, ['inventory'])) ? 'active' : '' ?>">
+                  <i class="fa fa-box nav-icon"></i>
+                  <p>Inventory</p>
+                </a>
+              </li>
               <li class="nav-item" style="display: <?= empty($session->Branch) || $session->Role == "Admin" ? '' : 'none'?>">
                 <a href="<?= base_url()?>deposit" class="nav-link <?= (sidebar($menubar, ['deposit'])) ? 'active' : '' ?>">
                   <i class="fas fa-money-bill-wave nav-icon"></i>

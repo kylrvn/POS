@@ -17,6 +17,7 @@
                 <th>Cash</th>
                 <th>Online Payment</th>
                 <th>Action</th>
+                <td></td>
 
             </tr>
         </thead>
@@ -74,7 +75,6 @@
                    <td><?=$value->List_name == "Online Payment" ? number_format($value->P_Amount_paid,2) : ''?></td>
                    <td <?=empty($session->Branch) ? '' : 'hidden'?>><button class="btn btn-sm btn-flat btn-danger btn_void" value="<?=$value->P_ID?>">Void</button></td>
                    <td <?=empty($session->Branch) && $value->List_name == "Online Payment" && $value->P_Verified == 0 ? '' : 'hidden'?>><button class="btn btn-sm btn-flat btn-success btn_veri" value="<?=$value->P_ID?>">Verify</button></td>
-                   <td></td>
                     
                 </tr>
                     

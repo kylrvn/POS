@@ -59,7 +59,7 @@ $session = (object)get_userdata(USER);
                     </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="" id="load_daily_sales">
+                <div class="ml-2 mr-2" id="load_daily_sales">
                 <!-- KYLE 12-19-2023
                     Moved Entire table to grid -> load_daily_sales -->
                 <!-- /.card-body -->

@@ -68,6 +68,7 @@ $array = array(
     'proof' => 'tbl_proof',
     'expenses' => 'tbl_expenses',
     'bank' => 'tbl_bank',
+    'inventory' => 'tbl_inventory',
 
 
 );
