@@ -52,7 +52,7 @@
         // Initialize DataTable
         var table = $("#example1").DataTable({
             "responsive": false,
-            "lengthChange": true,
+            "lengthChange": false,
             "pageLength": 50,
             "autoWidth": false,
             "buttons": ["excel", "pdf", "print"]
