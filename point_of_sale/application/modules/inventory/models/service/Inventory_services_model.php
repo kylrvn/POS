@@ -50,6 +50,7 @@ class Inventory_services_model extends CI_Model
             $type = $this->input->post('type');
             $quantity = $this->input->post('quantity');
             $created_by = $this->input->post('created_by');
+            $branch = $this->input->post('branch');
 
             if(empty($quantity) || $quantity == "" || $quantity == null || $quantity <= 0){
                 return array('message' => 'Invalid Quantity', 'has_error' => true);
@@ -117,6 +118,7 @@ class Inventory_services_model extends CI_Model
                 'type' => $type,
                 'date_created' => date('Y-m-d H:i:s'),
                 'created_by' => $created_by,
+                'branch' => $branch,
             );
 
             // Insert the data into the database

@@ -52,7 +52,7 @@
                     <tr>
                         <td><?= $key+1 ?></td>
                         <td class="text-wrap"><?= @$value->item_name?></td>
-                        <td class="text-wrap" style="color: <?=$value->quantity > 0? 'green' : 'red' ?>;"><b><?= @$value->quantity?></b></td>
+                        <td class="text-wrap" style="color: <?=$value->quantity <= 3? 'red' : 'green' ?>;"><b><?= @$value->quantity?></b></td>
                     </tr>
                 <?php
             }

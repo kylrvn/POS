@@ -86,6 +86,7 @@ $(document).on('click', '#add_stock', function () {
                 type: $('[name="type"]:checked').val(),
                 quantity: $('#quantity').val(),
                 created_by: $('#created_by').val(),
+                branch: $('#branch').val(),
             },
             success: function (response) {
                 var response = JSON.parse(response);
@@ -100,7 +101,7 @@ $(document).on('click', '#add_stock', function () {
             },
         })
     }
-    // New Item
+    // Add New Item
     else{
         // alert($('#new_item').val()+$('[name="type"]:checked').val()+$('#quantity').val());
         $.ajax({
@@ -121,6 +122,7 @@ $(document).on('click', '#add_stock', function () {
                         type: $('[name="type"]:checked').val(),
                         quantity: $('#quantity').val(),
                         created_by: $('#created_by').val(),
+                        branch: $('#branch').val(),
                     },
                     success: function (response) {
                         var response = JSON.parse(response);

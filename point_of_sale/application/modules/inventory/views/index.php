@@ -1,10 +1,11 @@
 <?php
 main_header(['inventory']);
 $session = (object)get_userdata(USER);
-// var_dump($session->ID);
+// var_dump($session->Branch);
 ?>
 <!-- ############ PAGE START-->
 <input hidden id="created_by" value="<?=$session->ID?>">
+<input hidden id="branch" value="<?=$session->Branch?>">
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">

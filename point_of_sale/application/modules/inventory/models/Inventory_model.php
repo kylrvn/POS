@@ -30,7 +30,12 @@ class Inventory_model extends CI_Model
             'quantity,'.
             'type,'
         );
+        
         $this->db->from($this->Table->inventory);
+        
+        if($this->session->Branch !== ""){
+            $this->db->where('branch', $this->session->Branch);
+        }
 
         $query = $this->db->get()->result();
         return $query;
@@ -38,20 +43,24 @@ class Inventory_model extends CI_Model
 
     public function get_history(){
         $this->db->select(
-            'item_name,'.
-            'quantity,'.
-            'type,'.
-            'date_created,'.
-            'u.FName,'.
-            'u.LName,'
+            'i.item_name, ' .
+            'i.quantity, ' .
+            'i.type, ' .
+            'i.date_created, ' .
+            'u.FName, ' .
+            'u.LName'
         );
-        $this->db->from($this->Table->inventory.' i');
-        $this->db->join($this->Table->user.' u', 'u.ID=i.created_by','left');
-
-
+        $this->db->from($this->Table->inventory . ' i');
+        $this->db->join($this->Table->user . ' u', 'u.ID = i.created_by', 'left');
+    
+        if ($this->session->Branch !== "") {
+            $this->db->where('i.branch', $this->session->Branch);
+        }
+    
         $query = $this->db->get()->result();
         return $query;
     }
+    
     
     
 }
