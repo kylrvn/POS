@@ -37,6 +37,7 @@ main_header(['list_management']);
                                     <select class="form-control" style="width: 100%;" id="Category">
                                         <option value="Branch">Branch</option>
                                         <option value="Items">Items</option>
+                                        <option value="Inventory">Inventory Item</option>
                                         <option value="Status">Status</option>
                                         <!-- <option value="Payment">Payment Method</option>
                                          <option value="User Role">User Role</option> -->

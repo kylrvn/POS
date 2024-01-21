@@ -15,7 +15,7 @@ class Inventory_model extends CI_Model
 
     public function get_inventory_items(){
         $this->db->select('*');
-        $this->db->where('List_category', 'Items');
+        $this->db->where('List_category', 'Inventory');
         $this->db->from($this->Table->list);
         $this->db->order_by('List_name', 'asc');
         $query = $this->db->get()->result();

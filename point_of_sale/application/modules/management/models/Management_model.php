@@ -18,7 +18,7 @@ class Management_model extends CI_Model
     }
 
     public function get_list(){
-        $cats = array("Items", "Status", "Branch");
+        $cats = array("Items", "Status", "Branch", "Inventory");
        
         $this->db->select('*');
         $this->db->where_in('List_category', $cats );

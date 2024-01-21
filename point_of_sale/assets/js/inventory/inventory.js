@@ -93,6 +93,7 @@ $(document).on('click', '#add_stock', function () {
                     toastr.error(response.message);
                 }
                 else{
+                    document.getElementById('quantity').value = "";
                     toastr.success(response.message);
                     load_inventory();
                 }

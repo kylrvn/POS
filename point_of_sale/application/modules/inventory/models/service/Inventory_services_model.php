@@ -22,7 +22,7 @@ class Inventory_services_model extends CI_Model
 
             $data = array(
                 'List_name' => $new_item,
-                'List_category' => "Items",
+                'List_category' => "Inventory",
             );
             // Insert data into tbl_list
             $this->db->insert($this->Table->list, $data);
@@ -107,7 +107,6 @@ class Inventory_services_model extends CI_Model
                             return array('message' => 'Entered quanity is Greater than Stocks On Hand', 'has_error' => true);
                         }
                     }
-                    
                 }
             }
 
